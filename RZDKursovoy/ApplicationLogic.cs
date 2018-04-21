@@ -99,6 +99,23 @@ namespace RZDKursovoy
             {
                 SavedTypes.Add(RailcarsTypesReader.GetString(0) + " цена за билет - " + RailcarsTypesReader.GetString(1));
             }
+            RailcarsTypesReader.Close();
+            return SavedTypes;
+        }
+
+        public List <int> ThrowTrainNumbersList(MySqlConnection connection, string TrainNumber, string RailcarType)
+        {
+            List<int> SavedTypes = new List<int>();
+            string QueryString = "call ThrowTrainNumbersList(@TrainNumber, @RailcarType)";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("TrainNumber", TrainNumber);
+            BestCommand.Parameters.AddWithValue("RailcarType", RailcarType);
+            var TrainNumbersRead = BestCommand.ExecuteReader();
+            while (TrainNumbersRead.Read())
+            {
+                SavedTypes.Add(TrainNumbersRead.GetInt32(0));
+            }
+            TrainNumbersRead.Close();
             return SavedTypes;
         }
 
