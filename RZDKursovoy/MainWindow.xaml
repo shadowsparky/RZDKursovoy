@@ -6,21 +6,30 @@
         xmlns:local="clr-namespace:RZDKursovoy"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="291.779" Width="440.148">
     <Grid>
         <dragablz:TabablzControl>
             <dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController/>
             </dragablz:TabablzControl.InterTabController>
-            <TabItem Header="HELLO">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Hello World</TextBlock>
+            <TabItem Header="Резервирование" Margin="0">
+                <Grid x:Name="ChooseRout">
+                    <TextBox x:Name="Arrival_TB" Height="23" TextWrapping="Wrap" Text="" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="152,20,53,0"/>
+                    <TextBox x:Name="Departure_TB" Height="23" TextWrapping="Wrap" Text="" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="100,60,0,40"/>
+                    <Label Content="Точка отправления" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,140,0"/>
+                    <Label Content="Точка Назначения" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,60,139,40"/>
+                    <Label Content="Дата" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,70,0"/>
+                    <Button x:Name="FindTrain_BUTTON" Content="Найти" Margin="0,140,0,10" Height="Auto" Width="240" VerticalAlignment="Top" HorizontalAlignment="Center" Click="FindTrain_BUTTON_Click"/>
+                    <DatePicker x:Name="Arrival_Date" HorizontalAlignment="Center" Language="Ru-ru" VerticalAlignment="Top" Margin="50, 100,0,0" AutomationProperties.IsOffscreenBehavior="Onscreen" />
+                </Grid>
             </TabItem>
-            <TabItem Header="MATERIAL">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Material Design</TextBlock>
+            <!--<TabItem Header="MATERIAL">
+                
             </TabItem>
             <TabItem Header="DESIGN">
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Looks Quite Nice</TextBlock>
-            </TabItem>
+            </TabItem>-->
+
         </dragablz:TabablzControl>
     </Grid>
 </Window>
