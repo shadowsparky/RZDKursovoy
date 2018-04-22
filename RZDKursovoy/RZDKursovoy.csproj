@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BestErrors.cs" />
     <Compile Include="ReservationForm.xaml.cs">
       <DependentUpon>ReservationForm.xaml</DependentUpon>
     </Compile>

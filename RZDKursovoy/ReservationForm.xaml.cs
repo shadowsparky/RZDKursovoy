@@ -23,6 +23,7 @@ namespace RZDKursovoy
         private int ChoosedSeatNumber = new int();
         private int Passenger_Number = new int();
         private ApplicationLogic AL = new ApplicationLogic();
+        private poselki.BestErrors Errors = new poselki.BestErrors();
 
         public string SetArrival { set { ArrivalStation = value; } }
         public string SetDeparture { set { DepartureStation = value; } }
