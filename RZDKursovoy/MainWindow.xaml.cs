@@ -45,6 +45,10 @@ namespace RZDKursovoy
                     this.Close();
                     RF.Show();
                 }
+                else
+                {
+                    MessageBox.Show("К сожалению, поездов по нужному Вам маршруту в данное время нет. Попробуйте выбрать другой день.", "=(", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             } 
             else
             {

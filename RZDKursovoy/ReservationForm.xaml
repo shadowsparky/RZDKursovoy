@@ -9,26 +9,37 @@
     <Grid>
         <GroupBox x:Name="ChooseTrainBox" Header="Выбор поезда" Margin="0" Visibility="Hidden">
             <Grid>
-                <ListBox x:Name="ChooseTrainListBox" Width="772" Loaded="ChooseTrainListBox_Loaded" Margin="0,0,0,30" MouseDoubleClick="ChooseTrainListBox_MouseDoubleClick"/>
+                <ListBox x:Name="ChooseTrainListBox" Width="772" Loaded="ChooseTrainListBox_Loaded" Margin="0,0,0,30"/>
                 <Button x:Name="ChooseTrainNextButton" VerticalAlignment="Bottom" Content="Далее" Height="29" Margin="0" Click="ChooseTrainNextButton_Click" RenderTransformOrigin="0.497,1.172"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="ChooseTrainTypeBox" Header="Выбор места" Margin="0,0,0,0">
+        <GroupBox x:Name="ChooseTrainTypeBox" Header="Выбор места" Margin="0,0,0,0" Visibility="Hidden">
             <Grid>
                 <Grid x:Name="StepOneGrid">
                     <ComboBox x:Name="ChooseRailcarType" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="240"/>
                     <Label x:Name="RailcarTypeLab" Content="Выберите тип вагона:&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="240" HorizontalContentAlignment="Center"/>
                     <Button x:Name="ChooseRailcarTypeButton" Content="Выбрать" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Click="ChooseRailcarTypeButton_Click" Width="240"/>
                 </Grid>
-                <Grid x:Name="StepTwoGrid">
-                    <Label x:Name="RailcarChooseNumberLab" Content="Выберите номер вагона:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,20,0" Width="190" FontWeight="Bold" HorizontalContentAlignment="Center"></Label>
-                    <ComboBox x:Name="ChooseRailcarNumberBox" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,26,20,0" Width="190"></ComboBox>
-                    <Button x:Name="ChooseRailcarNumberButton" Content="Выбрать" HorizontalAlignment="Center" Margin="0,68,20,0" Click="ChooseRailcarNumberButton_Click" VerticalAlignment="Top" Width="190"/>
+                <Grid x:Name="StepTwoGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Width="242" Margin="276,0,257,0">
+                    <Label x:Name="RailcarChooseNumberLab" Content="Выберите номер вагона:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Width="215" FontWeight="Bold" HorizontalContentAlignment="Center"></Label>
+                    <ComboBox x:Name="ChooseRailcarNumberBox" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,26,0,0" Width="215"></ComboBox>
+                    <Button x:Name="ChooseRailcarNumberButton" Content="Выбрать" HorizontalAlignment="Center" Margin="0,68,0,0" Click="ChooseRailcarNumberButton_Click" VerticalAlignment="Top" Width="215"/>
                 </Grid>
                 <Grid x:Name="StepThreeGrid" Margin="0,119,0,0">
-                    <Image x:Name="TrainCardImage" Source="Images/Plackart.png" Margin="-27,-10,27,10"></Image>
-                    <RadioButton Margin="157,56,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></RadioButton>
+                    <Image x:Name="TrainCardImage" Margin="0,0,0,10"></Image>
                 </Grid>
+                <Grid x:Name="StepThreePlusGrid">
+                    <Label x:Name="SeatChooseNumberLab" Content="Выберите номер места:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="540,0,0,0" Width="225" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+                    <ComboBox x:Name="SeatChooseNumberBox" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="540,26,0,0" Width="225"/>
+                    <Button x:Name="SeatChooseNumberButton" Content="Выбрать" HorizontalAlignment="Center" Margin="540,68,0,0" VerticalAlignment="Top" Width="225" Click="SeatChooseNumberButton_Click"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="InputPersonalDataBox" Header="Тестовое меню" Margin="0">
+            <Grid>
+                <TextBox x:Name="PassSeries" HorizontalAlignment="Center" VerticalAlignment="Top" Width="156" Margin="0" Text="Серия паспорта"></TextBox>
+                <TextBox x:Name="PassNumber" HorizontalAlignment="Center" VerticalAlignment="Top" Width="156" Margin="0,40,0,0" Text="№ паспорта"></TextBox>
+                <Button x:Name="InputData" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Отправить данные" Margin="0,80,0,0" Click="InputData_Click"></Button>
             </Grid>
         </GroupBox>
     </Grid>

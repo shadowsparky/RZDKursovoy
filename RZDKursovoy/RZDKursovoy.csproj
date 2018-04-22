@@ -116,7 +116,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Plackart.png" />
+    <Resource Include="Images\CupeScheme.png" />
+    <Resource Include="Images\PlackartScheme.png" />
+    <Resource Include="Images\SvScheme.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
