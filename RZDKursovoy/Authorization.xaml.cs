@@ -100,5 +100,11 @@ namespace RZDKursovoy
             RegGrid.Visibility = Visibility.Hidden;
             AuthGrid.Visibility = Visibility.Visible;
         }
+
+        private void RegExit_Click(object sender, RoutedEventArgs e)
+        {
+            RegGrid.Visibility = Visibility.Hidden;
+            AuthGrid.Visibility = Visibility.Visible;
+        }
     }
 }

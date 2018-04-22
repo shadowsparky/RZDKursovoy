@@ -187,7 +187,7 @@ namespace RZDKursovoy
             {
                 var QueryString = "call EmployPlaces";
                 Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
-                if ((RegNameBox.Text != "") || (RegFamBox.Text != "") || (RegPathBox.Text != "") || (PassSeries.Text != "") || (PassNumber.Text != ""))
+                if ((RegNameBox.Text != "") || (RegFamBox.Text != "") || (PassSeries.Text != "") || (PassNumber.Text != ""))
                 {
                     if (Passenger_Number == -1)
                     {
@@ -205,7 +205,7 @@ namespace RZDKursovoy
                         }
                         else
                         {
-                            MessageBox.Show("Информация о существующем пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                 }

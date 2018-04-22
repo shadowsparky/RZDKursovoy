@@ -35,21 +35,22 @@
                 </Grid>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="InputPersonalDataBox" Margin="0" BorderBrush="Black" Foreground="Black" Background="{x:Null}">
+        <GroupBox x:Name="InputPersonalDataBox" Margin="0" BorderBrush="Black" Header="Ввод данных" Foreground="Black" Background="{x:Null}">
             <Grid>
-                <Label Content="Имя*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,106,0,0" VerticalAlignment="Top" Width="78"/>
-                <Label Content="Фамилия*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,132,0,0" VerticalAlignment="Top" Width="78"/>
-                <Label Content="Отчество*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,158,0,0" VerticalAlignment="Top" Width="78"/>
-                <Label Content="Телефон" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,184,0,0" VerticalAlignment="Top" Width="78" RenderTransformOrigin="0.648,0.538"/>
-                <TextBox x:Name="RegNameBox" MaxLength="30" Height="24" Margin="123,108,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="RegFamBox" MaxLength="30" Height="24" Margin="123,134,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="RegPathBox" MaxLength="30" Height="24" Margin="123,160,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="RegPhoneBox" MaxLength="11" Height="24" Margin="123,186,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="PassSeries" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,0,100,135"></TextBox>
-                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,0,100,75"></TextBox>
-                <Button x:Name="InputData" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Отправить данные" Margin="11,343,10,0" Click="InputData_Click" Width="754"></Button>
-                <Label Content="Серия паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="364,106,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
-                <Label Content="Номер паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="364,134,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
+                <Label Content="Имя*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,86,0,0" VerticalAlignment="Top" Width="78"/>
+                <Label Content="Фамилия*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,112,0,0" VerticalAlignment="Top" Width="78"/>
+                <Label Content="Отчество" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,138,0,0" VerticalAlignment="Top" Width="78"/>
+                <Label Content="Телефон" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,164,0,0" VerticalAlignment="Top" Width="78" RenderTransformOrigin="0.648,0.538"/>
+                <TextBox x:Name="RegNameBox" MaxLength="30" Height="24" Margin="123,88,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegFamBox" MaxLength="30" Height="24" Margin="123,114,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegPathBox" MaxLength="30" Height="24" Margin="123,140,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegPhoneBox" MaxLength="11" Height="24" Margin="123,166,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="PassSeries" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,110,54,234"></TextBox>
+                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,140,54,204"></TextBox>
+                <Button x:Name="InputData" VerticalAlignment="Bottom" Content="Отправить данные" Margin="45,0,45,70" Click="InputData_Click"/>
+                <Label Content="Серия паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="410,112,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
+                <Label Content="Номер паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="410,140,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
+                <Label Content="AVB Inc PRODUCTION" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsEnabled="False" Height="25" Width="775" HorizontalContentAlignment="Center"/>
             </Grid>
         </GroupBox>
     </Grid>
