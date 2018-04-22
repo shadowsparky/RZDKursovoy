@@ -45,11 +45,11 @@
                 <TextBox x:Name="RegFamBox" MaxLength="30" Height="24" Margin="123,134,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                 <TextBox x:Name="RegPathBox" MaxLength="30" Height="24" Margin="123,160,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                 <TextBox x:Name="RegPhoneBox" MaxLength="11" Height="24" Margin="123,186,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="PassSeries" MaxLength="4" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="474,104,101,0" Text="Серия паспорта"></TextBox>
-                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="474,133,101,0" Text="№ паспорта"></TextBox>
+                <TextBox x:Name="PassSeries" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,0,100,135"></TextBox>
+                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,0,100,75"></TextBox>
                 <Button x:Name="InputData" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Отправить данные" Margin="11,343,10,0" Click="InputData_Click" Width="754"></Button>
-                <Label Content="Серия паспорта" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="364,106,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
-                <Label Content="Номер паспорта" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="364,134,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
+                <Label Content="Серия паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="364,106,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
+                <Label Content="Номер паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="364,134,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
             </Grid>
         </GroupBox>
     </Grid>

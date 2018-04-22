@@ -21,11 +21,35 @@ namespace RZDKursovoy
             _connection = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = "+ loginBox.Text + "; charset=cp866; Password =" + passBox.Password);
             try
             {
-                Connected.Open();
-                MainWindow MW = new MainWindow();
-                MW.SetConnected = _connection;
-                this.Hide();
-                MW.Show();
+                _connection.Open();
+                string CheckRole = "#####";
+                MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", _connection);
+                MySqlDataReader r = checkrolecommand.ExecuteReader();
+                r.Read();
+                try
+                {
+                    CheckRole = r.GetString(0);
+                    r.Close();
+                }
+                catch (System.Exception)
+                {
+                }
+                if (CheckRole == "user")
+                {
+                    MainWindow MW = new MainWindow();
+                    MW.SetConnected = _connection;
+                    this.Close();
+                    MW.Show();
+                    return;
+                }
+                    else if (CheckRole == "Blocked")
+                {
+                    MessageBox.Show("Ваш аккаунт заблокирован", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Ваш аккаунт неправильно настроен. Обратитесь к администратору", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (MySqlException)
             {

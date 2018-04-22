@@ -7,9 +7,8 @@ namespace RZDKursovoy
 {
     public partial class MainWindow : Window
     {
-        private MySqlConnection _connection;
-        public MySqlConnection Connected { get { return _connection; } }
-        public MySqlConnection SetConnected { set { _connection= value; } } 
+        public MySqlConnection Connected { get; private set; }
+        public MySqlConnection SetConnected { set { Connected= value; } } 
         
         public MainWindow()
         {
