@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace RZDKursovoy
 {
     public partial class ReservationForm : Window
     {
+        /*Переменные*/
         private string ArrivalStation = "###";
         private string DepartureStation = "###";
         private string ArrivalDate = "###";
@@ -24,13 +24,13 @@ namespace RZDKursovoy
         private int Passenger_Number = new int();
         private ApplicationLogic AL = new ApplicationLogic();
         private poselki.BestErrors Errors = new poselki.BestErrors();
-
+        /*Проперти*/
         public string SetArrival { set { ArrivalStation = value; } }
         public string SetDeparture { set { DepartureStation = value; } }
         public string SetDate { set { ArrivalDate = value; } }
         public List<string> SetRouts { set { Routs = value; } }
         public MySqlConnection SetConnection { set { _connection = value; } }
-
+        /*Процедуры*/
         public ReservationForm()
         {
             InitializeComponent();
@@ -41,7 +41,6 @@ namespace RZDKursovoy
             StepThreePlusGrid.IsEnabled = false;
             StepThreeGrid.IsEnabled = false;
         }
-
         private void ChooseTrainListBox_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -62,7 +61,6 @@ namespace RZDKursovoy
                 }
             }
         }
-
         private void ChooseTrainNextButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -79,7 +77,6 @@ namespace RZDKursovoy
                 MessageBox.Show("Вы должны выбрать поезд", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
         }
-
         private void AddToRailcarTypesBox()
         {
             var Data = AL.Available_Railcar_Types(_connection, CurrentTrainNumber);
@@ -88,12 +85,6 @@ namespace RZDKursovoy
                 ChooseRailcarType.Items.Add(Data[i]);
             }
         }
-
-        private void AddToSeatsBox()
-        {
-
-        }
-
         private void ChooseRailcarTypeButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -128,23 +119,6 @@ namespace RZDKursovoy
                 MessageBox.Show("Вы должны выбрать тип вагона", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
         }
-
-
-         //<RadioButton Content = "" HorizontalAlignment="Left" Margin="173,51,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="left - 187, up - 51,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="173,65,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="187,65,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="222,51,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="235,51,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="222,65,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-         //           <RadioButton Content = "" HorizontalAlignment="Left" Margin="235,65,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="19" Width="19" Padding="0,0,0,3" Opacity="0.7"/>
-
-        //private List<RadioButton> RadioButtonSaver = new List<RadioButton>();
-        //private const int StartCordYD = 142;
-        //public void test (RadioButton test2)
-        //{
-        //    test2.IsEnabled = false;
-        //}
         private void ChooseRailcarNumberButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -194,7 +168,6 @@ namespace RZDKursovoy
             //    StepThreeGrid.IsEnabled = true;
             //}
         }
-
         private void SeatChooseNumberButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -209,9 +182,16 @@ namespace RZDKursovoy
             }
             
         }
-
         private void InputData_Click(object sender, RoutedEventArgs e)
         {
+            /*
+             <TextBox x:Name="RegNameBox" Height="24" Margin="123,108,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegFamBox" Height="24" Margin="123,134,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegPathBox" Height="24" Margin="123,160,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegPhoneBox" Height="24" Margin="123,186,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="PassSeries" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="474,104,101,0" Text="Серия паспорта"></TextBox>
+                <TextBox x:Name="PassNumber" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="474,133,101,0" Text="№ паспорта"></TextBox>
+             */
             try
             {
                 var QueryString = "call EmployPlaces";
@@ -219,7 +199,18 @@ namespace RZDKursovoy
                 if (Passenger_Number != -1)
                 {
                     string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                    AL.MagicUniversalControlData(QueryString, data, "Add", _connection);
+                    AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                }
+                else
+                {
+                    if ((RegNameBox.Text != "") || (RegFamBox.Text != "") || (RegPathBox.Text != "") || (PassSeries.Text != "") || (PassNumber.Text != ""))
+                    {
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             catch(Exception ex)

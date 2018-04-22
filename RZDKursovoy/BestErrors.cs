@@ -44,7 +44,7 @@ namespace poselki
                 default:
                     string ErrorToFile = "Произошла неизвестная ошибка. Номер ошибки - " + NumError;
                     if (LogMessageToFile(ErrorToFile))
-                        NumError = "Произошла неизвестная ошибка. Номер ошибки - " + NumError + ". Отправьте разработчику лог - " + GetTempPath() + "PoselkiLogFile.txt";
+                        NumError = "Произошла неизвестная ошибка. Номер ошибки - " + NumError + ". Отправьте разработчику лог - " + GetTempPath() + "AVBIncLogFile.txt";
                     else
                         NumError = "Произошла неизвестная ошибка. Номер ошибки - " + NumError;
                     break;
@@ -61,7 +61,7 @@ namespace poselki
         private bool LogMessageToFile(string msg)
         {
             StreamWriter sw = File.AppendText(
-            GetTempPath() + "RZDKursovoyLogFile.txt");
+            GetTempPath() + "AVBIncLogFile.txt");
             try
             {
                 string logLine = System.String.Format(

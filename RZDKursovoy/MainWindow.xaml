@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RZDKursovoy"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        Title="MainWindow" Height="291.779" Width="440.148">
+        Title="Главное меню" Height="291.779" Width="440.148" WindowStartupLocation="CenterScreen">
     <Grid>
         <dragablz:TabablzControl>
             <dragablz:TabablzControl.InterTabController>
@@ -23,13 +23,6 @@
                     <DatePicker x:Name="Arrival_Date" HorizontalAlignment="Center" Language="Ru-ru" VerticalAlignment="Top" Margin="50, 100,0,0" AutomationProperties.IsOffscreenBehavior="Onscreen" />
                 </Grid>
             </TabItem>
-            <!--<TabItem Header="MATERIAL">
-                
-            </TabItem>
-            <TabItem Header="DESIGN">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Looks Quite Nice</TextBlock>
-            </TabItem>-->
-
         </dragablz:TabablzControl>
     </Grid>
 </Window>

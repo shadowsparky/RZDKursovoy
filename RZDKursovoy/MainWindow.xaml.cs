@@ -7,21 +7,13 @@ namespace RZDKursovoy
 {
     public partial class MainWindow : Window
     {
-        public MySqlConnection Connected { get; }
+        private MySqlConnection _connection;
+        public MySqlConnection Connected { get { return _connection; } }
+        public MySqlConnection SetConnected { set { _connection= value; } } 
         
         public MainWindow()
         {
             InitializeComponent();
-            Connected = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = root; charset=cp866; Password = 1111");
-            try
-            {
-                Connected.Open();
-            }
-            catch (MySqlException)
-            {
-                MessageBox.Show("При подключении к базе произошла ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                FindTrain_BUTTON.IsEnabled = false;
-            }
             Arrival_TB.Text = "Тестовая";
             Departure_TB.Text = "Узбекистан";
             Arrival_Date.Text = "07.04.2018";

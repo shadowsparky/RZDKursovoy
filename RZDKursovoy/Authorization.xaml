@@ -1,0 +1,46 @@
+﻿<Window x:Class="RZDKursovoy.Authorization"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RZDKursovoy"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="" Height="344.845" Width="532.474" ResizeMode="NoResize">
+    <Grid x:Name="mainGrid">
+        <Grid x:Name="AuthGrid" Visibility="Hidden">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FF7F6FE8" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <materialDesign:PackIcon Kind="Account" VerticalAlignment ="Center" Margin="0,0,160,45" HorizontalAlignment="Center"/>
+            <materialDesign:PackIcon Kind="Key" VerticalAlignment ="Center" Margin="0,5,160,0" HorizontalAlignment="Center"/>
+            <TextBox x:Name="loginBox" HorizontalAlignment="Center" Margin="16,0,0,50" TextWrapping="Wrap" VerticalAlignment="Center" MaxLength="30" TabIndex="0" Height="25" Width="148" />
+            <Button x:Name="authButton" Content="Авторизоваться" HorizontalAlignment="Center" Margin="0,90,0,0" Height="Auto" TabIndex="2" IsDefault="True" Width="164" VerticalAlignment="Center" Click="authButton_Click"/>
+            <Button x:Name="regButton" Content="Зарегистрироваться" HorizontalAlignment="Center" Click="regButton_Click" Margin="0,150,0,0" Height="Auto"  TabIndex="3" Width="164" VerticalAlignment="Center"/>
+            <TextBlock x:Name="progNameText" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" Text="BEST резервирование билетов на поезд" VerticalAlignment="Top" FontSize="20" Height="42" Width="792" FontFamily="Segoe UI Semilight" TextAlignment="Center"/>
+            <PasswordBox x:Name="passBox" HorizontalAlignment="Center" Margin="16,0,0,0" VerticalAlignment="Center" TabIndex="1" Height="25" Width="148"/>
+        </Grid>
+        <Grid x:Name="RegGrid">
+            <GroupBox x:Name="RegGB" Header="Регистрация">
+                <Grid>
+                    <Label Content="Логин" HorizontalAlignment="Center" HorizontalContentAlignment="Right" Margin="0,0,180,70" VerticalAlignment="Center" Width="61" RenderTransformOrigin="1.115,0.731"/>
+                    <Label Content="Пароль" HorizontalAlignment="Center" HorizontalContentAlignment="Right" Margin="0,0,180,0" VerticalAlignment="Center" Width="61"/>
+                    <!--<Label Content="Имя*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,9,0,0" VerticalAlignment="Top" Width="60"/>
+                    <Label Content="Фамилия*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,35,0,0" VerticalAlignment="Top" Width="60"/>
+                    <Label Content="Отчество*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,61,0,0" VerticalAlignment="Top" Width="60"/>
+                    <Label Content="Телефон" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,87,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.648,0.538"/>-->
+                    <TextBox x:Name="RegLoginBox" Height="24" Margin="50,0,0,70" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegLoginBox_TextChanged"/>
+                    <TextBox x:Name="RegPassBox" Height="24" Margin="50,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegPassBox_TextChanged"/>
+                    <Button x:Name="RegRegButtonBEEP" Margin="149,156,146,76" Content="Зарегистрироваться" Click="RegRegButtonBEEP_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Width="213"></Button>
+                    <!--<TextBox x:Name="RegNameBox" Height="24" Margin="342,11,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                    <TextBox x:Name="RegFamBox" Height="24" Margin="342,37,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                    <TextBox x:Name="RegPathBox" Height="24" Margin="342,63,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                    <TextBox x:Name="RegPhoneBox" Height="24" Margin="342,89,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>-->
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

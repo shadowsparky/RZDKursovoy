@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -36,9 +35,17 @@ namespace RZDKursovoy
                     MessageBox.Show(ex.Number.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                if (userControl == "Add")
-                    MessageBox.Show("Запись добавлена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
-                else MessageBox.Show("Запись отредактирована", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (userControl == "RegAdd")
+                {
+                    MessageBox.Show("Ваш аккаунт успешно зарегистрирован", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else if (userControl == "Reservation")
+                {
+                    MessageBox.Show("Место успешно зарезервировано", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                //if (userControl == "Add")
+                //    MessageBox.Show("Запись добавлена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                //else MessageBox.Show("Запись отредактирована", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (userControl == "Delete")
             {
@@ -53,11 +60,10 @@ namespace RZDKursovoy
                     MessageBox.Show(ex.Number.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                MessageBox.Show("Запись удалена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Запись удалена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
- 
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
         {
             List<string> SavedTypes = new List<string>();
@@ -189,6 +195,40 @@ namespace RZDKursovoy
             TrainID = r.GetString(0).ToString();
             r.Close();
             return TrainID;
+        }
+
+        public void InputProtector(System.Windows.Controls.TextChangedEventArgs e, System.Windows.Controls.TextBox TB)
+        {
+            TB.Text = TB.Text.Replace(" ", string.Empty);
+            TB.Text = TB.Text.Replace("'", string.Empty);
+            TB.Text = TB.Text.Replace('"', ' ');
+            TB.Text = TB.Text.Replace("*", string.Empty);
+            TB.Text = TB.Text.Replace("/", string.Empty);
+            TB.Text = TB.Text.Replace(";", string.Empty);
+            TB.Text = TB.Text.Replace("@", string.Empty);
+            TB.Text = TB.Text.Replace("!", string.Empty);
+            TB.Text = TB.Text.Replace("#", string.Empty);
+            TB.Text = TB.Text.Replace("$", string.Empty);
+            TB.Text = TB.Text.Replace("№", string.Empty);
+            TB.Text = TB.Text.Replace("%", string.Empty);
+            TB.Text = TB.Text.Replace("^", string.Empty);
+            TB.Text = TB.Text.Replace(":", string.Empty);
+            TB.Text = TB.Text.Replace("?", string.Empty);
+            TB.Text = TB.Text.Replace("*", string.Empty);
+            TB.Text = TB.Text.Replace("(", string.Empty);
+            TB.Text = TB.Text.Replace(")", string.Empty);
+            TB.Text = TB.Text.Replace(",", string.Empty);
+            TB.Text = TB.Text.Replace(".", string.Empty);
+            TB.Text = TB.Text.Replace("<", string.Empty);
+            TB.Text = TB.Text.Replace(">", string.Empty);
+            TB.Text = TB.Text.Replace("[", string.Empty);
+            TB.Text = TB.Text.Replace("]", string.Empty);
+            TB.Text = TB.Text.Replace("{", string.Empty);
+            TB.Text = TB.Text.Replace("}", string.Empty);
+            TB.Text = TB.Text.Replace("-", string.Empty);
+            TB.Text = TB.Text.Replace("|", string.Empty);
+            TB.Text = TB.Text.Replace("\\", string.Empty);
+            TB.SelectionStart = TB.Text.Length;
         }
     }
 }
