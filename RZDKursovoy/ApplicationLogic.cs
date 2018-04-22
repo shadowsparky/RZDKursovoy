@@ -145,6 +145,20 @@ namespace RZDKursovoy
             SeatsRead.Close();
             return SavedTypes;
         }
+        public List<string> FindPassengerWithPersonalData(MySqlConnection connection, int Passport_Series_IN, int Passport_Number_IN)
+        {
+            List<string> Result = new List<string>();
+            var QueryString = "call FindPassengerWithPersonalData(@Passport_Series_IN, @Passport_Number_IN)";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
+            BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
+            var r = BestCommand.ExecuteReader();
+            r.Read();
+            for (int i = 0; i < 4; i++)
+            { Result.Add(r.GetString(i)); }
+            r.Close();
+            return Result;
+        }
         public int GetDepartureID(MySqlConnection connection, string DepartureStation, int RoutID, string TrainNum)
         {
             MySqlCommand GetDI = new MySqlCommand("select GetDepartureID(@DepartureStation, @RoutID, @TrainNumber)", connection);
@@ -182,6 +196,22 @@ namespace RZDKursovoy
             r.Close();
             return Result;
         }
+        public int PassengerAddToDB(MySqlConnection connection, string Last_Name_IN, string First_Name_IN, string Pathronymic, int Passport_Series_IN, int Passport_Number_IN, string Passenger_Phone_Number_IN)
+        {
+            var QueryString = "SELECT PassengerAddToDB(@Last_Name_IN, @First_Name_IN, @Pathronymic, @Passport_Series_IN, @Passport_Number_IN, @Passenger_Phone_Number)";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("Last_Name_IN", Last_Name_IN);
+            BestCommand.Parameters.AddWithValue("First_Name_IN", First_Name_IN);
+            BestCommand.Parameters.AddWithValue("Pathronymic", Pathronymic);
+            BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
+            BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
+            BestCommand.Parameters.AddWithValue("Passenger_Phone_Number", Passenger_Phone_Number_IN);
+            var r = BestCommand.ExecuteReader();
+            r.Read();
+            var result = r.GetInt32(0);
+            r.Close();
+            return result;
+        }
         public string FindTrain(MySqlConnection connected, string RoutID, int Arrival_Stop_IN, string Arrival_Date_IN)
         {
             string QueryString = "SELECT FindTrain(@RoutID, @Arrival_Stop_IN, @Arrival_Date_IN)";
@@ -196,7 +226,6 @@ namespace RZDKursovoy
             r.Close();
             return TrainID;
         }
-
         public void InputProtector(System.Windows.Controls.TextChangedEventArgs e, System.Windows.Controls.TextBox TB)
         {
             TB.Text = TB.Text.Replace(" ", string.Empty);

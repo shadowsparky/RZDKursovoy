@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RZDKursovoy"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="" Height="344.845" Width="532.474" ResizeMode="NoResize">
+        Title="" Height="344.845" Width="532.474" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="mainGrid">
         <Grid x:Name="AuthGrid" Visibility="Hidden">
             <Grid.Background>
@@ -32,8 +32,8 @@
                     <Label Content="Фамилия*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,35,0,0" VerticalAlignment="Top" Width="60"/>
                     <Label Content="Отчество*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,61,0,0" VerticalAlignment="Top" Width="60"/>
                     <Label Content="Телефон" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,87,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.648,0.538"/>-->
-                    <TextBox x:Name="RegLoginBox" Height="24" Margin="50,0,0,70" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegLoginBox_TextChanged"/>
-                    <TextBox x:Name="RegPassBox" Height="24" Margin="50,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegPassBox_TextChanged"/>
+                    <TextBox x:Name="RegLoginBox" MaxLength="30" Height="24" Margin="50,0,0,70" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegLoginBox_TextChanged"/>
+                    <TextBox x:Name="RegPassBox" MaxLength="30" Height="24" Margin="50,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegPassBox_TextChanged"/>
                     <Button x:Name="RegRegButtonBEEP" Margin="149,156,146,76" Content="Зарегистрироваться" Click="RegRegButtonBEEP_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Width="213"></Button>
                     <!--<TextBox x:Name="RegNameBox" Height="24" Margin="342,11,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                     <TextBox x:Name="RegFamBox" Height="24" Margin="342,37,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>

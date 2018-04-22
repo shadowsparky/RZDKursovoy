@@ -113,9 +113,8 @@ namespace RZDKursovoy
                 StepTwoGrid.IsEnabled = true;
                 StepThreeGrid.IsEnabled = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.ToString());
                 MessageBox.Show("Вы должны выбрать тип вагона", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
         }
@@ -184,33 +183,35 @@ namespace RZDKursovoy
         }
         private void InputData_Click(object sender, RoutedEventArgs e)
         {
-            /*
-             <TextBox x:Name="RegNameBox" Height="24" Margin="123,108,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="RegFamBox" Height="24" Margin="123,134,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="RegPathBox" Height="24" Margin="123,160,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="RegPhoneBox" Height="24" Margin="123,186,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="PassSeries" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="474,104,101,0" Text="Серия паспорта"></TextBox>
-                <TextBox x:Name="PassNumber" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="474,133,101,0" Text="№ паспорта"></TextBox>
-             */
             try
             {
                 var QueryString = "call EmployPlaces";
                 Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
-                if (Passenger_Number != -1)
+                if ((RegNameBox.Text != "") || (RegFamBox.Text != "") || (RegPathBox.Text != "") || (PassSeries.Text != "") || (PassNumber.Text != ""))
                 {
-                    string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                    AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
-                }
-                else
-                {
-                    if ((RegNameBox.Text != "") || (RegFamBox.Text != "") || (RegPathBox.Text != "") || (PassSeries.Text != "") || (PassNumber.Text != ""))
+                    if (Passenger_Number == -1)
                     {
-
+                        var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathBox.Text, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text), RegPhoneBox.Text);
+                        string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                        AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
                     }
                     else
                     {
-                        MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
+                        if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathBox.Text == ExistsData[2]))
+                        {
+                            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Информация о пассажире заполнена неверно.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch(Exception ex)
