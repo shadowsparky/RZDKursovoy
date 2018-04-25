@@ -18,9 +18,9 @@ namespace RZDKursovoy
 
         private void authButton_Click(object sender, RoutedEventArgs e)
         {
-            _connection = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = "+ loginBox.Text + "; charset=cp866; Password =" + passBox.Password);
             try
             {
+                _connection = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = " + loginBox.Text + "; charset=cp866; Password =" + passBox.Password);
                 _connection.Open();
                 string CheckRole = "#####";
                 MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", _connection);
@@ -81,7 +81,7 @@ namespace RZDKursovoy
                 MessageBox.Show("Сервер не отвечает", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if ((RegLoginBox.Text != "") || (RegPassBox.Text != ""))
+            if ((RegLoginBox.Text != "") && (RegPassBox.Text != ""))
             {
                 try
                 {
@@ -97,6 +97,7 @@ namespace RZDKursovoy
                 MessageBox.Show("Вы не заполнили поля", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            FastConnect.Close();
             RegGrid.Visibility = Visibility.Hidden;
             AuthGrid.Visibility = Visibility.Visible;
         }
@@ -105,6 +106,30 @@ namespace RZDKursovoy
         {
             RegGrid.Visibility = Visibility.Hidden;
             AuthGrid.Visibility = Visibility.Visible;
+        }
+
+        private void RegLoginBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.EN_InputLoginWordsProtector(RegLoginBox, e);
+        }
+
+        private void RegPassBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+
+        }
+
+        private void loginBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.EN_InputLoginWordsProtector(loginBox, e);
+        }
+
+        private void passBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+
+        }
+
+        private void loginBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
         }
     }
 }

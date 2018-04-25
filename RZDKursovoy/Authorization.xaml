@@ -8,38 +8,77 @@
         mc:Ignorable="d"
         Title="" Height="344.845" Width="532.474" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="mainGrid">
-        <Grid x:Name="AuthGrid" Visibility="Hidden">
-            <materialDesign:PackIcon Kind="Account" VerticalAlignment ="Center" Margin="0,0,160,45" HorizontalAlignment="Center"/>
-            <materialDesign:PackIcon Kind="Key" VerticalAlignment ="Center" Margin="0,5,160,0" HorizontalAlignment="Center"/>
-            <TextBox x:Name="loginBox" HorizontalAlignment="Center" Margin="16,0,0,50" TextWrapping="Wrap" VerticalAlignment="Center" MaxLength="30" TabIndex="0" Height="25" Width="148" />
-            <Button x:Name="authButton" Content="Авторизоваться" HorizontalAlignment="Center" Margin="0,90,0,0" Height="Auto" TabIndex="2" IsDefault="True" Width="164" VerticalAlignment="Center" Click="authButton_Click"/>
-            <Button x:Name="regButton" Content="Зарегистрироваться" HorizontalAlignment="Center" Click="regButton_Click" Margin="0,150,0,0" Height="Auto"  TabIndex="3" Width="164" VerticalAlignment="Center"/>
-            <TextBlock x:Name="progNameText" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" Text="// TODO: Тут должен быть логотип" VerticalAlignment="Top" FontSize="20" Height="42" Width="792" FontFamily="Segoe UI Semilight" TextAlignment="Center"/>
-            <PasswordBox x:Name="passBox" HorizontalAlignment="Center" Margin="16,0,0,0" VerticalAlignment="Center" TabIndex="1" Height="25" Width="148"/>
-        </Grid>
         <Grid x:Name="RegGrid">
             <GroupBox x:Name="RegGB" Header="Регистрация">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="7*"/>
-                        <RowDefinition Height="26*"/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Логин" HorizontalAlignment="Center" HorizontalContentAlignment="Right" Margin="0,0,170,135" VerticalAlignment="Center" Width="62" RenderTransformOrigin="1.115,0.731" Grid.RowSpan="2"/>
-                    <Label Content="Пароль" HorizontalAlignment="Center" HorizontalContentAlignment="Right" Margin="0,0,170,120" VerticalAlignment="Center" Width="62" Grid.Row="1"/>
-                    <!--<Label Content="Имя*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,9,0,0" VerticalAlignment="Top" Width="60"/>
-                    <Label Content="Фамилия*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,35,0,0" VerticalAlignment="Top" Width="60"/>
-                    <Label Content="Отчество*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,61,0,0" VerticalAlignment="Top" Width="60"/>
-                    <Label Content="Телефон" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="264,87,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.648,0.538"/>-->
-                    <TextBox x:Name="RegLoginBox" MaxLength="30" Height="24" Margin="60,0,0,135" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegLoginBox_TextChanged" Grid.RowSpan="2"/>
-                    <TextBox x:Name="RegPassBox" MaxLength="30" Height="24" Margin="60,0,0,120" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="167" TextChanged="RegPassBox_TextChanged" Grid.Row="1"/>
-                    <Button x:Name="RegRegButtonBEEP" Margin="20,0,0,20" Content="Зарегистрироваться" Click="RegRegButtonBEEP_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Width="214" Grid.Row="1"></Button>
-                    <Button x:Name="RegExit" Margin="0,0,0,10" Content="Выход" VerticalAlignment="Bottom" Click="RegExit_Click" Grid.Row="1"/>
-                    <!--<TextBox x:Name="RegNameBox" Height="24" Margin="342,11,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                    <TextBox x:Name="RegFamBox" Height="24" Margin="342,37,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                    <TextBox x:Name="RegPathBox" Height="24" Margin="342,63,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                    <TextBox x:Name="RegPhoneBox" Height="24" Margin="342,89,16,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>-->
+                    <TextBox x:Name="RegLoginBox" PreviewTextInput="RegLoginBox_PreviewTextInput"  MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="148" TextChanged="RegLoginBox_TextChanged">
+                        <materialDesign:HintAssist.Hint>
+                            <StackPanel
+                                    Orientation="Horizontal"
+                                    Margin="-2 0 0 0">
+                                <materialDesign:PackIcon
+                                    Kind="Account" />
+                                <TextBlock>
+                                    Логин
+                                </TextBlock>
+                            </StackPanel>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <TextBox x:Name="RegPassBox" PreviewTextInput="RegPassBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,40" VerticalAlignment="Center" TabIndex="1" Height="40" Width="148" TextChanged="RegPassBox_TextChanged">
+                        <materialDesign:HintAssist.Hint>
+                            <StackPanel
+                                    Orientation="Horizontal"
+                                    Margin="-2 0 0 0">
+                                <materialDesign:PackIcon
+                                    Kind="Key" />
+                                <TextBlock>
+                                    Пароль
+                                </TextBlock>
+                            </StackPanel>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <Button x:Name="RegRegButtonBEEP" Margin="0,60,0,0" Content="Зарегистрироваться" Click="RegRegButtonBEEP_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Width="214"/>
+                    <Button x:Name="RegExit" Margin="0,0,0,10" Content="Выход" VerticalAlignment="Bottom" Click="RegExit_Click"/>
                 </Grid>
             </GroupBox>
+        </Grid>
+        <Grid x:Name="AuthGrid" d:IsHidden="True">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFB7C8EE" Offset="0.996"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <TextBox x:Name="loginBox" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,70" TextWrapping="Wrap" VerticalAlignment="Center" MaxLength="30" TabIndex="0" Height="40" Width="148" >
+                <materialDesign:HintAssist.Hint>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Margin="-2 0 0 0">
+                        <materialDesign:PackIcon
+                        Kind="Account" />
+                        <TextBlock>
+                            Логин               
+                        </TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
+            <Button x:Name="authButton" Content="Авторизоваться" HorizontalAlignment="Center" Margin="0,150,0,0" Height="Auto" TabIndex="2" IsDefault="True" Width="164" VerticalAlignment="Center" Click="authButton_Click" RenderTransformOrigin="0.494,0.5">
+            </Button>
+            <Button x:Name="regButton" Content="Зарегистрироваться" HorizontalAlignment="Center" Click="regButton_Click" Margin="0,80,0,0" Height="Auto"  TabIndex="3" Width="164" VerticalAlignment="Center"/>
+            <TextBlock x:Name="progNameText" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Лучшее на свете приложение (по моему скромному мнению)" VerticalAlignment="Top" FontSize="20" Height="66" Width="284" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+            <PasswordBox x:Name="passBox" PreviewTextInput="passBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" TabIndex="1" Height="40" Width="148">
+                <materialDesign:HintAssist.Hint>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Margin="-2 0 0 0">
+                        <materialDesign:PackIcon
+                        Kind="Key" />
+                        <TextBlock>
+                            Пароль
+                        </TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+            </PasswordBox>
         </Grid>
     </Grid>
 </Window>

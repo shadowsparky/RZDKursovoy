@@ -1,11 +1,18 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace RZDKursovoy
 {
     class ApplicationLogic
     {
+        private Regex OnlyLowCaseWordsChecker = new Regex("[а-я]");
+        private Regex OnlyUpCaseWordsChecker = new Regex("[А-Я]");
+        private Regex EN_OnlyLowCaseWordsChecker = new Regex("[a-z]");
+        private Regex EN_OnlyUpCaseWordsChecker = new Regex("[A-Z]");
+        private Regex OnlyNumbersChecker = new Regex("[1-9 0]");
+
         public void MagicUniversalControlData(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
         {
             if (userControl != "Delete")
@@ -63,7 +70,7 @@ namespace RZDKursovoy
                 //MessageBox.Show("Запись удалена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-
+        
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
         {
             List<string> SavedTypes = new List<string>();
@@ -258,6 +265,49 @@ namespace RZDKursovoy
             TB.Text = TB.Text.Replace("|", string.Empty);
             TB.Text = TB.Text.Replace("\\", string.Empty);
             TB.SelectionStart = TB.Text.Length;
+        }
+        public void InputPersonalDataProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TB.Text.Length != 0)
+            {
+                Match matchLowCase = OnlyLowCaseWordsChecker.Match(e.Text);
+                if (!matchLowCase.Success)
+                    e.Handled = true;
+            }
+            else
+            {
+                Match matchUpCase = OnlyUpCaseWordsChecker.Match(e.Text);
+                if (!matchUpCase.Success)
+                    e.Handled = true;
+            }
+        }
+        public void InputWordsProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Match matchLowCase = OnlyLowCaseWordsChecker.Match(e.Text);
+            Match matchUpCase = OnlyUpCaseWordsChecker.Match(e.Text);
+            if ((!matchLowCase.Success) && (!matchUpCase.Success))
+            {
+                e.Handled = true;
+            }
+        }
+        public void EN_InputWordsProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Match matchLowCase = EN_OnlyLowCaseWordsChecker.Match(e.Text);
+            Match matchUpCase = EN_OnlyUpCaseWordsChecker.Match(e.Text);
+            if ((!matchLowCase.Success) && (!matchUpCase.Success))
+            {
+                e.Handled = true;
+            }
+        }
+        public void EN_InputLoginWordsProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Match matchLowCase = EN_OnlyLowCaseWordsChecker.Match(e.Text);
+            Match matchUpCase = EN_OnlyUpCaseWordsChecker.Match(e.Text);
+            Match matchNumbersCase = OnlyNumbersChecker.Match(e.Text);
+            if ((!matchLowCase.Success) && (!matchUpCase.Success) && (!matchNumbersCase.Success))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

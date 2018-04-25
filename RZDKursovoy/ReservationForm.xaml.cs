@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -41,38 +42,75 @@ namespace RZDKursovoy
             StepThreePlusGrid.IsEnabled = false;
             StepThreeGrid.IsEnabled = false;
         }
-        private void ChooseTrainListBox_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            for (int i = 0; i < Routs.Count; i++)
-            {
-                var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
-                var r = GetASI.ExecuteReader();
-                r.Read();
-                Arrival_Stop_ID = r.GetInt32(0);
-                r.Close();
-                var TrainNum = AL.FindTrain(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
-                if (TrainNum != "-1")
-                {
-                    Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum);
-                    Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum);
-                    var TrainData = AL.TrainInfo(_connection, TrainNum, Arrival_ID, Departure_ID);
-                    ChooseTrainListBox.Items.Add("№ поезда - "+ TrainNum + ". Время отправления - " + TrainData[0] + ". Дата прибытия - " + TrainData[2] + ", время прибытия - " + TrainData[1]);
-                }
-            }
-        }
-        private void ChooseTrainNextButton_Click(object sender, RoutedEventArgs e)
+        private bool ThrowTrainListToTable()
         {
             try
             {
-                var tCurrentTrainNumber = ChooseTrainListBox.SelectedItem.ToString().Split('.');
-                var TMPSplitTrainNum = tCurrentTrainNumber[0].Split(' ');
-                CurrentTrainNumber = TMPSplitTrainNum[3];
+                for (int i = 0; i < Routs.Count; i++)
+                {
+                    var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
+                    var r = GetASI.ExecuteReader();
+                    r.Read();
+                    Arrival_Stop_ID = r.GetInt32(0);
+                    r.Close();
+                    var TrainNum = AL.FindTrain(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
+                    if (TrainNum != "-1")
+                    {
+                        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum);
+                        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum);
+                        MySqlCommand BestCommand = new MySqlCommand("call TrainInfoTwo(@TrainNumber, @Arrival_ID_IN, @Departure_ID_IN)", _connection);
+                        BestCommand.Parameters.AddWithValue("TrainNumber", TrainNum);
+                        BestCommand.Parameters.AddWithValue("Arrival_ID_IN", Arrival_ID);
+                        BestCommand.Parameters.AddWithValue("Departure_ID_IN", Departure_ID);
+                        MySqlDataAdapter ad = new MySqlDataAdapter();
+                        ad.SelectCommand = BestCommand;
+                        System.Data.DataTable table = new System.Data.DataTable();
+                        ad.Fill(table);
+                        table.Columns[0].ColumnName = "Номер поезда";
+                        table.Columns[1].ColumnName = "Время отправления";
+                        table.Columns[2].ColumnName = "Время прибытия";
+                        table.Columns[3].ColumnName = "Дата прибытия";
+                        table.Columns[4].ColumnName = "Начальная остановка";
+                        table.Columns[5].ColumnName = "Конечная остановка";
+                        ChooseTrainGRID.ItemsSource = table.DefaultView;
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return false;
+        }
+        private void ChooseTrainListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            //for (int i = 0; i < Routs.Count; i++)
+            //{
+            //    var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
+            //    var r = GetASI.ExecuteReader();
+            //    r.Read();
+            //    Arrival_Stop_ID = r.GetInt32(0);
+            //    r.Close();
+            //    var TrainNum = AL.FindTrain(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
+            //    if (TrainNum != "-1")
+            //    {
+            //        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum);
+            //        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum);
+            //        var TrainData = AL.TrainInfo(_connection, TrainNum, Arrival_ID, Departure_ID);
+            //        //ChooseTrainListBox.Items.Add("№ поезда - "+ TrainNum + ". Время отправления - " + TrainData[0] + ". Дата прибытия - " + TrainData[2] + ", время прибытия - " + TrainData[1]);
+            //    }
+            //}
+        }
+        private void ChooseTrainNextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentTrainNumber != "")
+            {
                 ChooseTrainBox.Visibility = Visibility.Hidden;
                 ChooseTrainTypeBox.Visibility = Visibility.Visible;
                 AddToRailcarTypesBox();
             }
-            catch (Exception)
+            else
             {
                 MessageBox.Show("Вы должны выбрать поезд", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
@@ -133,39 +171,6 @@ namespace RZDKursovoy
             {
                 MessageBox.Show("Вы должны выбрать номер вагона", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
-
-
-            //for (int i = 1; i < 10; i++)
-            //{
-                
-            //}
-            //int x1 = 142;
-            //int y1 = 66;
-            //int y2 = 41; 
-            //for (int i = 0; i < 36; i++)
-            //{
-                // 1 - 142, 66
-                // 2 - 146, 41
-                // 4 - 160, 41
-                // 3 - 156, 66
-                // 5 - 196, 66
-                // 7 - 208, 66
-            //    var BestMagicRadiobutton = new RadioButton();
-            //    Thickness SetMargin = BestMagicRadiobutton.Margin;
-            //    if ((i == 1) || (i == 5) || (i == 9) || (i == 13) || (i == 17) || (i == 21) || (i == 25)
-            //            || (i == 29) || (i == 33))
-            //    {
-                    
-            //    }
-            //    SetMargin.Left = 189;
-            //    SetMargin.Top = 50;
-            //    BestMagicRadiobutton.Name = "ChooseRadiobutton1";
-            //    BestMagicRadiobutton.VerticalAlignment = VerticalAlignment.Top;
-            //    BestMagicRadiobutton.HorizontalAlignment = HorizontalAlignment.Left;
-            //    BestMagicRadiobutton.Margin = SetMargin;
-            //    StepThreeGrid.Children.Add(BestMagicRadiobutton);
-            //    StepThreeGrid.IsEnabled = true;
-            //}
         }
         private void SeatChooseNumberButton_Click(object sender, RoutedEventArgs e)
         {
@@ -183,40 +188,67 @@ namespace RZDKursovoy
         }
         private void InputData_Click(object sender, RoutedEventArgs e)
         {
+            //try
+            //{
+                //var QueryString = "call EmployPlaces";
+                //Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
+                //if ((RegNameBox.Text != "") && (RegFamBox.Text != "") && (PassSeries.Text != "") && (PassNumber.Text != ""))
+                //{
+                //    if (Passenger_Number == -1)
+                //    {
+                //        var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathBox.Text, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text), RegPhoneBox.Text);
+                //        string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                //        AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                //    }
+                //    else
+                //    {
+                //        var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
+                //        if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathBox.Text == ExistsData[2]))
+                //        {
+                //            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                //            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                //        }
+                //        else
+                //        {
+                //            MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //        }
+                //    }
+                MessageBox.Show("test");
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
+            //}
+            //catch(Exception)
+            //{
+            //    MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+        }
+        
+        private void RegNameBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            // AL.InputOneUpAndLowKeysProtector(RegNameBox, e);
+        }
+
+        private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            _maskedTextBox.Mask = "+0(000)000-0000";
+        }
+        private void ChooseTrainGRID_Loaded(object sender, RoutedEventArgs e)
+        {
+            ThrowTrainListToTable();
+        }
+        private void ChooseTrainGRID_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
             try
             {
-                var QueryString = "call EmployPlaces";
-                Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
-                if ((RegNameBox.Text != "") || (RegFamBox.Text != "") || (PassSeries.Text != "") || (PassNumber.Text != ""))
-                {
-                    if (Passenger_Number == -1)
-                    {
-                        var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathBox.Text, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text), RegPhoneBox.Text);
-                        string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                        AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
-                    }
-                    else
-                    {
-                        var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
-                        if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathBox.Text == ExistsData[2]))
-                        {
-                            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                var items = (System.Data.DataRowView)ChooseTrainGRID.CurrentItem;
+                CurrentTrainNumber = items.Row[0].ToString();
             }
             catch(Exception)
             {
-                MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("При выборе поезда произошла ошибка. Попробуйте выбрать другой поезд.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -3,17 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:RZDKursovoy"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Резервирование" Height="450" Width="799" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <GroupBox x:Name="ChooseTrainBox" Header="Выбор поезда" Margin="0" Visibility="Hidden">
+        <GroupBox x:Name="ChooseTrainBox" Header="Выбор поезда" Margin="0">
             <Grid>
-                <ListBox x:Name="ChooseTrainListBox" Width="772" Loaded="ChooseTrainListBox_Loaded" Margin="0,0,0,30"/>
+                <!--<ListBox x:Name="ChooseTrainListBox" Width="772" Loaded="ChooseTrainListBox_Loaded" Margin="0,0,0,30"/>-->
                 <Button x:Name="ChooseTrainNextButton" VerticalAlignment="Bottom" Content="Далее" Height="29" Margin="0" Click="ChooseTrainNextButton_Click" RenderTransformOrigin="0.497,1.172"/>
+                <DataGrid SelectionChanged="ChooseTrainGRID_SelectionChanged" IsReadOnly="True" x:Name="ChooseTrainGRID" Margin="0,0,0,30" Loaded="ChooseTrainGRID_Loaded"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="ChooseTrainTypeBox" Header="Выбор места" Margin="0,0,0,0" Visibility="Hidden">
+        <GroupBox x:Name="ChooseTrainTypeBox" Header="Выбор места" Margin="0,0,0,0" Visibility="Hidden" d:IsHidden="True">
             <Grid>
                 <Grid x:Name="StepOneGrid">
                     <ComboBox x:Name="ChooseRailcarType" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="240"/>
@@ -35,21 +38,23 @@
                 </Grid>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="InputPersonalDataBox" Margin="0" BorderBrush="Black" Header="Ввод данных" Foreground="Black" Background="{x:Null}">
+        <GroupBox x:Name="InputPersonalDataBox" Margin="0" BorderBrush="Black" Header="Ввод данных" Foreground="Black" Background="{x:Null}" d:IsHidden="True">
             <Grid>
-                <Label Content="Имя*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,86,0,0" VerticalAlignment="Top" Width="78"/>
+                <!--       <Label Content="Имя*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,86,0,0" VerticalAlignment="Top" Width="78"/>
                 <Label Content="Фамилия*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,112,0,0" VerticalAlignment="Top" Width="78"/>
                 <Label Content="Отчество" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,138,0,0" VerticalAlignment="Top" Width="78"/>
                 <Label Content="Телефон" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="45,164,0,0" VerticalAlignment="Top" Width="78" RenderTransformOrigin="0.648,0.538"/>
-                <TextBox x:Name="RegNameBox" MaxLength="30" Height="24" Margin="123,88,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="RegNameBox" PreviewTextInput="RegNameBox_PreviewTextInput" MaxLength="30" Height="24" Margin="123,88,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                 <TextBox x:Name="RegFamBox" MaxLength="30" Height="24" Margin="123,114,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                 <TextBox x:Name="RegPathBox" MaxLength="30" Height="24" Margin="123,140,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                 <TextBox x:Name="RegPhoneBox" MaxLength="11" Height="24" Margin="123,166,452,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <TextBox x:Name="PassSeries" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,110,54,234"></TextBox>
-                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,140,54,204"></TextBox>
-                <Button x:Name="InputData" VerticalAlignment="Bottom" Content="Отправить данные" Margin="45,0,45,70" Click="InputData_Click"/>
+                <TextBox x:Name="PassSeries" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,0,54,115"></TextBox>
+                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,0,54,60"></TextBox>
                 <Label Content="Серия паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="410,112,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
-                <Label Content="Номер паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="410,140,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/>
+                <Label Content="Номер паспорта*" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="410,140,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.648,0.538"/> -->
+                <Button x:Name="InputData" VerticalAlignment="Bottom" Content="Отправить данные" Margin="45,0,45,70" Click="InputData_Click"/>
+                <xctk:MaskedTextBox x:Name="_maskedTextBox" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="349,213,262,135" Width="164" Height="21" BorderBrush="Black" GotFocus="_maskedTextBox_GotFocus"/>
+                <TextBox x:Name="PassNumber" MaxLength="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Margin="0,0,0,234"/>
                 <Label Content="AVB Inc PRODUCTION" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsEnabled="False" Height="25" Width="775" HorizontalContentAlignment="Center"/>
             </Grid>
         </GroupBox>
