@@ -13,7 +13,7 @@
             <Grid>
                 <!--<ListBox x:Name="ChooseTrainListBox" Width="772" Loaded="ChooseTrainListBox_Loaded" Margin="0,0,0,30"/>-->
                 <Button x:Name="ChooseTrainNextButton" VerticalAlignment="Bottom" Content="Далее" Height="29" Margin="0" Click="ChooseTrainNextButton_Click" RenderTransformOrigin="0.497,1.172"/>
-                <DataGrid SelectionChanged="ChooseTrainGRID_SelectionChanged" IsReadOnly="True" x:Name="ChooseTrainGRID" Margin="0,0,0,30" Loaded="ChooseTrainGRID_Loaded"/>
+                <DataGrid AutoGenerateColumns="True" AutoGeneratingColumn="ChooseTrainGRID_AutoGeneratingColumn"  SelectionChanged="ChooseTrainGRID_SelectionChanged" IsReadOnly="True" x:Name="ChooseTrainGRID" Margin="0,0,0,30" Loaded="ChooseTrainGRID_Loaded"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="ChooseTrainTypeBox" Header="Выбор места" Margin="0,0,0,0" Visibility="Hidden" d:IsHidden="True">

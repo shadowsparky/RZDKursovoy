@@ -92,6 +92,7 @@
     <Compile Include="ReservationForm.xaml.cs">
       <DependentUpon>ReservationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TableFillKostil.cs" />
     <Page Include="Authorization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,8 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace RZDKursovoy
@@ -42,46 +47,38 @@ namespace RZDKursovoy
             StepThreePlusGrid.IsEnabled = false;
             StepThreeGrid.IsEnabled = false;
         }
-        private bool ThrowTrainListToTable()
+        private void ThrowTrainListToTable()
         {
-            try
+            //DataTable t = new DataTable();
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    DataColumn DC = new DataColumn();
+            //    DC.ColumnName = "test" + i;
+            //    t.Columns.Add(DC);
+            //}
+
+            var test = new List<TableFillKostil>();
+            for (int i = 0; i < Routs.Count; i++)
             {
-                for (int i = 0; i < Routs.Count; i++)
-                {
-                    var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
-                    var r = GetASI.ExecuteReader();
-                    r.Read();
-                    Arrival_Stop_ID = r.GetInt32(0);
-                    r.Close();
-                    var TrainNum = AL.FindTrain(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
-                    if (TrainNum != "-1")
-                    {
-                        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum);
-                        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum);
-                        MySqlCommand BestCommand = new MySqlCommand("call TrainInfoTwo(@TrainNumber, @Arrival_ID_IN, @Departure_ID_IN)", _connection);
-                        BestCommand.Parameters.AddWithValue("TrainNumber", TrainNum);
-                        BestCommand.Parameters.AddWithValue("Arrival_ID_IN", Arrival_ID);
-                        BestCommand.Parameters.AddWithValue("Departure_ID_IN", Departure_ID);
-                        MySqlDataAdapter ad = new MySqlDataAdapter();
-                        ad.SelectCommand = BestCommand;
-                        System.Data.DataTable table = new System.Data.DataTable();
-                        ad.Fill(table);
-                        table.Columns[0].ColumnName = "Номер поезда";
-                        table.Columns[1].ColumnName = "Время отправления";
-                        table.Columns[2].ColumnName = "Время прибытия";
-                        table.Columns[3].ColumnName = "Дата прибытия";
-                        table.Columns[4].ColumnName = "Начальная остановка";
-                        table.Columns[5].ColumnName = "Конечная остановка";
-                        ChooseTrainGRID.ItemsSource = table.DefaultView;
-                        return true;
-                    }
-                }
+                //var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
+                //var r = GetASI.ExecuteReader();
+                //r.Read();
+                //Arrival_Stop_ID = r.GetInt32(0);
+                //r.Close();
+                //var TrainNum = AL.FindTrainList(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
+                //for (int j = 0; j < TrainNum.Count; j++)
+                //{
+                //    if (TrainNum[j] != "-1")
+                //    {
+                //        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
+                //        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
+                //        var TrainData = AL.TrainInfo(_connection, TrainNum[j], Arrival_ID, Departure_ID);
+                //        test.Add(new TableFillKostil(TrainData[0], TrainData[1], TrainData[2], TrainData[3], TrainData[4], TrainData[5]));
+
+                //    }
+                //}
             }
-            catch (Exception)
-            {
-                return false;
-            }
-            return false;
+            ChooseTrainGRID.ItemsSource = test;
         }
         private void ChooseTrainListBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -92,13 +89,16 @@ namespace RZDKursovoy
             //    r.Read();
             //    Arrival_Stop_ID = r.GetInt32(0);
             //    r.Close();
-            //    var TrainNum = AL.FindTrain(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
-            //    if (TrainNum != "-1")
+            //    var TrainNum = AL.FindTrainList(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
+            //    for (int j = 0; j < TrainNum.Count; j++)
             //    {
-            //        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum);
-            //        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum);
-            //        var TrainData = AL.TrainInfo(_connection, TrainNum, Arrival_ID, Departure_ID);
-            //        //ChooseTrainListBox.Items.Add("№ поезда - "+ TrainNum + ". Время отправления - " + TrainData[0] + ". Дата прибытия - " + TrainData[2] + ", время прибытия - " + TrainData[1]);
+            //        if (TrainNum[j] != "-1")
+            //        {
+            //            Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
+            //            Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
+            //            var TrainData = AL.TrainInfo(_connection, TrainNum[j], Arrival_ID, Departure_ID);
+            //            ChooseTrainListBox.Items.Add("№ поезда - " + TrainNum[j] + ". Время отправления - " + TrainData[0] + ". Дата прибытия - " + TrainData[2] + ", время прибытия - " + TrainData[1]);
+            //        }
             //    }
             //}
         }
@@ -239,16 +239,61 @@ namespace RZDKursovoy
         {
             ThrowTrainListToTable();
         }
+
+
+
         private void ChooseTrainGRID_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             try
             {
-                var items = (System.Data.DataRowView)ChooseTrainGRID.CurrentItem;
-                CurrentTrainNumber = items.Row[0].ToString();
-            }
-            catch(Exception)
+                TableFillKostil TFK = (TableFillKostil) ChooseTrainGRID.SelectedItem;
+                var r = TFK.Par1;
+                }
+            catch (Exception)
             {
                 MessageBox.Show("При выборе поезда произошла ошибка. Попробуйте выбрать другой поезд.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+}
+        public static string GetPropertyDisplayName(object descriptor)
+        {
+            var pd = descriptor as PropertyDescriptor;
+            if (pd != null)
+            {
+                // Check for DisplayName attribute and set the column header accordingly
+                var displayName = pd.Attributes[typeof(DisplayNameAttribute)] as DisplayNameAttribute;
+
+                if (displayName != null && displayName != DisplayNameAttribute.Default)
+                {
+                    return displayName.DisplayName;
+                }
+
+            }
+            else
+            {
+                var pi = descriptor as PropertyInfo;
+                if (pi != null)
+                {
+                    Object[] attributes = pi.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+                    for (int i = 0; i < attributes.Length; ++i)
+                    {
+                        var displayName = attributes[i] as DisplayNameAttribute;
+                        if (displayName != null && displayName != DisplayNameAttribute.Default)
+                        {
+                            return displayName.DisplayName;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private void ChooseTrainGRID_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            var displayName = GetPropertyDisplayName(e.PropertyDescriptor);
+
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                e.Column.Header = displayName;
             }
         }
     }

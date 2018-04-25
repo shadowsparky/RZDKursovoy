@@ -70,7 +70,20 @@ namespace RZDKursovoy
                 //MessageBox.Show("Запись удалена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        
+
+        public List<string> TrowAllStations(MySqlConnection connection)
+        {
+            List<string> SavedTypes = new List<string>();
+            string QueryString = "call ThrowAllStations";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            var RailcarsTypesReader = BestCommand.ExecuteReader();
+            while (RailcarsTypesReader.Read())
+            {
+                SavedTypes.Add(RailcarsTypesReader.GetString(0));
+            }
+            RailcarsTypesReader.Close();
+            return SavedTypes;
+        }
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
         {
             List<string> SavedTypes = new List<string>();
@@ -87,7 +100,7 @@ namespace RZDKursovoy
         public List<string> TrainInfo(MySqlConnection connected, string TrainNumber, int Arrival_ID_IN, int Departure_ID_IN)
         {
             List<string> TrainInfoList = new List<string>();
-            var QueryString = "call TrainInfo(@TrainNumber, @Arrival_ID_IN, @Departure_ID_IN)";
+            var QueryString = "call TrainInfoTwo(@TrainNumber, @Arrival_ID_IN, @Departure_ID_IN)";
             var BestCommand = new MySqlCommand(QueryString, connected);
             BestCommand.Parameters.AddWithValue("TrainNumber", TrainNumber);
             BestCommand.Parameters.AddWithValue("Arrival_ID_IN", Arrival_ID_IN);
@@ -96,9 +109,10 @@ namespace RZDKursovoy
             r.Read();
             TrainInfoList.Add(r.GetString(0).ToString());
             TrainInfoList.Add(r.GetString(1).ToString());
-            var DateSplit = r.GetString(2).ToString().Split(' ');
-            TrainInfoList.Add(DateSplit[0]);
+            TrainInfoList.Add(r.GetString(2).ToString());
             TrainInfoList.Add(r.GetString(3).ToString());
+            TrainInfoList.Add(r.GetString(4).ToString());
+            TrainInfoList.Add(r.GetString(5).ToString());
             r.Close();
             return TrainInfoList;
         }
@@ -165,6 +179,22 @@ namespace RZDKursovoy
             { Result.Add(r.GetString(i)); }
             r.Close();
             return Result;
+        }
+        public List<string> FindTrainList(MySqlConnection connection, string RoutID, int Arrival_Stop_IN, string Arrival_Date_IN)
+        {
+            List<string> SavedTypes = new List<string>();
+            string QueryString = "call FindTrainList(@RoutID, @Arrival_Stop_IN, @Arrival_Date_IN)";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("RoutID", RoutID);
+            BestCommand.Parameters.AddWithValue("Arrival_Stop_IN", Arrival_Stop_IN);
+            BestCommand.Parameters.AddWithValue("Arrival_Date_IN", Arrival_Date_IN);
+            var TrainListRead = BestCommand.ExecuteReader();
+            while (TrainListRead.Read())
+            {
+                SavedTypes.Add(TrainListRead.GetString(0));
+            }
+            TrainListRead.Close();
+            return SavedTypes;
         }
         public int GetDepartureID(MySqlConnection connection, string DepartureStation, int RoutID, string TrainNum)
         {
@@ -281,7 +311,7 @@ namespace RZDKursovoy
                     e.Handled = true;
             }
         }
-        public void InputWordsProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        public void InputWordsProtector(System.Windows.Input.TextCompositionEventArgs e)
         {
             Match matchLowCase = OnlyLowCaseWordsChecker.Match(e.Text);
             Match matchUpCase = OnlyUpCaseWordsChecker.Match(e.Text);
@@ -290,7 +320,7 @@ namespace RZDKursovoy
                 e.Handled = true;
             }
         }
-        public void EN_InputWordsProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        public void EN_InputWordsProtector(System.Windows.Input.TextCompositionEventArgs e)
         {
             Match matchLowCase = EN_OnlyLowCaseWordsChecker.Match(e.Text);
             Match matchUpCase = EN_OnlyUpCaseWordsChecker.Match(e.Text);
