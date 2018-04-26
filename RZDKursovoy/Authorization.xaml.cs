@@ -71,6 +71,7 @@ namespace RZDKursovoy
         } 
         private void RegRegButtonBEEP_Click(object sender, RoutedEventArgs e)
         {
+            bool OK = false;
             MySqlConnection FastConnect = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = RegMaster; charset=cp866; Password = RegMasterPassword");
             try
             {
@@ -83,23 +84,36 @@ namespace RZDKursovoy
             }
             if ((RegLoginBox.Text != "") && (RegPassBox.Text != ""))
             {
-                try
+                if (CheckProcessingPersonalDataBox.IsChecked.Value)
                 {
-                    var QueryString = "call register_createuser";
-                    string[] data = { RegLoginBox.Text, RegPassBox.Text };
-                    AL.MagicUniversalControlData(QueryString, data, "RegAdd", FastConnect);
+                    try
+                    {
+                        var QueryString = "call register_createuser";
+                        string[] data = { RegLoginBox.Text, RegPassBox.Text };
+                        AL.MagicUniversalControlData(QueryString, data, "RegAdd", FastConnect);
+                        OK = true;
+
+                    }
+                    catch (MySqlException)
+                    {
+                        MessageBox.Show("В настоящее время сервис регистрации недоступен. Пожалуйста, попробуйте позже", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                catch(MySqlException)
-                { return; }
+                else
+                {
+                    MessageBox.Show("Для продолжения работы с приложением вы должны дать согласие на обработку Ваших персональных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
                 MessageBox.Show("Вы не заполнили поля", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
             }
             FastConnect.Close();
-            RegGrid.Visibility = Visibility.Hidden;
-            AuthGrid.Visibility = Visibility.Visible;
+            if (OK)
+            { 
+                RegGrid.Visibility = Visibility.Hidden;
+                AuthGrid.Visibility = Visibility.Visible;
+            }
         }
 
         private void RegExit_Click(object sender, RoutedEventArgs e)
