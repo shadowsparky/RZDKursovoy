@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,6 +19,7 @@ namespace RZDKursovoy
         private string ArrivalDate = "###";
         private int Arrival_Stop_ID = new int();
         private List<string> Routs = new List<string>();
+        private List<string> TrainsList = new List<string>();
         private MySqlConnection _connection;
         private int Arrival_ID = new int();
         private int Departure_ID = new int();
@@ -35,6 +35,7 @@ namespace RZDKursovoy
         public string SetDeparture { set { DepartureStation = value; } }
         public string SetDate { set { ArrivalDate = value; } }
         public List<string> SetRouts { set { Routs = value; } }
+        public List<string> SetTrainsList { set { TrainsList = value; } }
         public MySqlConnection SetConnection { set { _connection = value; } }
         /*Процедуры*/
         public ReservationForm()
@@ -49,58 +50,23 @@ namespace RZDKursovoy
         }
         private void ThrowTrainListToTable()
         {
-            //DataTable t = new DataTable();
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    DataColumn DC = new DataColumn();
-            //    DC.ColumnName = "test" + i;
-            //    t.Columns.Add(DC);
-            //}
-
             var test = new List<TableFillKostil>();
             for (int i = 0; i < Routs.Count; i++)
             {
-                //var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
-                //var r = GetASI.ExecuteReader();
-                //r.Read();
-                //Arrival_Stop_ID = r.GetInt32(0);
-                //r.Close();
-                //var TrainNum = AL.FindTrainList(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
-                //for (int j = 0; j < TrainNum.Count; j++)
-                //{
-                //    if (TrainNum[j] != "-1")
-                //    {
-                //        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
-                //        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
-                //        var TrainData = AL.TrainInfo(_connection, TrainNum[j], Arrival_ID, Departure_ID);
-                //        test.Add(new TableFillKostil(TrainData[0], TrainData[1], TrainData[2], TrainData[3], TrainData[4], TrainData[5]));
-
-                //    }
-                //}
+                //1ая строка
+                //var TrainNum = AL.newFindTrainList(_connection, Routs[i], ArrivalStation, ArrivalDate);
+                for (int j = 0; j < TrainsList.Count; j++)
+                {
+                    if (TrainsList[j] != "-1")
+                    {
+                        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainsList[j]);
+                        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainsList[j]);
+                        var TrainData = AL.TrainInfo(_connection, TrainsList[j], Arrival_ID, Departure_ID);
+                        test.Add(new TableFillKostil(TrainData[0], TrainData[1], TrainData[2], TrainData[3], TrainData[4], TrainData[5]));
+                    }
+                }
             }
             ChooseTrainGRID.ItemsSource = test;
-        }
-        private void ChooseTrainListBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            //for (int i = 0; i < Routs.Count; i++)
-            //{
-            //    var GetASI = new MySqlCommand("select ThrowArrivalStopID(" + Routs[i] + ")", _connection);
-            //    var r = GetASI.ExecuteReader();
-            //    r.Read();
-            //    Arrival_Stop_ID = r.GetInt32(0);
-            //    r.Close();
-            //    var TrainNum = AL.FindTrainList(_connection, Routs[i], Arrival_Stop_ID, ArrivalDate);
-            //    for (int j = 0; j < TrainNum.Count; j++)
-            //    {
-            //        if (TrainNum[j] != "-1")
-            //        {
-            //            Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
-            //            Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainNum[j]);
-            //            var TrainData = AL.TrainInfo(_connection, TrainNum[j], Arrival_ID, Departure_ID);
-            //            ChooseTrainListBox.Items.Add("№ поезда - " + TrainNum[j] + ". Время отправления - " + TrainData[0] + ". Дата прибытия - " + TrainData[2] + ", время прибытия - " + TrainData[1]);
-            //        }
-            //    }
-            //}
         }
         private void ChooseTrainNextButton_Click(object sender, RoutedEventArgs e)
         {
@@ -247,8 +213,8 @@ namespace RZDKursovoy
             try
             {
                 TableFillKostil TFK = (TableFillKostil) ChooseTrainGRID.SelectedItem;
-                var r = TFK.Par1;
-                }
+                CurrentTrainNumber = TFK.Par1;
+            }
             catch (Exception)
             {
                 MessageBox.Show("При выборе поезда произошла ошибка. Попробуйте выбрать другой поезд.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

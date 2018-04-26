@@ -25,14 +25,23 @@ namespace RZDKursovoy
                 List<string> Routs = AL.FindRout(Connected, Data);
                 if (Routs.Count > 0)
                 {
-                    ReservationForm RF = new ReservationForm();
-                    RF.SetConnection = Connected;
-                    RF.SetArrival = Arrival_BOX.Text;
-                    RF.SetDeparture = Departure_BOX.Text;
-                    RF.SetDate = Arrival_Date.Text;
-                    RF.SetRouts = Routs;
-                    this.Close();
-                    RF.Show();
+                    List<string> TrainsList = new List<string>();
+                    for (int i = 0; i < Routs.Count; i++)
+                    {
+                         TrainsList = AL.newFindTrainList(Connected, Routs[i], Arrival_BOX.Text, Arrival_Date.Text);
+                    }
+                    if (TrainsList.Count > 0)
+                    {
+                        ReservationForm RF = new ReservationForm();
+                        RF.SetConnection = Connected;
+                        RF.SetArrival = Arrival_BOX.Text;
+                        RF.SetDeparture = Departure_BOX.Text;
+                        RF.SetDate = Arrival_Date.Text;
+                        RF.SetRouts = Routs;
+                        RF.SetTrainsList = TrainsList;
+                        this.Close();
+                        RF.Show();
+                    }
                 }
                 else
                 {

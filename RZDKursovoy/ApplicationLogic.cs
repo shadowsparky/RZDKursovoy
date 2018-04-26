@@ -180,13 +180,13 @@ namespace RZDKursovoy
             r.Close();
             return Result;
         }
-        public List<string> FindTrainList(MySqlConnection connection, string RoutID, int Arrival_Stop_IN, string Arrival_Date_IN)
+        public List<string> newFindTrainList(MySqlConnection connection, string RoutID, string Arrival_Stop_Name_IN, string Arrival_Date_IN)
         {
             List<string> SavedTypes = new List<string>();
-            string QueryString = "call FindTrainList(@RoutID, @Arrival_Stop_IN, @Arrival_Date_IN)";
+            string QueryString = "call newFindTrainList(@RoutID, @Arrival_Stop_Name_IN, @Arrival_Date_IN)";
             var BestCommand = new MySqlCommand(QueryString, connection);
             BestCommand.Parameters.AddWithValue("RoutID", RoutID);
-            BestCommand.Parameters.AddWithValue("Arrival_Stop_IN", Arrival_Stop_IN);
+            BestCommand.Parameters.AddWithValue("Arrival_Stop_Name_IN", Arrival_Stop_Name_IN);
             BestCommand.Parameters.AddWithValue("Arrival_Date_IN", Arrival_Date_IN);
             var TrainListRead = BestCommand.ExecuteReader();
             while (TrainListRead.Read())
