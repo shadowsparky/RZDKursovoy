@@ -53,11 +53,8 @@ namespace RZDKursovoy
                 }
                 else if (userControl == "DeleteTicket")
                 {
-                    MessageBox.Show("Резервирование отменено, деньги скоро вернуться на ваш счет, а билет больше недействителен", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Резервирование отменено, деньги скоро вернуться на ваш счет, а отмененный билет больше недействителен", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                //if (userControl == "Add")
-                //    MessageBox.Show("Запись добавлена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
-                //else MessageBox.Show("Запись отредактирована", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (userControl == "Delete")
             {

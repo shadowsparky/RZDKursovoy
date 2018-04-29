@@ -167,17 +167,33 @@ namespace RZDKursovoy
                 {
                     if (Passenger_Number == -1)
                     {
-                        var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text), _maskedTextBox.Text);
-                        string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                        AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                        if ((RegPassSeries.Text.Length == 6) && (RegPassNumber.Text.Length == 4))
+                        {
+                            var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text), _maskedTextBox.Text);
+                            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Вы неправильно заполнили паспортные данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
                     }
                     else
                     {
                         var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
                         if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathrBox.Text == ExistsData[2]))
                         {
-                            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                            if ((RegPassSeries.Text.Length == 6) && (RegPassNumber.Text.Length == 4))
+                            {
+                                string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                                AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Вы неправильно заполнили паспортные данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
                         }
                         else
                         {
@@ -197,10 +213,9 @@ namespace RZDKursovoy
                 MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            this.Close();
             MW.CheckActivateCabinet();
             MW.Show();
-
+            this.Close();
         }
         private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -295,6 +310,10 @@ namespace RZDKursovoy
                 _maskedTextBox.Text = "";
                 _maskedTextBox.Mask = "";
             }
+        }
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            MW.Close();
         }
     }
 }
