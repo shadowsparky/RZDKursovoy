@@ -14,6 +14,7 @@ namespace RZDKursovoy
     public partial class ReservationForm : Window
     {
         /*Переменные*/
+        private MainWindow MW;
         private string ArrivalStation = "###";
         private string DepartureStation = "###";
         private string ArrivalDate = "###";
@@ -24,6 +25,7 @@ namespace RZDKursovoy
         private int Arrival_ID = new int();
         private int Departure_ID = new int();
         private int Railcar_Number = new int();
+        private int CurrentRoutID = new int();
         private string CurrentTrainNumber = "";
         private string ChoosedRailcarType = "";
         private int ChoosedSeatNumber = new int();
@@ -37,6 +39,7 @@ namespace RZDKursovoy
         public List<string> SetRouts { set { Routs = value; } }
         public List<string> SetTrainsList { set { TrainsList = value; } }
         public MySqlConnection SetConnection { set { _connection = value; } }
+        public MainWindow SetMainWindow { set { MW = value; } }
         /*Процедуры*/
         public ReservationForm()
         {
@@ -72,6 +75,8 @@ namespace RZDKursovoy
         {
             if (CurrentTrainNumber != "")
             {
+                Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, CurrentRoutID, CurrentTrainNumber);
+                Departure_ID = AL.GetDepartureID(_connection, DepartureStation, CurrentRoutID, CurrentTrainNumber);
                 ChooseTrainBox.Visibility = Visibility.Hidden;
                 ChooseTrainTypeBox.Visibility = Visibility.Visible;
                 AddToRailcarTypesBox();
@@ -154,49 +159,45 @@ namespace RZDKursovoy
         }
         private void InputData_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-                //var QueryString = "call EmployPlaces";
-                //Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
-                //if ((RegNameBox.Text != "") && (RegFamBox.Text != "") && (PassSeries.Text != "") && (PassNumber.Text != ""))
-                //{
-                //    if (Passenger_Number == -1)
-                //    {
-                //        var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathBox.Text, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text), RegPhoneBox.Text);
-                //        string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                //        AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
-                //    }
-                //    else
-                //    {
-                //        var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(PassSeries.Text), Convert.ToInt32(PassNumber.Text));
-                //        if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathBox.Text == ExistsData[2]))
-                //        {
-                //            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                //            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
-                //        }
-                //        else
-                //        {
-                //            MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                //        }
-                //    }
-                MessageBox.Show("test");
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
-            //}
-            //catch(Exception)
-            //{
-            //    MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-        }
-        
-        private void RegNameBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            // AL.InputOneUpAndLowKeysProtector(RegNameBox, e);
-        }
+            try
+            {
+                var QueryString = "call EmployPlaces";
+                Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
+                if ((RegNameBox.Text != "") && (RegFamBox.Text != "") && (RegPassSeries.Text != "") && (RegPassNumber.Text != ""))
+                {
+                    if (Passenger_Number == -1)
+                    {
+                        var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text), _maskedTextBox.Text);
+                        string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                        AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                    }
+                    else
+                    {
+                        var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
+                        if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathrBox.Text == ExistsData[2]))
+                        {
+                            string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            this.Close();
+            MW.Show();
 
+        }
         private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             _maskedTextBox.Mask = "+0(000)000-0000";
@@ -205,21 +206,19 @@ namespace RZDKursovoy
         {
             ThrowTrainListToTable();
         }
-
-
-
         private void ChooseTrainGRID_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             try
             {
                 TableFillKostil TFK = (TableFillKostil) ChooseTrainGRID.SelectedItem;
                 CurrentTrainNumber = TFK.Par1;
+                CurrentRoutID = AL.ThrowRoutID(_connection, CurrentTrainNumber);
             }
             catch (Exception)
             {
                 MessageBox.Show("При выборе поезда произошла ошибка. Попробуйте выбрать другой поезд.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-}
+        }
         public static string GetPropertyDisplayName(object descriptor)
         {
             var pd = descriptor as PropertyDescriptor;
@@ -252,7 +251,6 @@ namespace RZDKursovoy
             }
             return null;
         }
-
         private void ChooseTrainGRID_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             var displayName = GetPropertyDisplayName(e.PropertyDescriptor);
@@ -260,6 +258,38 @@ namespace RZDKursovoy
             if (!string.IsNullOrEmpty(displayName))
             {
                 e.Column.Header = displayName;
+            }
+        }
+        private void RegFamBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.InputPersonalDataProtector(RegFamBox, e);
+        }
+        private void RegPassSeries_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.InputNumbersDataProtector(RegPassSeries, e);
+        }
+        private void RegNameBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.InputPersonalDataProtector(RegNameBox, e);
+        }
+        private void RegPathrBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.InputPersonalDataProtector(RegPathrBox, e);
+        }
+        private void RegPassNumber_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.InputNumbersDataProtector(RegPassNumber, e);
+        }
+        private void _maskedTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            bool error = new bool();
+            for (int i = 0; i < _maskedTextBox.Text.Length; i++)
+                if (_maskedTextBox.Text[i] == '_')
+                    error = true;
+            if (error)
+            {
+                _maskedTextBox.Text = "";
+                _maskedTextBox.Mask = "";
             }
         }
     }

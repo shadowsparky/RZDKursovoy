@@ -21,14 +21,19 @@ namespace RZDKursovoy
 
         [DisplayName("Номер поезда")]
         public string Par1 { get; set; }
+
         [DisplayName("Время отправления")]
         public string Par2 { get; set; }
+
         [DisplayName("Время прибытия")]
         public string Par3 { get; set; }
+
         [DisplayName("Дата прибытия")]
         public string Par4 { get; set; }
+
         [DisplayName("Начальная остановка")]
         public string Par5 { get; set; }
+
         [DisplayName("Конечная остановка")]
         public string Par6 { get; set; }
     }

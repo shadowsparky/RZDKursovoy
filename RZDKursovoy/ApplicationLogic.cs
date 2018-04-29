@@ -39,6 +39,7 @@ namespace RZDKursovoy
                 }
                 catch (MySqlException ex)
                 {
+                    MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     MessageBox.Show(ex.Number.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
@@ -48,7 +49,7 @@ namespace RZDKursovoy
                 }
                 else if (userControl == "Reservation")
                 {
-                    MessageBox.Show("Место успешно зарезервировано", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Спасибо за покупку! Печать билета доступна в личном кабинете", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 //if (userControl == "Add")
                 //    MessageBox.Show("Запись добавлена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -249,6 +250,17 @@ namespace RZDKursovoy
             r.Close();
             return result;
         }
+        public int ThrowRoutID(MySqlConnection connection, string Train_Number_IN)
+        {
+            var QueryString = "SELECT ThrowRoutID(@Train_Number_IN)";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("Train_Number_IN", Train_Number_IN);
+            var r = BestCommand.ExecuteReader();
+            r.Read();
+            var result = r.GetInt32(0);
+            r.Close();
+            return result;
+        }
         public string FindTrain(MySqlConnection connected, string RoutID, int Arrival_Stop_IN, string Arrival_Date_IN)
         {
             string QueryString = "SELECT FindTrain(@RoutID, @Arrival_Stop_IN, @Arrival_Date_IN)";
@@ -310,6 +322,12 @@ namespace RZDKursovoy
                 if (!matchUpCase.Success)
                     e.Handled = true;
             }
+        }
+        public void InputNumbersDataProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Match match = OnlyNumbersChecker.Match(e.Text);
+            if (!match.Success)
+                e.Handled = true;
         }
         public void InputWordsProtector(System.Windows.Input.TextCompositionEventArgs e)
         {

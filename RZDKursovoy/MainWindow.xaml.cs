@@ -39,8 +39,13 @@ namespace RZDKursovoy
                         RF.SetDate = Arrival_Date.Text;
                         RF.SetRouts = Routs;
                         RF.SetTrainsList = TrainsList;
-                        this.Close();
+                        RF.SetMainWindow = this;
+                        this.Hide();
                         RF.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("К сожалению, поездов по нужному Вам маршруту в данное время нет. Попробуйте выбрать другой день.", "=(", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 else

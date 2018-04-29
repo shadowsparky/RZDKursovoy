@@ -121,27 +121,21 @@ namespace RZDKursovoy
             RegGrid.Visibility = Visibility.Hidden;
             AuthGrid.Visibility = Visibility.Visible;
         }
-
         private void RegLoginBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             AL.EN_InputLoginWordsProtector(RegLoginBox, e);
         }
-
         private void RegPassBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
 
         }
-
         private void loginBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             AL.EN_InputLoginWordsProtector(loginBox, e);
         }
-
         private void passBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-
         }
-
         private void loginBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
         }
