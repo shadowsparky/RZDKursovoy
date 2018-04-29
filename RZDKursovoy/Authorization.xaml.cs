@@ -8,6 +8,8 @@ namespace RZDKursovoy
     {
         private MySqlConnection _connection;
         private ApplicationLogic AL = new ApplicationLogic();
+        private string UserLogin = "";
+        public string ThrowLogin { get { return UserLogin; } }
         public MySqlConnection Connected { get { return _connection; } }
         public Authorization()
         {
@@ -20,7 +22,8 @@ namespace RZDKursovoy
         {
             try
             {
-                _connection = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = " + loginBox.Text + "; charset=cp866; Password =" + passBox.Password);
+                UserLogin = loginBox.Text;
+                _connection = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = " + UserLogin + "; charset=cp866; Password =" + passBox.Password);
                 _connection.Open();
                 string CheckRole = "#####";
                 MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", _connection);
@@ -38,11 +41,12 @@ namespace RZDKursovoy
                 {
                     MainWindow MW = new MainWindow();
                     MW.SetConnected = _connection;
+                    MW.SetLogin = UserLogin;
                     this.Close();
                     MW.Show();
                     return;
                 }
-                    else if (CheckRole == "Blocked")
+                else if (CheckRole == "Blocked")
                 {
                     MessageBox.Show("Ваш аккаунт заблокирован", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

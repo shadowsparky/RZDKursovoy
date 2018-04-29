@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows;
 
 
@@ -10,12 +11,45 @@ namespace RZDKursovoy
         public MySqlConnection Connected { get; private set; }
         public MySqlConnection SetConnected { set { Connected= value; } }
         private ApplicationLogic AL = new ApplicationLogic();
+        private string Login = "";
+        public string SetLogin { set { Login = value; } }
+        private int AvailableTicketsCount = new int();
+        private int CurrentTicketID = new int();
         
         public MainWindow()
         {
             InitializeComponent();
         }
-
+        public void CheckActivateCabinet()
+        {
+            AvailableTicketsCount = AL.throwCountAvailableTickets(Connected, Login + "@localhost");
+            if (AvailableTicketsCount == 0)
+            {
+                LK_Empty.Visibility = Visibility.Visible;
+                LK_NotEmpty.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                LK_Empty.Visibility = Visibility.Collapsed;
+                LK_NotEmpty.Visibility = Visibility.Visible;
+                MySqlDataAdapter ad = new MySqlDataAdapter();
+                string Query = "call throwAvailableTicketsWithInfo('" + Login + "@localhost')";
+                ad.SelectCommand = new MySqlCommand(Query, Connected);
+                System.Data.DataTable table = new System.Data.DataTable();
+                ad.Fill(table);
+                table.Columns[0].ColumnName = "Номер билета";
+                table.Columns[1].ColumnName = "Номер поезда";
+                table.Columns[2].ColumnName = "Номер вагона";
+                table.Columns[3].ColumnName = "Номер места";
+                table.Columns[4].ColumnName = "Время отправления";
+                table.Columns[5].ColumnName = "Дата отправления";
+                table.Columns[6].ColumnName = "Станция отправления";
+                table.Columns[7].ColumnName = "Время прибытия";
+                table.Columns[8].ColumnName = "Дата прибытия";
+                table.Columns[9].ColumnName = "Станция прибытия";
+                ShowBuyedTickets.ItemsSource = table.DefaultView;
+            }
+        }
         private void FindTrain_BUTTON_Click(object sender, RoutedEventArgs e)
         {
             if ((Arrival_BOX.Text != "") && (Departure_BOX.Text != "") && (Departure_BOX.Text != ""))
@@ -66,6 +100,7 @@ namespace RZDKursovoy
                 Arrival_BOX.Items.Add(a[i]);
                 Departure_BOX.Items.Add(a[i]);
             }
+            CheckActivateCabinet();
         }
         private void Arrival_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
@@ -84,6 +119,45 @@ namespace RZDKursovoy
             }
             else
                 e.Handled = true;
+        }
+        private void PrintTicketBUTTON_Click(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+        private void CancelTripBUTTON_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentTicketID != 0)
+            {
+                try
+                {
+                    string Query = "call CancelTicket";
+                    string[] args = { CurrentTicketID.ToString() };
+                    AL.MagicUniversalControlData(Query, args, "DeleteTicket", Connected);
+                    CheckActivateCabinet();
+                }
+                catch (System.Exception)
+                {
+                    MessageBox.Show("Во время отмены произошла ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Для начала вы должны выбрать билет, который хотите отменить", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+        }
+
+        private void ShowBuyedTickets_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var t = (DataRowView)ShowBuyedTickets.CurrentItem;
+                CurrentTicketID = System.Convert.ToInt32(t[0].ToString());
+            }
+            catch(System.Exception)
+            { }
         }
     }
 }

@@ -51,6 +51,10 @@ namespace RZDKursovoy
                 {
                     MessageBox.Show("Спасибо за покупку! Печать билета доступна в личном кабинете", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                else if (userControl == "DeleteTicket")
+                {
+                    MessageBox.Show("Резервирование отменено, деньги скоро вернуться на ваш счет, а билет больше недействителен", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
                 //if (userControl == "Add")
                 //    MessageBox.Show("Запись добавлена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
                 //else MessageBox.Show("Запись отредактирована", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -255,6 +259,17 @@ namespace RZDKursovoy
             var QueryString = "SELECT ThrowRoutID(@Train_Number_IN)";
             var BestCommand = new MySqlCommand(QueryString, connection);
             BestCommand.Parameters.AddWithValue("Train_Number_IN", Train_Number_IN);
+            var r = BestCommand.ExecuteReader();
+            r.Read();
+            var result = r.GetInt32(0);
+            r.Close();
+            return result;
+        }
+        public int throwCountAvailableTickets(MySqlConnection connection, string Login)
+        {
+            var QueryString = "call throwCountAvailableTickets(@Login)";
+            var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("Login", Login);
             var r = BestCommand.ExecuteReader();
             r.Read();
             var result = r.GetInt32(0);

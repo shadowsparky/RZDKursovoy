@@ -10,10 +10,7 @@
         Title="Главное меню" Height="450" Width="799" WindowStartupLocation="CenterScreen">
     <Grid>
         <dragablz:TabablzControl x:Name="ControlMenu" Loaded="ControlMenu_Loaded">
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController/>
-            </dragablz:TabablzControl.InterTabController>
-            <TabItem Header="Резервирование" Margin="0">
+            <TabItem x:Name="Reservation_TAB" Header="Резервирование" Margin="0">
                 <Grid x:Name="ChooseRout">
                     <ComboBox PreviewTextInput="Arrival_BOX_PreviewTextInput"  x:Name="Arrival_BOX" materialDesign:HintAssist.Hint="Точка отправления"
                       IsEditable="True"
@@ -25,7 +22,19 @@
                     </ComboBox>
                     <Button x:Name="FindTrain_BUTTON" Content="Найти" Margin="0,100,0,0" Height="Auto" Width="240" VerticalAlignment="Center" HorizontalAlignment="Center" Click="FindTrain_BUTTON_Click"/>
                     <DatePicker x:Name="Arrival_Date" HorizontalAlignment="Center" Width="210" materialDesign:HintAssist.Hint="Выберите дату"
-  Style="{StaticResource MaterialDesignFloatingHintDatePicker}"  Language="Ru-ru" VerticalAlignment="Center" Margin="0,30,0,0" AutomationProperties.IsOffscreenBehavior="Onscreen" />
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"  Language="Ru-ru" VerticalAlignment="Center" Margin="0,30,0,0" AutomationProperties.IsOffscreenBehavior="Onscreen" />
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="LK_Tab" Header="Личный кабинет" Margin="0">
+                <Grid>
+                    <Grid x:Name="LK_Empty">
+                        <Label Content="У вас пока что нет приобретенных билетов" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontFamily="Segoe UI Semilight"></Label>
+                    </Grid>
+                    <Grid x:Name="LK_NotEmpty">
+                        <DataGrid SelectionChanged="ShowBuyedTickets_SelectionChanged" IsReadOnly="True" x:Name="ShowBuyedTickets" Margin="0,0,0,30"></DataGrid>
+                        <Button x:Name="CancelTripBUTTON" Click="CancelTripBUTTON_Click" VerticalAlignment="Bottom" Width="394.5" HorizontalAlignment="Left" Content="Отменить поездку и вернуть деньги за билет"></Button>
+                        <Button x:Name="PrintTicketBUTTON" Click="PrintTicketBUTTON_Click" Width="394.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsDefault="True" Content="Печать билета"></Button>
+                    </Grid>
                 </Grid>
             </TabItem>
         </dragablz:TabablzControl>

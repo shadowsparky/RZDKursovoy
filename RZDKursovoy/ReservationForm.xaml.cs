@@ -182,19 +182,23 @@ namespace RZDKursovoy
                         else
                         {
                             MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
                         }
                     }
                 }
                 else
                 {
                     MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
             this.Close();
+            MW.CheckActivateCabinet();
             MW.Show();
 
         }
