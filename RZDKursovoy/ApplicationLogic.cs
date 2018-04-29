@@ -198,6 +198,34 @@ namespace RZDKursovoy
             TrainListRead.Close();
             return SavedTypes;
         }
+        public List<string> throwPassengerInfo(MySqlConnection connected, int Reservation_ID_IN)
+        {
+            List<string> result = new List<string>();
+            var QueryString = "call throwPassengerInfo('"+ Reservation_ID_IN+ "')";
+            var BestCommand = new MySqlCommand(QueryString, connected);
+            var PassengerInfoRead = BestCommand.ExecuteReader();
+            while (PassengerInfoRead.Read())
+            {
+                for (int i = 0; i < 5; i++)
+                    result.Add(PassengerInfoRead.GetString(i));
+            }
+            PassengerInfoRead.Close();
+            return result;
+        }
+        public List<string> throwRailcarInfo(MySqlConnection connected, string Train_Number_IN, int Railcar_Number_IN)
+        {
+            List<string> result = new List<string>();
+            var QueryString = "call throwRailcarInfo('" + Train_Number_IN + "', '"+Railcar_Number_IN+"')";
+            var BestCommand = new MySqlCommand(QueryString, connected);
+            var RailcarInfoRead = BestCommand.ExecuteReader();
+            while (RailcarInfoRead.Read())
+            {
+                for (int i = 0; i < 2; i++)
+                    result.Add(RailcarInfoRead.GetString(i));
+            }
+            RailcarInfoRead.Close();
+            return result;
+        }
         public int GetDepartureID(MySqlConnection connection, string DepartureStation, int RoutID, string TrainNum)
         {
             MySqlCommand GetDI = new MySqlCommand("select GetDepartureID(@DepartureStation, @RoutID, @TrainNumber)", connection);

@@ -1,8 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using mshtml;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
-
+using System.Windows.Controls;
 
 namespace RZDKursovoy
 {
@@ -15,7 +16,16 @@ namespace RZDKursovoy
         public string SetLogin { set { Login = value; } }
         private int AvailableTicketsCount = new int();
         private int CurrentTicketID = new int();
-        
+        private string _CurrentTrainNumber = "";
+        private int _Current_Railcar_Number = new int();
+        private int _Current_Place_Number = new int();
+        private string _Current_Arrival_Time = "";
+        private string _Current_Arrival_Date = "";
+        private string _Current_Arrival_Stop_Name = "";
+        private string _Current_Departure_Time = "";
+        private string _Current_Departure_Date = "";
+        private string _Current_Departure_Stop_Name = "";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -120,10 +130,65 @@ namespace RZDKursovoy
             else
                 e.Handled = true;
         }
+        private string throwTicketCode(string [] args)
+        {
+            string result = "<table style='height: 473px; width: 692px;' border='1'>" +
+            "<tbody>" + 
+                "<tr style = 'height: 34px;'> " +
+                    "<td style = 'width: 409.715px; height: 34px; text-align: center;'> (c)2018.AVB Inc.</td>" + 
+                        "<td style = 'width: 267.285px; height: 34px;'>" + 
+                            "<p style = 'text-align: center;' >Номер электронного билета:</p>"+
+                            "<p style = 'text-align: center;'>&nbsp;<strong>"+ args[0] +"</strong></p>" +
+                        "</td>" + 
+                    "</tr>" + 
+                  "<tr style = 'height: 12px;'>"+
+                   "<td style = 'width: 409.715px; height: 12px; text-align: right;'> Маршрут следования: "+ args[1] +
+                "-&gt; &nbsp;</td>" +
+                "<td style = 'width: 267.285px; height: 12px;'>"+ args[2] +"</td>"+
+                "</tr>"+
+                "<tr style = 'height: 25.9653px;'>"+
+                "<td style = 'width: 409.715px; height: 25.9653px; text-align: center;' > Отправление: " + args[3] + " " + args[4] +"</td>" +
+                "<td style = 'width: 267.285px; height: 25.9653px; text-align: center;' > Прибытие: " + args[5] + " " + args[6] +"</td>" +
+                "</tr>" +
+                "<tr style = 'height: 178px;'>" +
+                "<td style = 'width: 409.715px; height: 178px; text-align: center;'>" +
+                "<p> Пассажир - "+ args[7] + " " +
+                            args[8] + " " +
+                            args[9] + " " +
+                            "&nbsp;</p>" +
+                "<p> Паспортные данные - "+ args[10] + " " + args[11] + "</p>" +
+                "</td>" +
+                "<td style = 'width: 267.285px; height: 178px; text-align: center;'>" +
+                "<p> Номер поезда: "+ args[12] +
+                            "&nbsp;</p>" +
+                "<p> Номер вагона: "+ args[13] +
+                            "&nbsp;</p>" +
+                "<p> Тип вагона: "+ args[14] +"</p>" +
+                "<p> Номер места: "+ args[15] +
+                            "&nbsp;</p>" +
+                "<p> Цена за билет: "+ args[16] +"</p>" +
+                "</td>" +
+                "</tr>" +
+                "</tbody>" +
+                "</table>";
+            return result; 
+        }
         private void PrintTicketBUTTON_Click(object sender, RoutedEventArgs e)
         {
-
-
+            if (CurrentTicketID != 0)
+            {
+                var RailcarInfo = AL.throwRailcarInfo(Connected, _CurrentTrainNumber, _Current_Railcar_Number);
+                var PassPrivateInfo = AL.throwPassengerInfo(Connected, CurrentTicketID);
+                var t = new HtmlAgilityPack.HtmlDocument();
+                string[] data = { CurrentTicketID.ToString(), _Current_Arrival_Stop_Name, _Current_Departure_Stop_Name, _Current_Arrival_Date, _Current_Arrival_Time, _Current_Departure_Date, _Current_Departure_Time,
+                PassPrivateInfo[0], PassPrivateInfo[1], PassPrivateInfo[2], PassPrivateInfo[3], PassPrivateInfo[4], _CurrentTrainNumber.ToString(), _Current_Railcar_Number.ToString(), RailcarInfo[0], _Current_Place_Number.ToString(), RailcarInfo[1] };
+                t.LoadHtml(throwTicketCode(data));
+                Microsoft.Win32.SaveFileDialog SFD = new Microsoft.Win32.SaveFileDialog();
+                if (SFD.ShowDialog() == true)
+                {
+                    t.Save(SFD.FileName);
+                }
+            }
         }
         private void CancelTripBUTTON_Click(object sender, RoutedEventArgs e)
         {
@@ -148,13 +213,21 @@ namespace RZDKursovoy
                 return;
             }
         }
-
         private void ShowBuyedTickets_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             try
             {
                 var t = (DataRowView)ShowBuyedTickets.CurrentItem;
                 CurrentTicketID = System.Convert.ToInt32(t[0].ToString());
+                _CurrentTrainNumber = t[1].ToString();
+                _Current_Railcar_Number = System.Convert.ToInt32(t[2].ToString());
+                _Current_Place_Number = System.Convert.ToInt32(t[3].ToString());
+                _Current_Arrival_Time = t[4].ToString();
+                _Current_Arrival_Date = t[5].ToString();
+                _Current_Arrival_Stop_Name = t[6].ToString();
+                _Current_Departure_Time = t[7].ToString();
+                _Current_Departure_Date = t[8].ToString();
+                _Current_Departure_Stop_Name = t[9].ToString();
             }
             catch(System.Exception)
             { }
