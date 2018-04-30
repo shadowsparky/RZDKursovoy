@@ -1,9 +1,10 @@
-﻿using mshtml;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
+using PdfSharp.Pdf;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace RZDKursovoy
 {
@@ -132,33 +133,33 @@ namespace RZDKursovoy
         }
         private string throwTicketCode(string [] args)
         {
-            string result = "<table style='height: 473px; width: 692px;' border='1'>" +
+            string result = "<table style='height: auto; width: auto;' border='1'>" +
             "<tbody>" + 
-                "<tr style = 'height: 34px;'> " +
-                    "<td style = 'width: 409.715px; height: 34px; text-align: center;'> (c)2018.AVB Inc.</td>" + 
-                        "<td style = 'width: 267.285px; height: 34px;'>" + 
+                "<tr style = 'height: auto;'> " +
+                    "<td style = 'width: auto; height: auto; text-align: center;'> (c)2018.AVB Inc.</td>" +
+                        "<td style = 'width: auto; height: auto;'>" + 
                             "<p style = 'text-align: center;' >Номер электронного билета:</p>"+
                             "<p style = 'text-align: center;'>&nbsp;<strong>"+ args[0] +"</strong></p>" +
                         "</td>" + 
-                    "</tr>" + 
-                  "<tr style = 'height: 12px;'>"+
-                   "<td style = 'width: 409.715px; height: 12px; text-align: right;'> Маршрут следования: "+ args[1] +
+                    "</tr>" +
+                  "<tr style = 'height: auto;'>" +
+                   "<td style = 'width: auto; height: auto; text-align: right;'> Маршрут следования: " + args[1] +
                 "-&gt; &nbsp;</td>" +
-                "<td style = 'width: 267.285px; height: 12px;'>"+ args[2] +"</td>"+
+                "<td style = 'width: auto; height: auto;'>" + args[2] +"</td>"+
                 "</tr>"+
-                "<tr style = 'height: 25.9653px;'>"+
-                "<td style = 'width: 409.715px; height: 25.9653px; text-align: center;' > Отправление: " + args[3] + " " + args[4] +"</td>" +
-                "<td style = 'width: 267.285px; height: 25.9653px; text-align: center;' > Прибытие: " + args[5] + " " + args[6] +"</td>" +
+                "<tr style = 'height: auto;'>" +
+                "<td style = 'width: auto; height: auto; text-align: center;' > Отправление: " + args[3] + " " + args[4] +"</td>" +
+                "<td style = 'width: auto; height: auto; text-align: center;' > Прибытие: " + args[5] + " " + args[6] +"</td>" +
                 "</tr>" +
-                "<tr style = 'height: 178px;'>" +
-                "<td style = 'width: 409.715px; height: 178px; text-align: center;'>" +
+                "<tr style = 'height: auto;'>" +
+                "<td style = 'width: auto; height: auto; text-align: center;'>" +
                 "<p> Пассажир - "+ args[7] + " " +
                             args[8] + " " +
                             args[9] + " " +
                             "&nbsp;</p>" +
                 "<p> Паспортные данные - "+ args[10] + " " + args[11] + "</p>" +
                 "</td>" +
-                "<td style = 'width: 267.285px; height: 178px; text-align: center;'>" +
+                "<td style = 'width: auto; height: auto; text-align: center;'>" +
                 "<p> Номер поезда: "+ args[12] +
                             "&nbsp;</p>" +
                 "<p> Номер вагона: "+ args[13] +
@@ -182,11 +183,18 @@ namespace RZDKursovoy
                 var t = new HtmlAgilityPack.HtmlDocument();
                 string[] data = { CurrentTicketID.ToString(), _Current_Arrival_Stop_Name, _Current_Departure_Stop_Name, _Current_Arrival_Date, _Current_Arrival_Time, _Current_Departure_Date, _Current_Departure_Time,
                 PassPrivateInfo[0], PassPrivateInfo[1], PassPrivateInfo[2], PassPrivateInfo[3], PassPrivateInfo[4], _CurrentTrainNumber.ToString(), _Current_Railcar_Number.ToString(), RailcarInfo[0], _Current_Place_Number.ToString(), RailcarInfo[1] };
-                t.LoadHtml(throwTicketCode(data));
+                //t.LoadHtml(throwTicketCode(data));
                 Microsoft.Win32.SaveFileDialog SFD = new Microsoft.Win32.SaveFileDialog();
+                SFD.Filter = "PDF файл (*.pdf)|*.pdf";
                 if (SFD.ShowDialog() == true)
                 {
-                    t.Save(SFD.FileName);
+                    PdfDocument pdf = new PdfDocument();
+                    PdfGenerateConfig PGC = new PdfGenerateConfig();
+                    PGC.PageSize = PdfSharp.PageSize.A4;
+                    PGC.PageOrientation = PdfSharp.PageOrientation.Landscape;
+                    pdf = PdfGenerator.GeneratePdf(throwTicketCode(data), PGC);
+                    pdf.Save(SFD.FileName);
+                    //t.Save(SFD.FileName);
                 }
             }
         }

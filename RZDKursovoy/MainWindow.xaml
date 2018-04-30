@@ -33,7 +33,7 @@
                     <Grid x:Name="LK_NotEmpty">
                         <DataGrid SelectionChanged="ShowBuyedTickets_SelectionChanged" IsReadOnly="True" x:Name="ShowBuyedTickets" Margin="0,0,0,30"></DataGrid>
                         <Button x:Name="CancelTripBUTTON" Click="CancelTripBUTTON_Click" VerticalAlignment="Bottom" Width="394.5" HorizontalAlignment="Left" Content="Отменить поездку и вернуть деньги за билет"></Button>
-                        <Button x:Name="PrintTicketBUTTON" Click="PrintTicketBUTTON_Click" Width="394.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsDefault="True" Content="Печать билета"></Button>
+                        <Button x:Name="PrintTicketBUTTON" Click="PrintTicketBUTTON_Click" Width="394.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsDefault="True" Content="Сохранить билет"></Button>
                     </Grid>
                 </Grid>
             </TabItem>

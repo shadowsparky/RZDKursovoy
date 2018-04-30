@@ -49,7 +49,7 @@ namespace RZDKursovoy
                 }
                 else if (userControl == "Reservation")
                 {
-                    MessageBox.Show("Спасибо за покупку! Печать билета доступна в личном кабинете", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Спасибо за покупку! Билет доступен в личном кабинете", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else if (userControl == "DeleteTicket")
                 {

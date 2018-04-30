@@ -18,7 +18,6 @@ namespace RZDKursovoy
         private string ArrivalStation = "###";
         private string DepartureStation = "###";
         private string ArrivalDate = "###";
-        private int Arrival_Stop_ID = new int();
         private List<string> Routs = new List<string>();
         private List<string> TrainsList = new List<string>();
         private MySqlConnection _connection;
@@ -215,7 +214,7 @@ namespace RZDKursovoy
             }
             MW.CheckActivateCabinet();
             MW.Show();
-            this.Close();
+            this.Hide();
         }
         private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
