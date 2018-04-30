@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:RZDKursovoy"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Резервирование" Height="450" Closed="Window_Closed" Width="799" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Резервирование" Height="450" Width="799" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <GroupBox x:Name="ChooseTrainBox" Header="Выбор поезда" Margin="0" d:IsHidden="True">
             <Grid>

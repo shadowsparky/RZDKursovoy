@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="" Height="344.845" Width="532.474" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="mainGrid">
-        <Grid x:Name="RegGrid">
+        <Grid x:Name="RegGrid" d:IsHidden="True">
             <GroupBox x:Name="RegGB" Header="Регистрация">
                 <Grid>
                     <TextBox x:Name="RegLoginBox" PreviewTextInput="RegLoginBox_PreviewTextInput"  MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="148" TextChanged="RegLoginBox_TextChanged">
@@ -43,13 +43,7 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <Grid x:Name="AuthGrid" d:IsHidden="True">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="#FFB7C8EE" Offset="0.996"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+        <Grid x:Name="AuthGrid">
             <TextBox x:Name="loginBox" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,70" TextWrapping="Wrap" VerticalAlignment="Center" MaxLength="30" TabIndex="0" Height="40" Width="148" >
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
@@ -58,15 +52,14 @@
                         <materialDesign:PackIcon
                         Kind="Account" />
                         <TextBlock>
-                            Логин               
+                            Логин
                         </TextBlock>
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
             </TextBox>
-            <Button x:Name="authButton" Content="Авторизоваться" HorizontalAlignment="Center" Margin="0,150,0,0" Height="Auto" TabIndex="2" IsDefault="True" Width="164" VerticalAlignment="Center" Click="authButton_Click" RenderTransformOrigin="0.494,0.5">
-            </Button>
-            <Button x:Name="regButton" Content="Зарегистрироваться" HorizontalAlignment="Center" Click="regButton_Click" Margin="0,80,0,0" Height="Auto"  TabIndex="3" Width="164" VerticalAlignment="Center"/>
-            <TextBlock x:Name="progNameText" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Лучшее на свете приложение (по моему скромному мнению)" VerticalAlignment="Top" FontSize="20" Height="66" Width="284" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+            <Button x:Name="authButton" Content="Авторизоваться" Margin="60,0,60,80" Height="Auto" TabIndex="2" IsDefault="True" VerticalAlignment="Bottom" Click="authButton_Click" RenderTransformOrigin="0.494,0.5"/>
+            <Button x:Name="regButton" Content="Регистрация" Click="regButton_Click" Margin="60,0,60,45" Height="Auto"  TabIndex="3" VerticalAlignment="Bottom"/>
+            <TextBlock x:Name="progNameText" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="AVB Tickets. Авторизация" VerticalAlignment="Top" FontSize="20" Height="66" Width="187" TextAlignment="Center" FontFamily="Segoe UI Light"/>
             <PasswordBox x:Name="passBox" PreviewTextInput="passBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" TabIndex="1" Height="40" Width="148">
                 <materialDesign:HintAssist.Hint>
                     <StackPanel

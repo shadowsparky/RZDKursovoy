@@ -213,8 +213,7 @@ namespace RZDKursovoy
                 return;
             }
             MW.CheckActivateCabinet();
-            MW.Show();
-            this.Hide();
+            this.Close();
         }
         private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -309,10 +308,6 @@ namespace RZDKursovoy
                 _maskedTextBox.Text = "";
                 _maskedTextBox.Mask = "";
             }
-        }
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            MW.Close();
         }
     }
 }

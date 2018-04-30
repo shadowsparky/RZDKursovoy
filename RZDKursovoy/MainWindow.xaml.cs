@@ -12,6 +12,7 @@ namespace RZDKursovoy
     {
         public MySqlConnection Connected { get; private set; }
         public MySqlConnection SetConnected { set { Connected= value; } }
+        private ReservationForm RF; 
         private ApplicationLogic AL = new ApplicationLogic();
         private string Login = "";
         public string SetLogin { set { Login = value; } }
@@ -77,7 +78,7 @@ namespace RZDKursovoy
                     }
                     if (TrainsList.Count > 0)
                     {
-                        ReservationForm RF = new ReservationForm();
+                        RF = new ReservationForm();
                         RF.SetConnection = Connected;
                         RF.SetArrival = Arrival_BOX.Text;
                         RF.SetDeparture = Departure_BOX.Text;
@@ -85,7 +86,7 @@ namespace RZDKursovoy
                         RF.SetRouts = Routs;
                         RF.SetTrainsList = TrainsList;
                         RF.SetMainWindow = this;
-                        this.Hide();
+                        //this.Hide();
                         RF.Show();
                     }
                     else
@@ -239,6 +240,11 @@ namespace RZDKursovoy
             }
             catch(System.Exception)
             { }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            RF.Close();
         }
     }
 }
