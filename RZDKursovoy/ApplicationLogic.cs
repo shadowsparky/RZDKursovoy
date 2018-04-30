@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -228,27 +229,51 @@ namespace RZDKursovoy
         }
         public int GetDepartureID(MySqlConnection connection, string DepartureStation, int RoutID, string TrainNum)
         {
-            MySqlCommand GetDI = new MySqlCommand("select GetDepartureID(@DepartureStation, @RoutID, @TrainNumber)", connection);
-            GetDI.Parameters.AddWithValue("DepartureStation", DepartureStation);
-            GetDI.Parameters.AddWithValue("RoutID", RoutID);
-            GetDI.Parameters.AddWithValue("TrainNumber", TrainNum);
-            var DIRead = GetDI.ExecuteReader();
-            DIRead.Read();
-            var Departure_ID = DIRead.GetInt32(0);
-            DIRead.Close();
-            return Departure_ID;
+            MySqlDataReader DIRead = null;
+            try
+            {
+                MySqlCommand GetDI = new MySqlCommand("select GetDepartureID(@DepartureStation, @RoutID, @TrainNumber)", connection);
+                GetDI.Parameters.AddWithValue("DepartureStation", DepartureStation);
+                GetDI.Parameters.AddWithValue("RoutID", RoutID);
+                GetDI.Parameters.AddWithValue("TrainNumber", TrainNum);
+                DIRead = GetDI.ExecuteReader();
+                DIRead.Read();
+                var Departure_ID = DIRead.GetInt32(0);
+            //    DIRead.Close();
+                return Departure_ID;
+            }
+            catch(Exception)
+            {
+                return -1;
+            }
+            finally
+            {
+                DIRead.Close();
+            }
         }
         public int GetArrivalID(MySqlConnection connection, string ArrivalStation, int RoutID, string TrainNum)
         {
-            MySqlCommand GetAI = new MySqlCommand("select GetArrivalID(@ArrivalStation, @RoutID, @TrainNumber)", connection);
-            GetAI.Parameters.AddWithValue("ArrivalStation", ArrivalStation);
-            GetAI.Parameters.AddWithValue("RoutID", RoutID);
-            GetAI.Parameters.AddWithValue("TrainNumber", TrainNum);
-            var AIRead = GetAI.ExecuteReader();
-            AIRead.Read();
-            var Arrival_ID = AIRead.GetInt32(0);
-            AIRead.Close();
-            return Arrival_ID;
+            MySqlDataReader AIRead = null;
+            try
+            {
+                MySqlCommand GetAI = new MySqlCommand("select GetArrivalID(@ArrivalStation, @RoutID, @TrainNumber)", connection);
+                GetAI.Parameters.AddWithValue("ArrivalStation", ArrivalStation);
+                GetAI.Parameters.AddWithValue("RoutID", RoutID);
+                GetAI.Parameters.AddWithValue("TrainNumber", TrainNum);
+                AIRead = GetAI.ExecuteReader();
+                AIRead.Read();
+                var Arrival_ID = AIRead.GetInt32(0);
+             //   AIRead.Close();
+                return Arrival_ID;
+            } 
+            catch(Exception)
+            {
+                return -1;
+            }
+            finally
+            {
+                AIRead.Close();
+            }
         }
         public int FindPassenger(MySqlConnection connected, int Passport_Series_IN, int Passport_Number_IN)
         {

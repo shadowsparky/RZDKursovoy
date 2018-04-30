@@ -63,12 +63,23 @@ namespace RZDKursovoy
                     {
                         Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainsList[j]);
                         Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainsList[j]);
-                        var TrainData = AL.TrainInfo(_connection, TrainsList[j], Arrival_ID, Departure_ID);
-                        test.Add(new TableFillKostil(TrainData[0], TrainData[1], TrainData[2], TrainData[3], TrainData[4], TrainData[5]));
+                        if ((Arrival_ID != -1) && (Departure_ID != -1))
+                        {
+                            var TrainData = AL.TrainInfo(_connection, TrainsList[j], Arrival_ID, Departure_ID);
+                            test.Add(new TableFillKostil(TrainData[0], TrainData[1], TrainData[2], TrainData[3], TrainData[4], TrainData[5]));
+                        }
                     }
                 }
             }
-            ChooseTrainGRID.ItemsSource = test;
+            if (test.Count != 0)
+            {
+                ChooseTrainGRID.ItemsSource = test;
+            }
+            else
+            {
+                MessageBox.Show("При загрузке поездов произошла ошибка. Сообщите об этом администратору", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
         }
         private void ChooseTrainNextButton_Click(object sender, RoutedEventArgs e)
         {
