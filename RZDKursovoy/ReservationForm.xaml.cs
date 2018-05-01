@@ -143,6 +143,7 @@ namespace RZDKursovoy
             {
                 SeatChooseNumberBox.Items.Clear();
                 Railcar_Number = Convert.ToInt32(ChooseRailcarNumberBox.SelectedItem.ToString());
+                // @2
                 StepThreePlusGrid.IsEnabled = true;
                 var k = AL.Available_For_Planting_Seats(_connection, CurrentTrainNumber, Railcar_Number, Arrival_ID, Departure_ID);
                 for (int i = 0; i < k.Count; i++)

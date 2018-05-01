@@ -244,7 +244,8 @@ namespace RZDKursovoy
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            RF.Close();
+            if (RF != null)
+                RF.Close();
         }
     }
 }
