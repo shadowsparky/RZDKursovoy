@@ -74,7 +74,9 @@ namespace RZDKursovoy
                     List<string> TrainsList = new List<string>();
                     for (int i = 0; i < Routs.Count; i++)
                     {
-                         TrainsList = AL.newFindTrainList(Connected, Routs[i], Arrival_BOX.Text, Arrival_Date.Text);
+                        var TMPInputer = AL.newFindTrainList(Connected, Routs[i], Arrival_BOX.Text, Arrival_Date.Text);
+                        for (int j = 0; j < TMPInputer.Count; j++)
+                            TrainsList.Add(TMPInputer[j]);
                     }
                     if (TrainsList.Count > 0)
                     {
@@ -86,6 +88,7 @@ namespace RZDKursovoy
                         RF.SetRouts = Routs;
                         RF.SetTrainsList = TrainsList;
                         RF.SetMainWindow = this;
+                        this.
                         //this.Hide();
                         RF.Show();
                     }
@@ -198,6 +201,8 @@ namespace RZDKursovoy
                     //t.Save(SFD.FileName);
                 }
             }
+            else
+                MessageBox.Show("Вы должны выбрать билет, необходимый для сохранения", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand); 
         }
         private void CancelTripBUTTON_Click(object sender, RoutedEventArgs e)
         {
