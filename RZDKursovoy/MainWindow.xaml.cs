@@ -88,7 +88,6 @@ namespace RZDKursovoy
                         RF.SetRouts = Routs;
                         RF.SetTrainsList = TrainsList;
                         RF.SetMainWindow = this;
-                        this.
                         //this.Hide();
                         RF.Show();
                     }
@@ -197,7 +196,12 @@ namespace RZDKursovoy
                     PGC.PageSize = PdfSharp.PageSize.A4;
                     PGC.PageOrientation = PdfSharp.PageOrientation.Landscape;
                     pdf = PdfGenerator.GeneratePdf(throwTicketCode(data), PGC);
-                    pdf.Save(SFD.FileName);
+                    try
+                    {
+                        pdf.Save(SFD.FileName);
+                    }
+                    catch(System.Exception)
+                    { MessageBox.Show("При сохранении файла произошла ошибка"); }
                     //t.Save(SFD.FileName);
                 }
             }

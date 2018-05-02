@@ -172,10 +172,11 @@ namespace RZDKursovoy
         public List<string> FindPassengerWithPersonalData(MySqlConnection connection, int Passport_Series_IN, int Passport_Number_IN)
         {
             List<string> Result = new List<string>();
-            var QueryString = "call FindPassengerWithPersonalData(@Passport_Series_IN, @Passport_Number_IN)";
+            var QueryString = "call FindPassengerWithPersonalData(@Passport_Series_IN, @Passport_Number_IN, @KeySi)";
             var BestCommand = new MySqlCommand(QueryString, connection);
             BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
             BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
+            BestCommand.Parameters.AddWithValue("KeySi", Properties.PersonalData.Default.KeySi);
             var r = BestCommand.ExecuteReader();
             r.Read();
             for (int i = 0; i < 4; i++)
@@ -202,8 +203,10 @@ namespace RZDKursovoy
         public List<string> throwPassengerInfo(MySqlConnection connected, int Reservation_ID_IN)
         {
             List<string> result = new List<string>();
-            var QueryString = "call throwPassengerInfo('"+ Reservation_ID_IN+ "')";
+            var QueryString = "call throwPassengerInfo(@Reservation_ID_IN, @KeySi)";
             var BestCommand = new MySqlCommand(QueryString, connected);
+            BestCommand.Parameters.AddWithValue("Reservation_ID_IN", Reservation_ID_IN);
+            BestCommand.Parameters.AddWithValue("KeySi", Properties.PersonalData.Default.KeySi);
             var PassengerInfoRead = BestCommand.ExecuteReader();
             while (PassengerInfoRead.Read())
             {
@@ -278,10 +281,11 @@ namespace RZDKursovoy
         public int FindPassenger(MySqlConnection connected, int Passport_Series_IN, int Passport_Number_IN)
         {
             var Result = new int();
-            var QueryString = "SELECT FindPassenger(@Passport_Series_IN, @Passport_Number_IN)";
+            var QueryString = "SELECT FindPassenger(@Passport_Series_IN, @Passport_Number_IN, @KeySi)";
             var BestCommand = new MySqlCommand(QueryString, connected);
             BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
             BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
+            BestCommand.Parameters.AddWithValue("KeySi", Properties.PersonalData.Default.KeySi);
             var r = BestCommand.ExecuteReader();
             r.Read();
             Result = r.GetInt32(0);
@@ -290,7 +294,7 @@ namespace RZDKursovoy
         }
         public int PassengerAddToDB(MySqlConnection connection, string Last_Name_IN, string First_Name_IN, string Pathronymic, int Passport_Series_IN, int Passport_Number_IN, string Passenger_Phone_Number_IN)
         {
-            var QueryString = "SELECT PassengerAddToDB(@Last_Name_IN, @First_Name_IN, @Pathronymic, @Passport_Series_IN, @Passport_Number_IN, @Passenger_Phone_Number)";
+            var QueryString = "SELECT PassengerAddToDB(@Last_Name_IN, @First_Name_IN, @Pathronymic, @Passport_Series_IN, @Passport_Number_IN, @Passenger_Phone_Number, @KeySi)";
             var BestCommand = new MySqlCommand(QueryString, connection);
             BestCommand.Parameters.AddWithValue("Last_Name_IN", Last_Name_IN);
             BestCommand.Parameters.AddWithValue("First_Name_IN", First_Name_IN);
@@ -298,6 +302,7 @@ namespace RZDKursovoy
             BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
             BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
             BestCommand.Parameters.AddWithValue("Passenger_Phone_Number", Passenger_Phone_Number_IN);
+            BestCommand.Parameters.AddWithValue("KeySi", Properties.PersonalData.Default.KeySi);
             var r = BestCommand.ExecuteReader();
             r.Read();
             var result = r.GetInt32(0);
