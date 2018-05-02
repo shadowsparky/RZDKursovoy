@@ -23,7 +23,9 @@ namespace RZDKursovoy
             try
             {
                 UserLogin = loginBox.Text;
-                _connection = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = " + UserLogin + "; charset=cp866; Password =" + passBox.Password);
+                _connection = new MySqlConnection("Database ="+ Properties.PersonalData.Default.Database + "; " +
+                    "DataSource = " + Properties.PersonalData.Default.DataSource + ";  " +
+                    "User Id = " + UserLogin + "; charset=cp866; Password =" + passBox.Password);
                 _connection.Open();
                 string CheckRole = "#####";
                 MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", _connection);
@@ -76,7 +78,9 @@ namespace RZDKursovoy
         private void RegRegButtonBEEP_Click(object sender, RoutedEventArgs e)
         {
             bool OK = false;
-            MySqlConnection FastConnect = new MySqlConnection("Database = RZD; DataSource = 127.0.0.1; User Id = RegMaster; charset=cp866; Password = RegMasterPassword");
+            MySqlConnection FastConnect = new MySqlConnection("Database = " + Properties.PersonalData.Default.Database + "; " +
+                    "DataSource = " + Properties.PersonalData.Default.DataSource + ";  " +
+                    "User Id = " + Properties.PersonalData.Default.RegLogin + "; charset=cp866; Password = "+ Properties.PersonalData.Default.RegPassword);
             try
             {
                 FastConnect.Open();

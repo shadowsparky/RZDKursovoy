@@ -138,9 +138,16 @@
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
     <Compile Include="BestErrors.cs" />
+    <Compile Include="Properties\PersonalData.cs" />
+    <Compile Include="Properties\PersonalData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>PersonalData.settings</DependentUpon>
+    </Compile>
     <Compile Include="ReservationForm.xaml.cs">
       <DependentUpon>ReservationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="TableFillKostil.cs" />
     <Page Include="Authorization.xaml">
       <SubType>Designer</SubType>
@@ -183,14 +190,15 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\PersonalData.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>PersonalData.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="RZDKursovoy_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\CupeScheme.png" />
