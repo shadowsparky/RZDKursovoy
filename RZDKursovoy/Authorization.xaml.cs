@@ -6,11 +6,9 @@ namespace RZDKursovoy
 {
     public partial class Authorization : Window
     {
-        private MySqlConnection _connection;
         private ApplicationLogic AL = new ApplicationLogic();
-        private string UserLogin = "";
-        public string ThrowLogin { get { return UserLogin; } }
-        public MySqlConnection Connected { get { return _connection; } }
+        public string ThrowLogin { get; private set; } = "";
+        public MySqlConnection Connected { get; private set; }
         public Authorization()
         {
             InitializeComponent();
@@ -22,13 +20,13 @@ namespace RZDKursovoy
         {
             try
             {
-                UserLogin = loginBox.Text;
-                _connection = new MySqlConnection("Database ="+ Properties.PersonalData.Default.Database + "; " +
+                ThrowLogin = loginBox.Text;
+                Connected = new MySqlConnection("Database ="+ Properties.PersonalData.Default.Database + "; " +
                     "DataSource = " + Properties.PersonalData.Default.DataSource + ";  " +
-                    "User Id = " + UserLogin + "; charset=cp866; Password =" + passBox.Password);
-                _connection.Open();
+                    "User Id = " + ThrowLogin + "; charset=cp866; Password =" + passBox.Password);
+                Connected.Open();
                 string CheckRole = "#####";
-                MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", _connection);
+                MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", Connected);
                 MySqlDataReader r = checkrolecommand.ExecuteReader();
                 r.Read();
                 try
@@ -42,8 +40,8 @@ namespace RZDKursovoy
                 if (CheckRole == "user")
                 {
                     MainWindow MW = new MainWindow();
-                    MW.SetConnected = _connection;
-                    MW.SetLogin = UserLogin;
+                    MW.SetConnected = Connected;
+                    MW.SetLogin = ThrowLogin;
                     this.Close();
                     MW.Show();
                     return;

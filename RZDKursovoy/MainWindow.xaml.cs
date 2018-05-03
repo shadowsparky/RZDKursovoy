@@ -12,7 +12,6 @@ namespace RZDKursovoy
     {
         public MySqlConnection Connected { get; private set; }
         public MySqlConnection SetConnected { set { Connected= value; } }
-        private ReservationForm RF; 
         private ApplicationLogic AL = new ApplicationLogic();
         private string Login = "";
         public string SetLogin { set { Login = value; } }
@@ -80,16 +79,17 @@ namespace RZDKursovoy
                     }
                     if (TrainsList.Count > 0)
                     {
-                        RF = new ReservationForm();
-                        RF.SetConnection = Connected;
-                        RF.SetArrival = Arrival_BOX.Text;
-                        RF.SetDeparture = Departure_BOX.Text;
-                        RF.SetDate = Arrival_Date.Text;
-                        RF.SetRouts = Routs;
-                        RF.SetTrainsList = TrainsList;
-                        RF.SetMainWindow = this;
-                        //this.Hide();
-                        RF.Show();
+                        ReservationControl RCN = new ReservationControl();
+                        RCN = new ReservationControl();
+                        RCN.SetConnection = Connected;
+                        RCN.SetArrival = Arrival_BOX.Text;
+                        RCN.SetDeparture = Departure_BOX.Text;
+                        RCN.SetDate = Arrival_Date.Text;
+                        RCN.SetRouts = Routs;
+                        RCN.SetTrainsList = TrainsList;
+                        RCN.SetMainWindow = this;
+                        PerfectReflectionGRID.Children.Add(RCN);
+                        FindTrain_BUTTON.Focusable = false;
                     }
                     else
                     {
@@ -186,7 +186,6 @@ namespace RZDKursovoy
                 var t = new HtmlAgilityPack.HtmlDocument();
                 string[] data = { CurrentTicketID.ToString(), _Current_Arrival_Stop_Name, _Current_Departure_Stop_Name, _Current_Arrival_Date, _Current_Arrival_Time, _Current_Departure_Date, _Current_Departure_Time,
                 PassPrivateInfo[0], PassPrivateInfo[1], PassPrivateInfo[2], PassPrivateInfo[3], PassPrivateInfo[4], _CurrentTrainNumber.ToString(), _Current_Railcar_Number.ToString(), RailcarInfo[0], _Current_Place_Number.ToString(), RailcarInfo[1] };
-                //t.LoadHtml(throwTicketCode(data));
                 Microsoft.Win32.SaveFileDialog SFD = new Microsoft.Win32.SaveFileDialog();
                 SFD.Filter = "PDF файл (*.pdf)|*.pdf";
                 if (SFD.ShowDialog() == true)
@@ -202,7 +201,6 @@ namespace RZDKursovoy
                     }
                     catch(System.Exception)
                     { MessageBox.Show("При сохранении файла произошла ошибка"); }
-                    //t.Save(SFD.FileName);
                 }
             }
             else
@@ -253,8 +251,8 @@ namespace RZDKursovoy
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (RF != null)
-                RF.Close();
+            //if (RF != null)
+                //RF.Close();
         }
     }
 }

@@ -144,8 +144,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>PersonalData.settings</DependentUpon>
     </Compile>
-    <Compile Include="ReservationForm.xaml.cs">
-      <DependentUpon>ReservationForm.xaml</DependentUpon>
+    <Compile Include="ReservationControl.xaml.cs">
+      <DependentUpon>ReservationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="TableFillKostil.cs" />
@@ -166,7 +166,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ReservationForm.xaml">
+    <Page Include="ReservationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

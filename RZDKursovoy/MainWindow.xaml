@@ -8,9 +8,11 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Главное меню" Closing="Window_Closing" MinHeight="450" MinWidth="799" Height="450" Width="799" WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Grid x:Name="PerfectReflectionGRID">
         <dragablz:TabablzControl x:Name="ControlMenu" Loaded="ControlMenu_Loaded">
-            <TabItem x:Name="Reservation_TAB" Header="Резервирование" Margin="0" d:IsHidden="True">
+            <TabItem x:Name="Reservation_TAB"
+                     Header="Резервирование"
+                     Margin="0" d:IsHidden="True">
                 <Grid x:Name="ChooseRout">
                     <ComboBox PreviewTextInput="Arrival_BOX_PreviewTextInput"  x:Name="Arrival_BOX" materialDesign:HintAssist.Hint="Точка отправления"
                       IsEditable="True"
