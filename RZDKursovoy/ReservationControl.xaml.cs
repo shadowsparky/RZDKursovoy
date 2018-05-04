@@ -15,7 +15,7 @@ namespace RZDKursovoy
     public partial class ReservationControl : UserControl
     {
         /*Переменные*/
-        private MainWindow MW;
+        private Menu _menu;
         private string ArrivalStation = "###";
         private string DepartureStation = "###";
         private string ArrivalDate = "###";
@@ -39,7 +39,7 @@ namespace RZDKursovoy
         public List<string> SetRouts { set { Routs = value; } }
         public List<string> SetTrainsList { set { TrainsList = value; } }
         public MySqlConnection SetConnection { set { _connection = value; } }
-        public MainWindow SetMainWindow { set { MW = value; } }
+        public Menu SetMenu { set { _menu = value; } }
         /*Процедуры*/
         public ReservationControl()
         {
@@ -56,8 +56,6 @@ namespace RZDKursovoy
             var test = new List<TableFillKostil>();
             for (int i = 0; i < Routs.Count; i++)
             {
-                //1ая строка
-                //var TrainNum = AL.newFindTrainList(_connection, Routs[i], ArrivalStation, ArrivalDate);
                 for (int j = 0; j < TrainsList.Count; j++)
                 {
                     if (TrainsList[j] != "-1")
@@ -223,8 +221,8 @@ namespace RZDKursovoy
                 MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            MW.CheckActivateCabinet();
-            MW.PerfectReflectionGRID.Children.Remove(this);
+            _menu.CheckActivateCabinet();
+            _menu.PerfectReflectionGRID.Children.Remove(this);
             InputData.Focusable = false;
         }
         private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)

@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:RZDKursovoy"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="" MinHeight="380" MinWidth="570" Height="380" Width="570" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+        Title="" MinHeight="550" MinWidth="800" Height="550" Width="800" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="mainGrid">
         <!--516,303-->
-        <Grid x:Name="RegGrid">
+        <Grid x:Name="RegGrid" d:IsHidden="True">
             <GroupBox x:Name="RegGB" Header="Регистрация">
                 <Grid>
                     <TextBox x:Name="RegLoginBox" PreviewTextInput="RegLoginBox_PreviewTextInput"  MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="310" TextChanged="RegLoginBox_TextChanged">
@@ -44,7 +44,14 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <Grid x:Name="AuthGrid" d:IsHidden="True">
+        <Grid x:Name="AuthGrid">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFD0F9D0" Offset="1"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
@@ -58,7 +65,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="progNameText" Grid.Column="0" Grid.Row="1" Margin="0,0,0,0" TextWrapping="Wrap" Text="AVB Tickets. Авторизация" FontSize="20" TextAlignment="Center" FontFamily="Segoe UI Light" VerticalAlignment="Center"/>
-            <TextBox x:Name="loginBox" Grid.Column="0" Grid.Row="2" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="100,0" TextWrapping="Wrap" MaxLength="30" TabIndex="0" Height="40" >
+            <TextBox x:Name="loginBox" Grid.Column="0" Grid.Row="2" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="150,0" TextWrapping="Wrap" MaxLength="30" TabIndex="0" Height="40" Width="262" >
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                         Orientation="Horizontal"
@@ -71,7 +78,7 @@
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
             </TextBox>
-            <PasswordBox x:Name="passBox" Grid.Column="0" Grid.Row="3"  PreviewTextInput="passBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="100,0" TabIndex="1">
+            <PasswordBox x:Name="passBox" Grid.Column="0" Grid.Row="3"  PreviewTextInput="passBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="150,0" TabIndex="1" Width="262">
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                         Orientation="Horizontal"
@@ -84,8 +91,8 @@
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
             </PasswordBox>
-            <Button Grid.Column="0" Grid.Row="4" x:Name="authButton" Content="Авторизоваться" Margin="100,10" Height="Auto" TabIndex="2" IsDefault="True" Click="authButton_Click" RenderTransformOrigin="0.494,0.5"/>
-            <Button Grid.Column="0" Grid.Row="5" x:Name="regButton" Content="Регистрация" Click="regButton_Click" Margin="100,10" Height="Auto"  TabIndex="3"/>
+            <Button Grid.Column="0" Grid.Row="4" x:Name="authButton" Content="Авторизоваться" Margin="150,10" Height="Auto" TabIndex="2" IsDefault="True" Click="authButton_Click" RenderTransformOrigin="0.494,0.5" Width="262"/>
+            <Button Grid.Column="0" Grid.Row="5" x:Name="regButton" Content="Регистрация" Click="regButton_Click" Margin="150,10" Height="Auto"  TabIndex="3" Width="262"/>
         </Grid>
     </Grid>
 </Window>

@@ -39,25 +39,28 @@ namespace RZDKursovoy
                 }
                 if (CheckRole == "user")
                 {
-                    MainWindow MW = new MainWindow();
-                    MW.SetConnected = Connected;
-                    MW.SetLogin = ThrowLogin;
-                    this.Close();
-                    MW.Show();
+                    Menu menu = new Menu();
+                    menu.SetConnected = Connected;
+                    menu.SetLogin = ThrowLogin;
+                    mainGrid.Children.Clear();
+                    mainGrid.Children.Add(menu);
                     return;
                 }
                 else if (CheckRole == "Blocked")
                 {
                     MessageBox.Show("Ваш аккаунт заблокирован", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 else
                 {
                     MessageBox.Show("Ваш аккаунт неправильно настроен. Обратитесь к администратору", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
             catch (MySqlException)
-            {
+            { 
                 MessageBox.Show("Вы ввели неправильный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
         }
         private void regButton_Click(object sender, RoutedEventArgs e)
