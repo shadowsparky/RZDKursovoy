@@ -64,38 +64,57 @@ namespace RZDKursovoy
                 ShowBuyedTickets.ItemsSource = table.DefaultView;
             }
         }
+        public void BoxesFiling()
+        {
+            Arrival_BOX.Items.Clear();
+            Departure_BOX.Items.Clear();
+            var a = AL.TrowAllStations(Connected);
+            for (int i = 0; i < a.Count; i++)
+            {
+                Arrival_BOX.Items.Add(a[i]);
+                Departure_BOX.Items.Add(a[i]);
+            }
+            CheckActivateCabinet();
+        }
         private void FindTrain_BUTTON_Click(object sender, RoutedEventArgs e)
         {
             if ((Arrival_BOX.Text != "") && (Departure_BOX.Text != "") && (Departure_BOX.Text != ""))
             {
                 try
                 {
-                    ApplicationLogic AL = new ApplicationLogic();
-                    string[] Data = { Arrival_BOX.Text, Departure_BOX.Text, Arrival_Date.Text };
-                    List<string> Routs = AL.FindRout(Connected, Data);
-                    if (Routs.Count > 0)
-                    {
-                        List<string> TrainsList = new List<string>();
-                        for (int i = 0; i < Routs.Count; i++)
+                    if (Arrival_BOX.Text != Departure_BOX.Text)
+                    { 
+                        ApplicationLogic AL = new ApplicationLogic();
+                        string[] Data = { Arrival_BOX.Text, Departure_BOX.Text, Arrival_Date.Text };
+                        List<string> Routs = AL.FindRout(Connected, Data);
+                        if (Routs.Count > 0)
                         {
-                            var TMPInputer = AL.newFindTrainList(Connected, Routs[i], Arrival_BOX.Text, Arrival_Date.Text);
-                            for (int j = 0; j < TMPInputer.Count; j++)
-                                if (TMPInputer[j] != "-1")
-                                    TrainsList.Add(TMPInputer[j]);
-                        }
-                        if (TrainsList.Count > 0)
-                        {
-                            ReservationControl RCN = new ReservationControl();
-                            RCN = new ReservationControl();
-                            RCN.SetConnection = Connected;
-                            RCN.SetArrival = Arrival_BOX.Text;
-                            RCN.SetDeparture = Departure_BOX.Text;
-                            RCN.SetDate = Arrival_Date.Text;
-                            RCN.SetRouts = Routs;
-                            RCN.SetTrainsList = TrainsList;
-                            RCN.SetMenu = this;
-                            PerfectReflectionGRID.Children.Add(RCN);
-                            FindTrain_BUTTON.Focusable = false;
+                            List<string> TrainsList = new List<string>();
+                            for (int i = 0; i < Routs.Count; i++)
+                            {
+                                var TMPInputer = AL.newFindTrainList(Connected, Routs[i], Arrival_BOX.Text, Arrival_Date.Text);
+                                for (int j = 0; j < TMPInputer.Count; j++)
+                                    if (TMPInputer[j] != "-1")
+                                        TrainsList.Add(TMPInputer[j]);
+                            }
+                            if (TrainsList.Count > 0)
+                            {
+                                ReservationControl RCN = new ReservationControl();
+                                RCN = new ReservationControl();
+                                RCN.SetConnection = Connected;
+                                RCN.SetArrival = Arrival_BOX.Text;
+                                RCN.SetDeparture = Departure_BOX.Text;
+                                RCN.SetDate = Arrival_Date.Text;
+                                RCN.SetRouts = Routs;
+                                RCN.SetTrainsList = TrainsList;
+                                RCN.SetMenu = this;
+                                PerfectReflectionGRID.Children.Add(RCN);
+                                FindTrain_BUTTON.Focusable = false;
+                            }
+                            else
+                            {
+                                throw new System.Exception();
+                            }
                         }
                         else
                         {
@@ -119,13 +138,7 @@ namespace RZDKursovoy
         }
         private void ControlMenu_Loaded(object sender, RoutedEventArgs e)
         {
-            var a = AL.TrowAllStations(Connected);
-            for (int i = 0; i < a.Count; i++)
-            {
-                Arrival_BOX.Items.Add(a[i]);
-                Departure_BOX.Items.Add(a[i]);
-            }
-            CheckActivateCabinet();
+
         }
         private void Arrival_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {

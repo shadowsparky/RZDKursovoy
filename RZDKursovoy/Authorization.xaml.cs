@@ -44,6 +44,7 @@ namespace RZDKursovoy
                     menu.SetLogin = ThrowLogin;
                     mainGrid.Children.Clear();
                     mainGrid.Children.Add(menu);
+                    menu.BoxesFiling();
                     return;
                 }
                 else if (CheckRole == "Blocked")
@@ -58,7 +59,7 @@ namespace RZDKursovoy
                 }
             }
             catch (MySqlException)
-            { 
+            {
                 MessageBox.Show("Вы ввели неправильный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }

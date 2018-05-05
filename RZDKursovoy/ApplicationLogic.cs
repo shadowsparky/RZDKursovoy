@@ -90,8 +90,9 @@ namespace RZDKursovoy
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
         {
             List<string> SavedTypes = new List<string>();
-            string QueryString = "call Available_Railcar_Types(" + TrainNum + ")";
+            string QueryString = "call Available_Railcar_Types(@Train_Num)";
             var BestCommand = new MySqlCommand(QueryString, connection);
+            BestCommand.Parameters.AddWithValue("Train_Num", TrainNum);
             var RailcarsTypesReader = BestCommand.ExecuteReader();
             while (RailcarsTypesReader.Read())
             {
