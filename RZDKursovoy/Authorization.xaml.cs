@@ -50,18 +50,18 @@ namespace RZDKursovoy
                 }
                 else if (CheckRole == "Blocked")
                 {
-                    MessageBox.Show("Ваш аккаунт заблокирован", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    AL.MessageErrorShow("Ваш аккаунт заблокирован", "Ошибка");
                     return;
                 }
                 else
                 {
-                    MessageBox.Show("Ваш аккаунт неправильно настроен. Обратитесь к администратору", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    AL.MessageErrorShow("Ваш аккаунт неправильно настроен. Обратитесь к администратору", "Ошибка");
                     return;
                 }
             }
             catch (MySqlException)
             {
-                MessageBox.Show("Вы ввели неправильный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("Вы ввели неправильный логин или пароль", "Ошибка");
                 return;
             }
         }
@@ -90,7 +90,7 @@ namespace RZDKursovoy
             }
             catch (MySqlException)
             {
-                MessageBox.Show("Сервер не отвечает", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("Сервер не отвечает", "Ошибка");
                 return;
             }
             if ((RegLoginBox.Text != "") && (RegPassBox.Text != ""))
@@ -107,19 +107,22 @@ namespace RZDKursovoy
                     }
                     catch (MySqlException)
                     {
-                        MessageBox.Show("В настоящее время сервис регистрации недоступен. Пожалуйста, попробуйте позже", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        AL.MessageErrorShow("В настоящее время сервис регистрации недоступен. Пожалуйста, попробуйте позже", "Ошибка");
+                    }
+                    finally
+                    {
+                        FastConnect.Close();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Для продолжения работы с приложением вы должны дать согласие на обработку Ваших персональных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    AL.MessageErrorShow("Для продолжения работы с приложением вы должны дать согласие на обработку Ваших персональных данных", "Ошибка");
                 }
             }
             else
             {
-                MessageBox.Show("Вы не заполнили поля", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("Вы не заполнили поля", "Ошибка");
             }
-            FastConnect.Close();
             if (OK)
             { 
                 RegGrid.Visibility = Visibility.Hidden;

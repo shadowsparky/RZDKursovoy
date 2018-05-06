@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media;
 
 namespace RZDKursovoy
 {
@@ -46,15 +47,15 @@ namespace RZDKursovoy
                 }
                 if (userControl == "RegAdd")
                 {
-                    MessageBox.Show("Ваш аккаунт успешно зарегистрирован", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageShow("Ваш аккаунт успешно зарегистрирован", "ОК");
                 }
                 else if (userControl == "Reservation")
                 {
-                    MessageBox.Show("Спасибо за покупку! Билет доступен в личном кабинете", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageShow("Спасибо за покупку! Билет доступен в личном кабинете", "ОК");
                 }
                 else if (userControl == "DeleteTicket")
                 {
-                    MessageBox.Show("Резервирование отменено, деньги скоро вернутся на ваш счет, а отмененный билет больше недействителен", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageShow("Резервирование отменено, деньги скоро вернутся на ваш счет, а отмененный билет больше недействителен", "ОК");
                 }
             }
             else if (userControl == "Delete")
@@ -67,10 +68,10 @@ namespace RZDKursovoy
                 }
                 catch (MySqlException ex)
                 {
-                    MessageBox.Show(ex.Number.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    poselki.BestErrors BE = new poselki.BestErrors();
+                    MessageShow(BE.getError(ex.Number.ToString()), "Ошибка");
                     return;
                 }
-                //MessageBox.Show("Запись удалена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         public List<string> CatchStringListResult(MySqlConnection con, string Query, string[] Args)
@@ -107,9 +108,8 @@ namespace RZDKursovoy
                     Result.Add(ResultReader.GetString(0));
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                MessageBox.Show(ex.Message.ToString());
                 Result.Clear();
                 Result.Add("-1");
                 return Result;
@@ -152,9 +152,8 @@ namespace RZDKursovoy
                 ResultReader.Read();
                 Result = ResultReader.GetInt32(0);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message.ToString());
                 Result = -1;
                 return Result;
             }
@@ -339,6 +338,37 @@ namespace RZDKursovoy
             {
                 e.Handled = true;
             }
+        }
+        /*Вывод сообщения*/
+        public void MessageErrorShow(string Message, string Title)
+        {
+            var msg = new BespokeFusion.CustomMaterialMessageBox
+            {
+                TxtMessage = { Text = Message, Foreground = Brushes.Black },
+                TxtTitle = { Text = Title, Foreground = Brushes.White },
+                BtnOk = { Content = "Ок", Background = Brushes.DarkRed, BorderBrush = Brushes.DarkRed},
+                BtnCancel = {Visibility = Visibility.Collapsed},
+                BtnCopyMessage = { Visibility = Visibility.Collapsed },
+                MainContentControl = { Background = Brushes.White},
+                TitleBackgroundPanel = { Background = Brushes.DarkRed },
+                BorderBrush = Brushes.DarkRed
+            };
+            msg.Show();
+        }
+        public void MessageShow(string Message, string Title)
+        {
+            var msg = new BespokeFusion.CustomMaterialMessageBox
+            {
+                TxtMessage = { Text = Message, Foreground = Brushes.Black },
+                TxtTitle = { Text = Title, Foreground = Brushes.White },
+                BtnOk = { Content = "Ок", Background = Brushes.LightSeaGreen, BorderBrush = Brushes.LightSeaGreen },
+                BtnCancel = { Visibility = Visibility.Collapsed },
+                BtnCopyMessage = { Visibility = Visibility.Collapsed},
+                MainContentControl = { Background = Brushes.White},
+                TitleBackgroundPanel = { Background = Brushes.LightSeaGreen },
+                BorderBrush = Brushes.LightSeaGreen
+            };
+            msg.Show();
         }
     }
 }

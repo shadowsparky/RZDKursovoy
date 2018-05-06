@@ -131,12 +131,12 @@ namespace RZDKursovoy
                 }
                 catch (System.Exception)
                 {
-                    MessageBox.Show("К сожалению, поездов по нужному Вам маршруту в данное время нет. Попробуйте выбрать другой день.", "=(", MessageBoxButton.OK, MessageBoxImage.Information);
+                    AL.MessageShow("К сожалению, поездов по нужному Вам маршруту в данное время нет. Попробуйте выбрать другой день", "=(");
                 }
             }
             else
             {
-                MessageBox.Show("Вы не заполнили данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("Вы не заполнили данные", "Ошибка");
             }
         }
         private void ControlMenu_Loaded(object sender, RoutedEventArgs e)
@@ -227,11 +227,11 @@ namespace RZDKursovoy
                         pdf.Save(SFD.FileName);
                     }
                     catch (System.Exception)
-                    { MessageBox.Show("При сохранении файла произошла ошибка"); }
+                    { AL.MessageErrorShow("При сохранении билета произошла ошибка", "Ошибка"); }
                 }
             }
             else
-                MessageBox.Show("Вы должны выбрать билет, необходимый для сохранения", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
+                AL.MessageShow("Вы должны выбрать билет, необходимый для сохранения", "Предупреждение");
         }
         private void CancelTripBUTTON_Click(object sender, RoutedEventArgs e)
         {
@@ -246,13 +246,13 @@ namespace RZDKursovoy
                 }
                 catch (System.Exception)
                 {
-                    MessageBox.Show("Во время отмены произошла ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    AL.MessageErrorShow("Во время отмены произошла ошибка", "Ошибка");
                     return;
                 }
             }
             else
             {
-                MessageBox.Show("Для начала вы должны выбрать билет, который хотите отменить", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageShow("Для начала вы должны выбрать билет, который хотите отменить", "Ошибка");
                 return;
             }
         }

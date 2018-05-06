@@ -78,7 +78,7 @@ namespace RZDKursovoy
             }
             else
             {
-                MessageBox.Show("При загрузке поездов произошла ошибка. Сообщите об этом администратору", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("При загрузке поездов произошла ошибка. Сообщите об этом администратору", "Ошибка");
             }
         }
         private void ChooseTrainNextButton_Click(object sender, RoutedEventArgs e)
@@ -95,7 +95,7 @@ namespace RZDKursovoy
             }
             else
             {
-                MessageBox.Show("Вы должны выбрать поезд", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
+                AL.MessageShow("Вы должны выбрать поезд", "Предупреждение");
             }
         }
         private void AddToRailcarTypesBox()
@@ -137,7 +137,7 @@ namespace RZDKursovoy
             }
             catch (Exception)
             {
-                MessageBox.Show("Вы должны выбрать тип вагона", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
+                AL.MessageShow("Вы должны выбрать тип вагона", "Предупреждение");
             }
         }
         private void ChooseRailcarNumberButton_Click(object sender, RoutedEventArgs e)
@@ -154,7 +154,7 @@ namespace RZDKursovoy
             }
             catch (Exception)
             {
-                MessageBox.Show("Вы должны выбрать номер вагона", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
+                AL.MessageShow("Вы должны выбрать номер вагона", "Предупреждение");
             }
         }
         private void SeatChooseNumberButton_Click(object sender, RoutedEventArgs e)
@@ -167,7 +167,7 @@ namespace RZDKursovoy
             }
             catch (Exception)
             {
-                MessageBox.Show("Вы должны выбрать место", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Hand);
+                AL.MessageShow("Вы должны выбрать место", "Предупреждение");
             }
 
         }
@@ -191,7 +191,7 @@ namespace RZDKursovoy
                         }
                         else
                         {
-                            MessageBox.Show("Вы неправильно заполнили паспортные данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            AL.MessageErrorShow("Вы неправильно заполнили паспортные данные", "Ошибка");
                             return;
                         }
                     }
@@ -207,26 +207,26 @@ namespace RZDKursovoy
                             }
                             else
                             {
-                                MessageBox.Show("Вы неправильно заполнили паспортные данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                AL.MessageErrorShow("Вы неправильно заполнили паспортные данные", "Ошибка");
                                 return;
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            AL.MessageErrorShow("Информация о существующем в базе пассажире заполнена неверно. Полиция уже рядом", "Ошибка");
                             return;
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    AL.MessageErrorShow("Вы не заполнили одно или несколько полей, необходимых для регистрации", "Ошибка");
                     return;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Вы неверно заполнили серию или номер паспорта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("Вы неверно заполнили серию или номер паспорта", "Ошибка");
                 return;
             }
             _menu.CheckActivateCabinet();
@@ -252,7 +252,7 @@ namespace RZDKursovoy
             }
             catch (Exception)
             {
-                MessageBox.Show("При выборе поезда произошла ошибка. Попробуйте выбрать другой поезд.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AL.MessageErrorShow("При выборе поезда произошла ошибка. Попробуйте выбрать другой поезд.", "Ошибка");
             }
         }
         public static string GetPropertyDisplayName(object descriptor)
