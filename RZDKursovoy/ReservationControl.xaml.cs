@@ -110,10 +110,11 @@ namespace RZDKursovoy
                 SeatChooseNumberBox.Items.Clear();
                 var r = ChooseRailcarType.SelectedItem.ToString().Split(' ');
                 ChoosedRailcarType = r[0];
-                var Data = AL.ThrowTrainNumbersList(_connection, CurrentTrainNumber, ChoosedRailcarType);
+                string[] args = { CurrentTrainNumber, ChoosedRailcarType };
+                var Data = AL.CatchStringListResult(_connection, "call ThrowTrainNumbersList", args);//ThrowTrainNumbersList(_connection, CurrentTrainNumber, ChoosedRailcarType);
                 for (int i = 0; i < Data.Count; i++)
                 {
-                    ChooseRailcarNumberBox.Items.Add(Convert.ToString(Data[i]));
+                    ChooseRailcarNumberBox.Items.Add(Data[i]);
                 }
                 if (ChoosedRailcarType == "Плацкартный")
                 {
@@ -142,7 +143,8 @@ namespace RZDKursovoy
                 SeatChooseNumberBox.Items.Clear();
                 Railcar_Number = Convert.ToInt32(ChooseRailcarNumberBox.SelectedItem.ToString());
                 StepThreePlusGrid.IsEnabled = true;
-                var k = AL.Available_For_Planting_Seats(_connection, CurrentTrainNumber, Railcar_Number, Arrival_ID, Departure_ID);
+                string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
+                var k = AL.CatchStringListResult(_connection, "call Available_For_Planting_Seats", data); //AL.Available_For_Planting_Seats(_connection, CurrentTrainNumber, Railcar_Number, Arrival_ID, Departure_ID);
                 for (int i = 0; i < k.Count; i++)
                     SeatChooseNumberBox.Items.Add(k[i]);
             }

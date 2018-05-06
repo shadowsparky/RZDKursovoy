@@ -40,8 +40,7 @@ namespace RZDKursovoy
                 }
                 catch (MySqlException ex)
                 {
-                    MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    MessageBox.Show(ex.Number.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var t = ex.Message.ToString();
                     return;
                 }
                 if (userControl == "RegAdd")
@@ -73,20 +72,54 @@ namespace RZDKursovoy
                 //MessageBox.Show("Запись удалена", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-
-        public List<string> TrowAllStations(MySqlConnection connection)
+        public List<string> CatchStringListResult(MySqlConnection con, string Query, string[] Args)
         {
-            List<string> SavedTypes = new List<string>();
-            string QueryString = "call ThrowAllStations";
-            var BestCommand = new MySqlCommand(QueryString, connection);
-            var RailcarsTypesReader = BestCommand.ExecuteReader();
-            while (RailcarsTypesReader.Read())
+            List<string> Result = new List<string>();
+            MySqlDataReader ResultReader = null;
+            Query += "(";
+            string[] ParameterArg = new string[Args.Length];
+            if (Args[0] != "null")
             {
-                SavedTypes.Add(RailcarsTypesReader.GetString(0));
+                for (int i = 0; i < Args.Length; i++)
+                {
+                    if (i != Args.Length - 1)
+                        Query += "@ARG" + i + ", ";
+                    else
+                        Query += "@ARG" + i;
+                    ParameterArg[i] = "@ARG" + i;
+                }
             }
-            RailcarsTypesReader.Close();
-            return SavedTypes;
+            Query += ")";
+            var BestCommand = new MySqlCommand(Query, con);
+            if (Args[0] != "null")
+            {
+                for (int i = 0; i < Args.Length; i++)
+                {
+                    BestCommand.Parameters.AddWithValue(ParameterArg[i], Args[i]);
+                }
+            }
+            try
+            {
+                ResultReader = BestCommand.ExecuteReader();
+                while (ResultReader.Read())
+                {
+                    Result.Add(ResultReader.GetString(0));
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                Result.Clear();
+                Result.Add("-1");
+                return Result;
+            }
+            finally
+            {
+                ResultReader.Close();
+            }
+            return Result;
         }
+
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
         {
             List<string> SavedTypes = new List<string>();
@@ -120,56 +153,6 @@ namespace RZDKursovoy
             r.Close();
             return TrainInfoList;
         }
-        public List<string> FindRout(MySqlConnection connected, string[] data)
-        {
-            string QueryString = "call FindRout(@ARG1, @ARG2, @ARG3)";
-            var BestCommand = new MySqlCommand(QueryString, connected);
-            BestCommand.Parameters.AddWithValue("ARG1", data[0]);
-            BestCommand.Parameters.AddWithValue("ARG2", data[1]);
-            BestCommand.Parameters.AddWithValue("ARG3", data[2]);
-            MySqlDataReader r = BestCommand.ExecuteReader();
-            List<string> RoutNumbers = new List<string>();
-            int i = 0;
-            while (r.Read())
-            {
-                RoutNumbers.Add(r.GetString(0).ToString());
-                i++;
-            }
-            r.Close();
-            return RoutNumbers;
-        }
-        public List<int> ThrowTrainNumbersList(MySqlConnection connection, string TrainNumber, string RailcarType)
-        {
-            List<int> SavedTypes = new List<int>();
-            string QueryString = "call ThrowTrainNumbersList(@TrainNumber, @RailcarType)";
-            var BestCommand = new MySqlCommand(QueryString, connection);
-            BestCommand.Parameters.AddWithValue("TrainNumber", TrainNumber);
-            BestCommand.Parameters.AddWithValue("RailcarType", RailcarType);
-            var TrainNumbersRead = BestCommand.ExecuteReader();
-            while (TrainNumbersRead.Read())
-            {
-                SavedTypes.Add(TrainNumbersRead.GetInt32(0));
-            }
-            TrainNumbersRead.Close();
-            return SavedTypes;
-        }
-        public List<int> Available_For_Planting_Seats(MySqlConnection connection, string TrainNumber, int RailcarNumber, int CA, int CD)
-        {
-            List<int> SavedTypes = new List<int>();
-            string QueryString = "call Available_For_Planting_Seats(@Train_Number, @Railcar_Number, @CurrentArrivalID, @CurrentDepartureID)";
-            MySqlCommand BestCommand = new MySqlCommand(QueryString, connection);
-            BestCommand.Parameters.AddWithValue("Train_Number", TrainNumber);
-            BestCommand.Parameters.AddWithValue("Railcar_Number", RailcarNumber);
-            BestCommand.Parameters.AddWithValue("CurrentArrivalID", CA);
-            BestCommand.Parameters.AddWithValue("CurrentDepartureID", CD);
-            var SeatsRead = BestCommand.ExecuteReader();
-            while (SeatsRead.Read())
-            {
-                SavedTypes.Add(SeatsRead.GetInt32(0));
-            }
-            SeatsRead.Close();
-            return SavedTypes;
-        }
         public List<string> FindPassengerWithPersonalData(MySqlConnection connection, int Passport_Series_IN, int Passport_Number_IN)
         {
             List<string> Result = new List<string>();
@@ -184,22 +167,6 @@ namespace RZDKursovoy
             { Result.Add(r.GetString(i)); }
             r.Close();
             return Result;
-        }
-        public List<string> newFindTrainList(MySqlConnection connection, string RoutID, string Arrival_Stop_Name_IN, string Arrival_Date_IN)
-        {
-            List<string> SavedTypes = new List<string>();
-            string QueryString = "call newFindTrainList(@RoutID, @Arrival_Stop_Name_IN, @Arrival_Date_IN)";
-            var BestCommand = new MySqlCommand(QueryString, connection);
-            BestCommand.Parameters.AddWithValue("RoutID", RoutID);
-            BestCommand.Parameters.AddWithValue("Arrival_Stop_Name_IN", Arrival_Stop_Name_IN);
-            BestCommand.Parameters.AddWithValue("Arrival_Date_IN", Arrival_Date_IN);
-            var TrainListRead = BestCommand.ExecuteReader();
-            while (TrainListRead.Read())
-            {
-                SavedTypes.Add(TrainListRead.GetString(0));
-            }
-            TrainListRead.Close();
-            return SavedTypes;
         }
         public List<string> throwPassengerInfo(MySqlConnection connected, int Reservation_ID_IN)
         {
@@ -243,7 +210,6 @@ namespace RZDKursovoy
                 DIRead = GetDI.ExecuteReader();
                 DIRead.Read();
                 var Departure_ID = DIRead.GetInt32(0);
-            //    DIRead.Close();
                 return Departure_ID;
             }
             catch(Exception)
