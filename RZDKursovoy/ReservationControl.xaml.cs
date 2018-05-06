@@ -60,8 +60,10 @@ namespace RZDKursovoy
                 {
                     if (TrainsList[j] != "-1")
                     {
-                        Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, Convert.ToInt32(Routs[i]), TrainsList[j]);
-                        Departure_ID = AL.GetDepartureID(_connection, DepartureStation, Convert.ToInt32(Routs[i]), TrainsList[j]);
+                        string[] Args = { ArrivalStation, Routs[i], TrainsList[j] };
+                        Arrival_ID = AL.CatchIntResult(_connection, "select GetArrivalID", Args);
+                        string[] args = { DepartureStation, Routs[i], TrainsList[j] };
+                        Departure_ID = AL.CatchIntResult(_connection, "select GetDepartureID", args);
                         if ((Arrival_ID != -1) && (Departure_ID != -1))
                         {
                             var TrainData = AL.TrainInfo(_connection, TrainsList[j], Arrival_ID, Departure_ID);
@@ -83,8 +85,10 @@ namespace RZDKursovoy
         {
             if (CurrentTrainNumber != "")
             {
-                Arrival_ID = AL.GetArrivalID(_connection, ArrivalStation, CurrentRoutID, CurrentTrainNumber);
-                Departure_ID = AL.GetDepartureID(_connection, DepartureStation, CurrentRoutID, CurrentTrainNumber);
+                string[] Args = { ArrivalStation, CurrentRoutID.ToString(), CurrentTrainNumber };
+                Arrival_ID = AL.CatchIntResult(_connection, "select GetArrivalID", Args);
+                string[] args = { DepartureStation, CurrentRoutID.ToString(), CurrentTrainNumber };
+                Departure_ID = AL.CatchIntResult(_connection, "select GetDepartureID", args);
                 ChooseTrainBox.Visibility = Visibility.Hidden;
                 ChooseTrainTypeBox.Visibility = Visibility.Visible;
                 AddToRailcarTypesBox();
@@ -172,14 +176,16 @@ namespace RZDKursovoy
             try
             {
                 var QueryString = "call EmployPlaces";
-                Passenger_Number = AL.FindPassenger(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
+                string[] args = { RegPassSeries.Text, RegPassNumber.Text, Properties.PersonalData.Default.KeySi };
+                Passenger_Number = AL.CatchIntResult(_connection, "SELECT FindPassenger", args); //FindPassenger(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
                 if ((RegNameBox.Text != "") && (RegFamBox.Text != "") && (RegPassSeries.Text != "") && (RegPassNumber.Text != ""))
                 {
                     if (Passenger_Number == -1)
                     {
                         if ((RegPassSeries.Text.Length == 6) && (RegPassNumber.Text.Length == 4))
                         {
-                            var PasNewNum = AL.PassengerAddToDB(_connection, RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text), _maskedTextBox.Text);
+                            string[] Args = { RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, RegPassSeries.Text, RegPassNumber.Text, _maskedTextBox.Text, Properties.PersonalData.Default.KeySi };
+                            var PasNewNum = AL.CatchIntResult(_connection, "select PassengerAddToDB", Args);
                             string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
                             AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
                         }
@@ -241,7 +247,8 @@ namespace RZDKursovoy
             {
                 TableFillKostil TFK = (TableFillKostil)ChooseTrainGRID.SelectedItem;
                 CurrentTrainNumber = TFK.Par1;
-                CurrentRoutID = AL.ThrowRoutID(_connection, CurrentTrainNumber);
+                string[] args = { CurrentTrainNumber };
+                CurrentRoutID = AL.CatchIntResult(_connection, "select ThrowRoutID", args);//ThrowRoutID(_connection, CurrentTrainNumber);
             }
             catch (Exception)
             {

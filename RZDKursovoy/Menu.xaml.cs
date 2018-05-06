@@ -36,7 +36,8 @@ namespace RZDKursovoy
         }
         public void CheckActivateCabinet()
         {
-            AvailableTicketsCount = AL.throwCountAvailableTickets(Connected, Login + "@localhost");
+            string[] args = { Login + "@localhost" };
+            AvailableTicketsCount = AL.CatchIntResult(Connected, "call throwCountAvailableTickets", args);
             if (AvailableTicketsCount == 0)
             {
                 LK_Empty.Visibility = Visibility.Visible;
@@ -87,14 +88,14 @@ namespace RZDKursovoy
                     { 
                         ApplicationLogic AL = new ApplicationLogic();
                         string[] Data = { Arrival_BOX.Text, Departure_BOX.Text, Arrival_Date.Text };
-                        List<string> Routs = AL.CatchStringListResult(Connected, "call FindRout", Data);// AL.FindRout(Connected, Data);
+                        List<string> Routs = AL.CatchStringListResult(Connected, "call FindRout", Data);
                         if (Routs.Count > 0)
                         {
                             List<string> TrainsList = new List<string>();
                             for (int i = 0; i < Routs.Count; i++)
                             {
                                 string[] args = { Routs[i], Arrival_BOX.Text, Arrival_Date.Text };
-                                var TMPInputer = AL.CatchStringListResult(Connected, "call newFindTrainList", args);//AL.newFindTrainList(Connected, Routs[i], Arrival_BOX.Text, Arrival_Date.Text);
+                                var TMPInputer = AL.CatchStringListResult(Connected, "call newFindTrainList", args);
                                 for (int j = 0; j < TMPInputer.Count; j++)
                                     if (TMPInputer[j] != "-1")
                                         TrainsList.Add(TMPInputer[j]);

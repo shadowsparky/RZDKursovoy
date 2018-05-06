@@ -8,12 +8,13 @@ namespace RZDKursovoy
 {
     class ApplicationLogic
     {
+        /*Переменные, предназначенные для защиты ввода*/
         private Regex OnlyLowCaseWordsChecker = new Regex("[а-я]");
         private Regex OnlyUpCaseWordsChecker = new Regex("[А-Я]");
         private Regex EN_OnlyLowCaseWordsChecker = new Regex("[a-z]");
         private Regex EN_OnlyUpCaseWordsChecker = new Regex("[A-Z]");
         private Regex OnlyNumbersChecker = new Regex("[1-9 0]");
-
+        /*Универсальные процедуры*/
         public void MagicUniversalControlData(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
         {
             if (userControl != "Delete")
@@ -119,7 +120,51 @@ namespace RZDKursovoy
             }
             return Result;
         }
-
+        public int CatchIntResult(MySqlConnection con, string Query, string [] Args)
+        {
+            int Result = new int();
+            MySqlDataReader ResultReader = null;
+            Query += "(";
+            string[] ParameterArg = new string[Args.Length];
+            if (Args[0] != "null")
+            {
+                for (int i = 0; i < Args.Length; i++)
+                {
+                    if (i != Args.Length - 1)
+                        Query += "@ARG" + i + ", ";
+                    else
+                        Query += "@ARG" + i;
+                    ParameterArg[i] = "@ARG" + i;
+                }
+            }
+            Query += ")";
+            var BestCommand = new MySqlCommand(Query, con);
+            if (Args[0] != "null")
+            {
+                for (int i = 0; i < Args.Length; i++)
+                {
+                    BestCommand.Parameters.AddWithValue(ParameterArg[i], Args[i]);
+                }
+            }
+            try
+            {
+                ResultReader = BestCommand.ExecuteReader();
+                ResultReader.Read();
+                Result = ResultReader.GetInt32(0);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                Result = -1;
+                return Result;
+            }
+            finally
+            {
+                ResultReader.Close();
+            }
+            return Result;
+        }
+        /*Уникальные процедуры*/
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
         {
             List<string> SavedTypes = new List<string>();
@@ -198,106 +243,6 @@ namespace RZDKursovoy
             RailcarInfoRead.Close();
             return result;
         }
-        public int GetDepartureID(MySqlConnection connection, string DepartureStation, int RoutID, string TrainNum)
-        {
-            MySqlDataReader DIRead = null;
-            try
-            {
-                MySqlCommand GetDI = new MySqlCommand("select GetDepartureID(@DepartureStation, @RoutID, @TrainNumber)", connection);
-                GetDI.Parameters.AddWithValue("DepartureStation", DepartureStation);
-                GetDI.Parameters.AddWithValue("RoutID", RoutID);
-                GetDI.Parameters.AddWithValue("TrainNumber", TrainNum);
-                DIRead = GetDI.ExecuteReader();
-                DIRead.Read();
-                var Departure_ID = DIRead.GetInt32(0);
-                return Departure_ID;
-            }
-            catch(Exception)
-            {
-                return -1;
-            }
-            finally
-            {
-                DIRead.Close();
-            }
-        }
-        public int GetArrivalID(MySqlConnection connection, string ArrivalStation, int RoutID, string TrainNum)
-        {
-            MySqlDataReader AIRead = null;
-            try
-            {
-                MySqlCommand GetAI = new MySqlCommand("select GetArrivalID(@ArrivalStation, @RoutID, @TrainNumber)", connection);
-                GetAI.Parameters.AddWithValue("ArrivalStation", ArrivalStation);
-                GetAI.Parameters.AddWithValue("RoutID", RoutID);
-                GetAI.Parameters.AddWithValue("TrainNumber", TrainNum);
-                AIRead = GetAI.ExecuteReader();
-                AIRead.Read();
-                var Arrival_ID = AIRead.GetInt32(0);
-             //   AIRead.Close();
-                return Arrival_ID;
-            } 
-            catch(Exception)
-            {
-                return -1;
-            }
-            finally
-            {
-                AIRead.Close();
-            }
-        }
-        public int FindPassenger(MySqlConnection connected, int Passport_Series_IN, int Passport_Number_IN)
-        {
-            var Result = new int();
-            var QueryString = "SELECT FindPassenger(@Passport_Series_IN, @Passport_Number_IN, @KeySi)";
-            var BestCommand = new MySqlCommand(QueryString, connected);
-            BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
-            BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
-            BestCommand.Parameters.AddWithValue("KeySi", Properties.PersonalData.Default.KeySi);
-            var r = BestCommand.ExecuteReader();
-            r.Read();
-            Result = r.GetInt32(0);
-            r.Close();
-            return Result;
-        }
-        public int PassengerAddToDB(MySqlConnection connection, string Last_Name_IN, string First_Name_IN, string Pathronymic, int Passport_Series_IN, int Passport_Number_IN, string Passenger_Phone_Number_IN)
-        {
-            var QueryString = "SELECT PassengerAddToDB(@Last_Name_IN, @First_Name_IN, @Pathronymic, @Passport_Series_IN, @Passport_Number_IN, @Passenger_Phone_Number, @KeySi)";
-            var BestCommand = new MySqlCommand(QueryString, connection);
-            BestCommand.Parameters.AddWithValue("Last_Name_IN", Last_Name_IN);
-            BestCommand.Parameters.AddWithValue("First_Name_IN", First_Name_IN);
-            BestCommand.Parameters.AddWithValue("Pathronymic", Pathronymic);
-            BestCommand.Parameters.AddWithValue("Passport_Series_IN", Passport_Series_IN);
-            BestCommand.Parameters.AddWithValue("Passport_Number_IN", Passport_Number_IN);
-            BestCommand.Parameters.AddWithValue("Passenger_Phone_Number", Passenger_Phone_Number_IN);
-            BestCommand.Parameters.AddWithValue("KeySi", Properties.PersonalData.Default.KeySi);
-            var r = BestCommand.ExecuteReader();
-            r.Read();
-            var result = r.GetInt32(0);
-            r.Close();
-            return result;
-        }
-        public int ThrowRoutID(MySqlConnection connection, string Train_Number_IN)
-        {
-            var QueryString = "SELECT ThrowRoutID(@Train_Number_IN)";
-            var BestCommand = new MySqlCommand(QueryString, connection);
-            BestCommand.Parameters.AddWithValue("Train_Number_IN", Train_Number_IN);
-            var r = BestCommand.ExecuteReader();
-            r.Read();
-            var result = r.GetInt32(0);
-            r.Close();
-            return result;
-        }
-        public int throwCountAvailableTickets(MySqlConnection connection, string Login)
-        {
-            var QueryString = "call throwCountAvailableTickets(@Login)";
-            var BestCommand = new MySqlCommand(QueryString, connection);
-            BestCommand.Parameters.AddWithValue("Login", Login);
-            var r = BestCommand.ExecuteReader();
-            r.Read();
-            var result = r.GetInt32(0);
-            r.Close();
-            return result;
-        }
         public string FindTrain(MySqlConnection connected, string RoutID, int Arrival_Stop_IN, string Arrival_Date_IN)
         {
             string QueryString = "SELECT FindTrain(@RoutID, @Arrival_Stop_IN, @Arrival_Date_IN)";
@@ -312,6 +257,7 @@ namespace RZDKursovoy
             r.Close();
             return TrainID;
         }
+        /*Процедуры для проверки ввода*/
         public void InputProtector(System.Windows.Controls.TextChangedEventArgs e, System.Windows.Controls.TextBox TB)
         {
             TB.Text = TB.Text.Replace(" ", string.Empty);
