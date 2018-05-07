@@ -182,7 +182,7 @@ namespace RZDKursovoy
                 {
                     if (Passenger_Number == -1)
                     {
-                        if ((RegPassSeries.Text.Length == 6) && (RegPassNumber.Text.Length == 4))
+                        if ((RegPassSeries.Text.Length == 4) && (RegPassNumber.Text.Length == 6))
                         {
                             string[] Args = { RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, RegPassSeries.Text, RegPassNumber.Text, _maskedTextBox.Text, Properties.PersonalData.Default.KeySi };
                             var PasNewNum = AL.CatchIntResult(_connection, "select PassengerAddToDB", Args);
@@ -200,7 +200,7 @@ namespace RZDKursovoy
                         var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
                         if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathrBox.Text == ExistsData[2]))
                         {
-                            if ((RegPassSeries.Text.Length == 6) && (RegPassNumber.Text.Length == 4))
+                            if ((RegPassSeries.Text.Length == 4) && (RegPassNumber.Text.Length == 6))
                             {
                                 string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
                                 AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
@@ -231,6 +231,7 @@ namespace RZDKursovoy
             }
             _menu.CheckActivateCabinet();
             _menu.PerfectReflectionGRID.Children.Remove(this);
+            _menu.Reflector.IsEnabled = true;
             InputData.Focusable = false;
         }
         private void _maskedTextBox_GotFocus(object sender, RoutedEventArgs e)

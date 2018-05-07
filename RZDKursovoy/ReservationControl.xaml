@@ -102,7 +102,7 @@
                 </TextBox>
                 <materialDesign:PackIcon Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="Phone" Margin="0,0,300,0" />
                 <xctk:MaskedTextBox  materialDesign:HintAssist.Hint="test" Grid.Column="1" Grid.Row="4" x:Name="_maskedTextBox" LostFocus="_maskedTextBox_LostFocus" VerticalAlignment="Center" Margin="180,0" Height="26" GotFocus="_maskedTextBox_GotFocus" Width="282"/>
-                <TextBox x:Name="RegPassSeries" Grid.Column="1" Grid.Row="5" PreviewTextInput="RegPassSeries_PreviewTextInput" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" VerticalAlignment="Center" MaxLength="6" Height="36" Width="282">
+                <TextBox x:Name="RegPassSeries" Grid.Column="1" Grid.Row="5" PreviewTextInput="RegPassSeries_PreviewTextInput" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" VerticalAlignment="Center" MaxLength="4" Height="36" Width="282">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"
@@ -113,7 +113,7 @@
                         </StackPanel>
                     </materialDesign:HintAssist.Hint>
                 </TextBox>
-                <TextBox x:Name="RegPassNumber" Grid.Column="1" Grid.Row="6" PreviewTextInput="RegPassNumber_PreviewTextInput" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" MaxLength="4" VerticalAlignment="Center" Height="36" Width="282">
+                <TextBox x:Name="RegPassNumber" Grid.Column="1" Grid.Row="6" PreviewTextInput="RegPassNumber_PreviewTextInput" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" MaxLength="6" VerticalAlignment="Center" Height="36" Width="282">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"

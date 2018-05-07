@@ -53,6 +53,16 @@ namespace RZDKursovoy
                     AL.MessageErrorShow("Ваш аккаунт заблокирован", "Ошибка");
                     return;
                 }
+                else if (CheckRole == "RZD_Dispatcher")
+                {
+                    Dispatcher_Interface_In_To_Face DITF = new Dispatcher_Interface_In_To_Face();
+                    DITF.SetConnected = Connected;
+                    DITF.SetLogin = ThrowLogin;
+                    mainGrid.Children.Clear();
+                    mainGrid.Children.Add(DITF);
+                    AL.MessageShow("Привет, диспетчер " + ThrowLogin, "Привет!");
+                    return;
+                }
                 else
                 {
                     AL.MessageErrorShow("Ваш аккаунт неправильно настроен. Обратитесь к администратору", "Ошибка");

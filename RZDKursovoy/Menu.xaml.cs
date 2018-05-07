@@ -112,7 +112,7 @@ namespace RZDKursovoy
                                 RCN.SetTrainsList = TrainsList;
                                 RCN.SetMenu = this;
                                 PerfectReflectionGRID.Children.Add(RCN);
-                                FindTrain_BUTTON.Focusable = false;
+                                Reflector.IsEnabled = false;
                             }
                             else
                             {

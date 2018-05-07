@@ -9,7 +9,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" MinHeight="450" MinWidth="800"  d:DesignWidth="800">
     <Grid Background="White" x:Name="PerfectReflectionGRID">
-        <dragablz:TabablzControl x:Name="ControlMenu" Loaded="ControlMenu_Loaded">
+        <Grid x:Name="Reflector">
+            <dragablz:TabablzControl x:Name="ControlMenu" Loaded="ControlMenu_Loaded">
             <TabItem x:Name="Reservation_TAB"
                      Header="Резервирование"
                      Margin="0" d:IsHidden="True">
@@ -46,5 +47,6 @@
                 </Grid>
             </TabItem>
         </dragablz:TabablzControl>
+        </Grid>
     </Grid>
 </UserControl>
