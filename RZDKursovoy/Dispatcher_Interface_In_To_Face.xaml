@@ -11,10 +11,9 @@
         <dragablz:TabablzControl x:Name="ControlMenu">
             <TabItem Header="Поезда">
                 <Grid>
-                    
+                    <DataGrid CanUserAddRows="False" x:Name="ShowTrains" KeyUp="ShowTrains_KeyUp" CellEditEnding="ShowTrains_CellEditEnding" Loaded="ShowTrains_Loaded" Margin="0,0,0,30"></DataGrid>
                 </Grid>
             </TabItem>
         </dragablz:TabablzControl>
-
     </Grid>
 </UserControl>

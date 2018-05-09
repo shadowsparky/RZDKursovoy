@@ -1,8 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace RZDKursovoy
@@ -56,6 +58,10 @@ namespace RZDKursovoy
                 else if (userControl == "DeleteTicket")
                 {
                     MessageShow("Резервирование отменено, деньги скоро вернутся на ваш счет, а отмененный билет больше недействителен", "ОК");
+                }
+                else if (userControl == "UpdateTrain")
+                {
+                    MessageShow("Информация о поезде была отредактирована", "ОК");
                 }
             }
             else if (userControl == "Delete")
@@ -369,6 +375,27 @@ namespace RZDKursovoy
                 BorderBrush = Brushes.LightSeaGreen
             };
             msg.Show();
+        }
+
+        /*Dispatcher Procedures*/
+        public void ShowTrainsTableFill(MySqlConnection connection, DataGrid DG)
+        {
+            try
+            {
+                MySqlDataAdapter ad = new MySqlDataAdapter();
+                ad.SelectCommand = new MySqlCommand("call DISPATCHER_ShowTrains", connection);
+                DataTable table = new DataTable();
+                ad.Fill(table);
+                table.Columns[0].ColumnName = "Номер поезда";
+                table.Columns[1].ColumnName = "Кол-во вагонов";
+                table.Columns[2].ColumnName = "Тип поезда";
+                table.Columns[3].ColumnName = "Название маршрута";
+                DG.ItemsSource = table.DefaultView;
+            }
+            catch(Exception)
+            {
+                MessageErrorShow("При загрузке поездов произошла ошибка", "Ошибка");
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -37,6 +36,343 @@ namespace RZDKursovoy
                 }
                 catch (System.Exception)
                 {
+                    try
+                    {
+                        throw new System.Exception();
+                    }
+                    catch (System.Exception)
+                    {
+                        try
+                        {
+                            throw new System.Exception();
+                        }
+                        catch (System.Exception)
+                        {
+                            try
+                            {
+                                throw new System.Exception();
+                            }
+                            catch (System.Exception)
+                            {
+                                try
+                                {
+                                    throw new System.Exception();
+                                }
+                                catch (System.Exception)
+                                {
+                                    try
+                                    {
+                                        throw new System.Exception();
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                        try
+                                        {
+                                            throw new System.Exception();
+                                        }
+                                        catch (System.Exception)
+                                        {
+                                            try
+                                            {
+                                                throw new System.Exception();
+                                            }
+                                            catch (System.Exception)
+                                            {
+                                                try
+                                                {
+                                                    throw new System.Exception();
+                                                }
+                                                catch (System.Exception)
+                                                {
+                                                    try
+                                                    {
+                                                        throw new System.Exception();
+                                                    }
+                                                    catch (System.Exception)
+                                                    {
+                                                        try
+                                                        {
+                                                            throw new System.Exception();
+                                                        }
+                                                        catch (System.Exception)
+                                                        {
+                                                            try
+                                                            {
+                                                                throw new System.Exception();
+                                                            }
+                                                            catch (System.Exception)
+                                                            {
+                                                                try
+                                                                {
+                                                                    throw new System.Exception();
+                                                                }
+                                                                catch (System.Exception)
+                                                                {
+                                                                    try
+                                                                    {
+                                                                        throw new System.Exception();
+                                                                    }
+                                                                    catch (System.Exception)
+                                                                    {
+                                                                        try
+                                                                        {
+                                                                            throw new System.Exception();
+                                                                        }
+                                                                        catch (System.Exception)
+                                                                        {
+                                                                            try
+                                                                            {
+                                                                                throw new System.Exception();
+                                                                            }
+                                                                            catch (System.Exception)
+                                                                            {
+                                                                                try
+                                                                                {
+                                                                                    throw new System.Exception();
+                                                                                }
+                                                                                catch (System.Exception)
+                                                                                {
+                                                                                    try
+                                                                                    {
+                                                                                        throw new System.Exception();
+                                                                                    }
+                                                                                    catch (System.Exception)
+                                                                                    {
+                                                                                        try
+                                                                                        {
+                                                                                            throw new System.Exception();
+                                                                                        }
+                                                                                        catch (System.Exception)
+                                                                                        {
+                                                                                            try
+                                                                                            {
+                                                                                                throw new System.Exception();
+                                                                                            }
+                                                                                            catch (System.Exception)
+                                                                                            {
+                                                                                                try
+                                                                                                {
+                                                                                                    throw new System.Exception();
+                                                                                                }
+                                                                                                catch (System.Exception)
+                                                                                                {
+                                                                                                    try
+                                                                                                    {
+                                                                                                        throw new System.Exception();
+                                                                                                    }
+                                                                                                    catch (System.Exception)
+                                                                                                    {
+                                                                                                        try
+                                                                                                        {
+                                                                                                            throw new System.Exception();
+                                                                                                        }
+                                                                                                        catch (System.Exception)
+                                                                                                        {
+                                                                                                            try
+                                                                                                            {
+                                                                                                                throw new System.Exception();
+                                                                                                            }
+                                                                                                            catch (System.Exception)
+                                                                                                            {
+                                                                                                                try
+                                                                                                                {
+                                                                                                                    throw new System.Exception();
+                                                                                                                }
+                                                                                                                catch (System.Exception)
+                                                                                                                {
+                                                                                                                    try
+                                                                                                                    {
+                                                                                                                        throw new System.Exception();
+                                                                                                                    }
+                                                                                                                    catch (System.Exception)
+                                                                                                                    {
+                                                                                                                        try
+                                                                                                                        {
+                                                                                                                            throw new System.Exception();
+                                                                                                                        }
+                                                                                                                        catch (System.Exception)
+                                                                                                                        {
+                                                                                                                            try
+                                                                                                                            {
+                                                                                                                                throw new System.Exception();
+                                                                                                                            }
+                                                                                                                            catch (System.Exception)
+                                                                                                                            {
+                                                                                                                                try
+                                                                                                                                {
+                                                                                                                                    throw new System.Exception();
+                                                                                                                                }
+                                                                                                                                catch (System.Exception)
+                                                                                                                                {
+                                                                                                                                    try
+                                                                                                                                    {
+                                                                                                                                        throw new System.Exception();
+                                                                                                                                    }
+                                                                                                                                    catch (System.Exception)
+                                                                                                                                    {
+                                                                                                                                        try
+                                                                                                                                        {
+                                                                                                                                            throw new System.Exception();
+                                                                                                                                        }
+                                                                                                                                        catch (System.Exception)
+                                                                                                                                        {
+                                                                                                                                            try
+                                                                                                                                            {
+                                                                                                                                                throw new System.Exception();
+                                                                                                                                            }
+                                                                                                                                            catch (System.Exception)
+                                                                                                                                            {
+                                                                                                                                                try
+                                                                                                                                                {
+                                                                                                                                                    throw new System.Exception();
+                                                                                                                                                }
+                                                                                                                                                catch (System.Exception)
+                                                                                                                                                {
+                                                                                                                                                    try
+                                                                                                                                                    {
+                                                                                                                                                        throw new System.Exception();
+                                                                                                                                                    }
+                                                                                                                                                    catch (System.Exception)
+                                                                                                                                                    {
+                                                                                                                                                        try
+                                                                                                                                                        {
+                                                                                                                                                            throw new System.Exception();
+                                                                                                                                                        }
+                                                                                                                                                        catch (System.Exception)
+                                                                                                                                                        {
+                                                                                                                                                            try
+                                                                                                                                                            {
+                                                                                                                                                                throw new System.Exception();
+                                                                                                                                                            }
+                                                                                                                                                            catch (System.Exception)
+                                                                                                                                                            {
+                                                                                                                                                                try
+                                                                                                                                                                {
+                                                                                                                                                                    throw new System.Exception();
+                                                                                                                                                                }
+                                                                                                                                                                catch (System.Exception)
+                                                                                                                                                                {
+                                                                                                                                                                    try
+                                                                                                                                                                    {
+                                                                                                                                                                        throw new System.Exception();
+                                                                                                                                                                    }
+                                                                                                                                                                    catch (System.Exception)
+                                                                                                                                                                    {
+                                                                                                                                                                        try
+                                                                                                                                                                        {
+                                                                                                                                                                            throw new System.Exception();
+                                                                                                                                                                        }
+                                                                                                                                                                        catch (System.Exception)
+                                                                                                                                                                        {
+                                                                                                                                                                            try
+                                                                                                                                                                            {
+                                                                                                                                                                                throw new System.Exception();
+                                                                                                                                                                            }
+                                                                                                                                                                            catch (System.Exception)
+                                                                                                                                                                            {
+                                                                                                                                                                                try
+                                                                                                                                                                                {
+                                                                                                                                                                                    throw new System.Exception();
+                                                                                                                                                                                }
+                                                                                                                                                                                catch (System.Exception)
+                                                                                                                                                                                {
+                                                                                                                                                                                    try
+                                                                                                                                                                                    {
+                                                                                                                                                                                        throw new System.Exception();
+                                                                                                                                                                                    }
+                                                                                                                                                                                    catch (System.Exception)
+                                                                                                                                                                                    {
+                                                                                                                                                                                        try
+                                                                                                                                                                                        {
+                                                                                                                                                                                            throw new System.Exception();
+                                                                                                                                                                                        }
+                                                                                                                                                                                        catch (System.Exception)
+                                                                                                                                                                                        {
+                                                                                                                                                                                            try
+                                                                                                                                                                                            {
+                                                                                                                                                                                                throw new System.Exception();
+                                                                                                                                                                                            }
+                                                                                                                                                                                            catch (System.Exception)
+                                                                                                                                                                                            {
+                                                                                                                                                                                                try
+                                                                                                                                                                                                {
+                                                                                                                                                                                                    throw new System.Exception();
+                                                                                                                                                                                                }
+                                                                                                                                                                                                catch (System.Exception)
+                                                                                                                                                                                                {
+                                                                                                                                                                                                    try
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                        throw new System.Exception();
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    catch (System.Exception)
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                        try
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            throw new System.Exception();
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        catch (System.Exception)
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            try
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                                throw new System.Exception();
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                            catch (System.Exception)
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                                try
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    throw new System.Exception();
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                                catch (System.Exception)
+                                                                                                                                                                                                                {
+
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                }
+                                                                                                                                                                                            }
+                                                                                                                                                                                        }
+                                                                                                                                                                                    }
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 if (CheckRole == "user")
                 {
