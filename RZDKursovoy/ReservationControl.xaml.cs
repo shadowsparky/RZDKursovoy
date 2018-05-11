@@ -187,7 +187,9 @@ namespace RZDKursovoy
                             string[] Args = { RegFamBox.Text, RegNameBox.Text, RegPathrBox.Text, RegPassSeries.Text, RegPassNumber.Text, _maskedTextBox.Text, Properties.PersonalData.Default.KeySi };
                             var PasNewNum = AL.CatchIntResult(_connection, "select PassengerAddToDB", Args);
                             string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), PasNewNum.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                            AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                            var res = AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                            poselki.BestErrors BE = new poselki.BestErrors();
+                            BE.CatchError(res);
                         }
                         else
                         {
@@ -203,7 +205,9 @@ namespace RZDKursovoy
                             if ((RegPassSeries.Text.Length == 4) && (RegPassNumber.Text.Length == 6))
                             {
                                 string[] data = { CurrentTrainNumber, Railcar_Number.ToString(), ChoosedSeatNumber.ToString(), Passenger_Number.ToString(), Arrival_ID.ToString(), Departure_ID.ToString() };
-                                AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                                var res = AL.MagicUniversalControlData(QueryString, data, "Reservation", _connection);
+                                poselki.BestErrors BE = new poselki.BestErrors();
+                                BE.CatchError(res);
                             }
                             else
                             {

@@ -241,7 +241,9 @@ namespace RZDKursovoy
                 {
                     string Query = "call CancelTicket";
                     string[] args = { CurrentTicketID.ToString() };
-                    AL.MagicUniversalControlData(Query, args, "DeleteTicket", Connected);
+                    var res = AL.MagicUniversalControlData(Query, args, "DeleteTicket", Connected);
+                    poselki.BestErrors BE = new poselki.BestErrors();
+                    BE.CatchError(res);
                     CheckActivateCabinet();
                 }
                 catch (System.Exception)

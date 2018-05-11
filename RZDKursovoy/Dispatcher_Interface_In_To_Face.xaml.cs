@@ -17,6 +17,7 @@ namespace RZDKursovoy
         public string SetLogin { set { Login = value; } }
         private ApplicationLogic AL = new ApplicationLogic();
         private DataRowView TMPGridRow = null;
+        private bool ConvertCheck = true;
 
         public Dispatcher_Interface_In_To_Face()
         {
@@ -27,7 +28,6 @@ namespace RZDKursovoy
         {
             AL.ShowTrainsTableFill(Connected, ShowTrains);
         }
-
         private void ShowTrains_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             try
@@ -37,18 +37,22 @@ namespace RZDKursovoy
                 {
                     var t = (DataRowView)ShowTrains.CurrentItem;
                     string[] args = { t[0].ToString() };
-                    AL.MagicUniversalControlData("call DISPATCHER_DropTrain", args, "DeleteTrain", Connected);
+                    var res = AL.MagicUniversalControlData("call DISPATCHER_DropTrain", args, "DeleteTrain", Connected);
+                    poselki.BestErrors BE = new poselki.BestErrors();
+                    BE.CatchError(res);
+                    AL.ShowTrainsTableFill(Connected, ShowTrains);
                 }
                 else if (r == "Return")
                 {
-                    var t = (DataRowView) (sender as DataGrid).CurrentItem;
                     var t1 = TMPGridRow;
-                    if (t1[0].ToString() == t[0].ToString())
+                    var t = (DataRowView)ShowTrains.CurrentItem;
+                    if (t1 != null)
                     {
-                        string[] args = new string[t.Row.ItemArray.Length];
-                        for (int i = 0; i < t.Row.ItemArray.Length; i++)
-                            args[i] = t.Row.ItemArray[i].ToString();
-                        AL.MagicUniversalControlData("call DISPATCHER_UpdateTrain", args, "UpdateTrain", Connected);
+                        if (ConvertCheck)
+                        {
+                            AL.MagicUserControl(Connected, t1, "call DISPATCHER_UpdateTrain", "UpdateTrain");
+                        }
+                        AL.ShowTrainsTableFill(Connected, ShowTrains);
                     }
                     else
                     {
@@ -64,15 +68,13 @@ namespace RZDKursovoy
             catch(Exception)
             { }
         }
-
         private void ShowTrains_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            try
-            {
-                TMPGridRow = (DataRowView)ShowTrains.CurrentItem;
-            }
-            catch (Exception)
-            { }
+            ConvertCheck = true;
+            int[] arr = { 1 };
+            ConvertCheck = AL.ConvertCheck(sender, e, arr);
+            int[] itemarr = { 0 };
+            TMPGridRow = AL.BlockUpdate(sender, e, itemarr);
         }
     }
 }

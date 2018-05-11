@@ -12,6 +12,7 @@
             <TabItem Header="Поезда">
                 <Grid>
                     <DataGrid CanUserAddRows="False" x:Name="ShowTrains" KeyUp="ShowTrains_KeyUp" CellEditEnding="ShowTrains_CellEditEnding" Loaded="ShowTrains_Loaded" Margin="0,0,0,30"></DataGrid>
+                    <Button x:Name="OpenAddTrainMenu"  Height="29" Content="Добавить поезд" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>
         </dragablz:TabablzControl>

@@ -52,6 +52,22 @@ namespace poselki
             return NumError;
         }
 
+        public void CatchError(string [] Error)
+        {
+            if (Error[1] != "1")
+            {
+                RZDKursovoy.ApplicationLogic AL = new RZDKursovoy.ApplicationLogic();
+                if (Error[1] != "1644")
+                {
+                    AL.MessageErrorShow(getError(Error[1]), "Ошибка");
+                }
+                else
+                {
+                    AL.MessageErrorShow(Error[0], "Ошибка");
+                }
+            }
+        }
+
         private string GetTempPath()
         {
             string path = System.Environment.GetEnvironmentVariable("TEMP");

@@ -18,7 +18,7 @@ namespace RZDKursovoy
         private Regex EN_OnlyUpCaseWordsChecker = new Regex("[A-Z]");
         private Regex OnlyNumbersChecker = new Regex("[1-9 0]");
         /*Универсальные процедуры*/
-        public void MagicUniversalControlData(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
+        public string [] MagicUniversalControlData(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
         {
             if (userControl != "Delete")
             {
@@ -44,8 +44,8 @@ namespace RZDKursovoy
                 }
                 catch (MySqlException ex)
                 {
-                    var t = ex.Message.ToString();
-                    return;
+                    string[] Result = { ex.Message, ex.Number.ToString() };
+                    return Result;
                 }
                 if (userControl == "RegAdd")
                 {
@@ -74,11 +74,21 @@ namespace RZDKursovoy
                 }
                 catch (MySqlException ex)
                 {
-                    poselki.BestErrors BE = new poselki.BestErrors();
-                    MessageShow(BE.getError(ex.Number.ToString()), "Ошибка");
-                    return;
+                    string[] Result = { ex.Message, ex.Number.ToString() };
+                    return Result;
                 }
             }
+            string[] Result3 = { "OK", "1" };
+            return Result3;
+        }
+        public void MagicUserControl(MySqlConnection connected, DataRowView t, string Proc, string Control)
+        {
+            string[] args = new string[t.Row.ItemArray.Length];
+            for (int i = 0; i < t.Row.ItemArray.Length; i++)
+                args[i] = t.Row.ItemArray[i].ToString();
+            var res = MagicUniversalControlData(Proc, args, Control, connected);
+            poselki.BestErrors BE = new poselki.BestErrors();
+            BE.CatchError(res);
         }
         public List<string> CatchStringListResult(MySqlConnection con, string Query, string[] Args)
         {
@@ -168,6 +178,48 @@ namespace RZDKursovoy
                 ResultReader.Close();
             }
             return Result;
+        }
+        public bool ConvertCheck(object sender, DataGridCellEditEndingEventArgs e, int[] itemarr)
+        {
+            for (int i = 0; i < itemarr.Length; i++)
+            {
+                if (e.Column.DisplayIndex == itemarr[i])
+                {
+                    var t = e.EditingElement.ToString().Split(':');
+                    try
+                    {
+                        Convert.ToInt32(t[1]);
+                    }
+                    catch(FormatException)
+                    {
+                        MessageErrorShow("Вы ввели - " + t[1] + ". Это значение не является целым числом", "Ошибка");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        public DataRowView BlockUpdate(object sender, DataGridCellEditEndingEventArgs e, int[] itemarr)
+        {
+            DataRowView TMPGridRow = null;
+            for (int i = 0; i < itemarr.Length; i++)
+            {
+                if (e.Column.DisplayIndex != i)
+                {
+                    try
+                    {
+                        TMPGridRow = (DataRowView)(sender as DataGrid).CurrentItem;
+                    }
+                    catch (Exception)
+                    { }
+                }
+                else
+                {
+                    TMPGridRow = null;
+                    return TMPGridRow;
+                }
+            }
+            return TMPGridRow;
         }
         /*Уникальные процедуры*/
         public List<string> Available_Railcar_Types(MySqlConnection connection, string TrainNum)
