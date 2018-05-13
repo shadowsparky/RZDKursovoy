@@ -47,21 +47,53 @@ namespace RZDKursovoy
                     string[] Result = { ex.Message, ex.Number.ToString() };
                     return Result;
                 }
-                if (userControl == "RegAdd")
+                switch (userControl)
                 {
-                    MessageShow("Ваш аккаунт успешно зарегистрирован", "ОК");
-                }
-                else if (userControl == "Reservation")
-                {
-                    MessageShow("Спасибо за покупку! Билет доступен в личном кабинете", "ОК");
-                }
-                else if (userControl == "DeleteTicket")
-                {
-                    MessageShow("Резервирование отменено, деньги скоро вернутся на ваш счет, а отмененный билет больше недействителен", "ОК");
-                }
-                else if (userControl == "UpdateTrain")
-                {
-                    MessageShow("Информация о поезде была отредактирована", "ОК");
+                    case "RegAdd":
+                        MessageShow("Ваш аккаунт успешно зарегистрирован", "ОК");
+                        break;
+                    case "Reservation":
+                        MessageShow("Спасибо за покупку! Билет доступен в личном кабинете", "ОК");
+                        break;
+                    case "DeleteTicket":
+                        MessageShow("Резервирование отменено, деньги скоро вернутся на ваш счет, а отмененный билет больше недействителен", "ОК");
+                        break;
+                    case "UpdateTrain":
+                        MessageShow("Информация о поезде была отредактирована", "ОК");
+                        break;
+                    case "UpdateRailcar":
+                        MessageShow("Информация о вагоне была отредактирована", "ОК");
+                        break;
+                    case "UpdateStop":
+                        MessageShow("Информация об остановке была отредактирована", "ОК");
+                        break;
+                    case "UpdateRout":
+                        MessageShow("Информация о маршруте была отредактирована", "ОК");
+                        break;
+                    case "DeleteTrain":
+                        MessageShow("Информация о поезде была успешно удалена", "ОК");
+                        break;
+                    case "DeleteRailcar":
+                        MessageShow("Информация о вагоне была успешно удалена", "ОК");
+                        break;
+                    case "DeleteStop":
+                        MessageShow("Информация об остановке была успешно удалена", "ОК");
+                        break;
+                    case "DeleteRout":
+                        MessageShow("Информация о маршруте была успешно удалена", "ОК");
+                        break;
+                    case "DeleteArrival":
+                        MessageShow("Информация о прибытии поезда была успешно удалена", "ОК");
+                        break;
+                    case "UpdateArrival":
+                        MessageShow("Информация о прибытии поезда была успешно изменена", "ОК");
+                        break;
+                    case "DeleteDeparture":
+                        MessageShow("Информация об отправлении поезда была успешно удалена", "ОК");
+                        break;
+                    case "UpdateDeparture":
+                        MessageShow("Информация об отправлении поезда была успешно изменена", "ОК");
+                        break;
                 }
             }
             else if (userControl == "Delete")
@@ -181,19 +213,22 @@ namespace RZDKursovoy
         }
         public bool ConvertCheck(object sender, DataGridCellEditEndingEventArgs e, int[] itemarr)
         {
-            for (int i = 0; i < itemarr.Length; i++)
+            if (itemarr[0] != -1)
             {
-                if (e.Column.DisplayIndex == itemarr[i])
+                for (int i = 0; i < itemarr.Length; i++)
                 {
-                    var t = e.EditingElement.ToString().Split(':');
-                    try
+                    if (e.Column.DisplayIndex == itemarr[i])
                     {
-                        Convert.ToInt32(t[1]);
-                    }
-                    catch(FormatException)
-                    {
-                        MessageErrorShow("Вы ввели - " + t[1] + ". Это значение не является целым числом", "Ошибка");
-                        return false;
+                        var t = e.EditingElement.ToString().Split(':');
+                        try
+                        {
+                            Convert.ToInt32(t[1]);
+                        }
+                        catch (Exception)
+                        {
+                            MessageErrorShow("Вы ввели - " + t[1] + ". Это значение не является целым числом", "Ошибка");
+                            return false;
+                        }
                     }
                 }
             }
@@ -202,22 +237,34 @@ namespace RZDKursovoy
         public DataRowView BlockUpdate(object sender, DataGridCellEditEndingEventArgs e, int[] itemarr)
         {
             DataRowView TMPGridRow = null;
-            for (int i = 0; i < itemarr.Length; i++)
+            if (itemarr[0] != -1)
             {
-                if (e.Column.DisplayIndex != i)
+                for (int i = 0; i < itemarr.Length; i++)
                 {
-                    try
+                    if (e.Column.DisplayIndex != i)
                     {
-                        TMPGridRow = (DataRowView)(sender as DataGrid).CurrentItem;
+                        try
+                        {
+                            TMPGridRow = (DataRowView)(sender as DataGrid).CurrentItem;
+                        }
+                        catch (Exception)
+                        { }
                     }
-                    catch (Exception)
-                    { }
+                    else
+                    {
+                        TMPGridRow = null;
+                        return TMPGridRow;
+                    }
                 }
-                else
+            }
+            else
+            {
+                try
                 {
-                    TMPGridRow = null;
-                    return TMPGridRow;
+                    TMPGridRow = (DataRowView)(sender as DataGrid).CurrentItem;
                 }
+                catch (Exception)
+                { }
             }
             return TMPGridRow;
         }
@@ -428,18 +475,15 @@ namespace RZDKursovoy
             };
             msg.Show();
         }
-
         /*Dispatcher Procedures*/
         public bool KeyUpInside(MySqlConnection Connected, object sender, System.Windows.Input.KeyEventArgs e, DataGrid grid, DataRowView TMPRow, bool ConvertCheck, string DeleteCommand, 
-            string UpdateCommand, string DeleteControl, string UpdateControl, string Error)
+            string UpdateCommand, string DeleteControl, string UpdateControl, string Error, string [] args)
         {
             try
             {
                 var r = e.Key.ToString();
                 if (r == "Delete")
                 {
-                    var t = (DataRowView)grid.CurrentItem;
-                    string[] args = { t[0].ToString() };
                     var res = MagicUniversalControlData(DeleteCommand, args, DeleteControl, Connected);
                     poselki.BestErrors BE = new poselki.BestErrors();
                     BE.CatchError(res);
@@ -448,7 +492,6 @@ namespace RZDKursovoy
                 else if (r == "Return")
                 {
                     var t1 = TMPRow;
-                    var t = (DataRowView)grid.CurrentItem;
                     if (t1 != null)
                     {
                         if (ConvertCheck)
