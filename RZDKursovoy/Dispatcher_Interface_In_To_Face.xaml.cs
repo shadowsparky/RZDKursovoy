@@ -24,50 +24,34 @@ namespace RZDKursovoy
             InitializeComponent();
         }
 
-        private void ShowTrains_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            AL.ShowTrainsTableFill(Connected, ShowTrains);
-        }
+        /*Key Up Events*/
         private void ShowTrains_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            try
-            {
-                var r = e.Key.ToString();
-                if (r == "Delete")
-                {
-                    var t = (DataRowView)ShowTrains.CurrentItem;
-                    string[] args = { t[0].ToString() };
-                    var res = AL.MagicUniversalControlData("call DISPATCHER_DropTrain", args, "DeleteTrain", Connected);
-                    poselki.BestErrors BE = new poselki.BestErrors();
-                    BE.CatchError(res);
-                    AL.ShowTrainsTableFill(Connected, ShowTrains);
-                }
-                else if (r == "Return")
-                {
-                    var t1 = TMPGridRow;
-                    var t = (DataRowView)ShowTrains.CurrentItem;
-                    if (t1 != null)
-                    {
-                        if (ConvertCheck)
-                        {
-                            AL.MagicUserControl(Connected, t1, "call DISPATCHER_UpdateTrain", "UpdateTrain");
-                        }
-                        AL.ShowTrainsTableFill(Connected, ShowTrains);
-                    }
-                    else
-                    {
-                        AL.MessageErrorShow("Номера поездов не подлежат редактированию", "Ошибка");
-                        AL.ShowTrainsTableFill(Connected, ShowTrains);
-                    }
-                }
-                else if (r == "Escape")
-                {
-                    AL.ShowTrainsTableFill(Connected, ShowTrains);
-                }
-            }
-            catch(Exception)
-            { }
+            if (AL.KeyUpInside(Connected, sender, e, ShowTrains, TMPGridRow, ConvertCheck, "call DISPATCHER_DropTrain", "call DISPATCHER_UpdateTrain", "DeleteTrain", "UpdateTrain", 
+                "При редактировании произошла ошибка. Редактировать номер поезда запрещено"))
+                TryLoadingTables();
         }
+        private void ShowRailcars_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
+        }
+        private void ShowRoutes_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
+        }
+        private void ShowStops_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
+        }
+        private void ShowArrivals_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
+        }
+        private void ShowDepartures_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
+        }
+        /*Cell Edit Ending Events*/
         private void ShowTrains_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             ConvertCheck = true;
@@ -76,5 +60,83 @@ namespace RZDKursovoy
             int[] itemarr = { 0 };
             TMPGridRow = AL.BlockUpdate(sender, e, itemarr);
         }
+        private void ShowRailcars_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+        private void ShowRoutes_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+        private void ShowStops_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+        private void ShowArrivals_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+        private void ShowDepartures_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+        /*Загрузка данных из таблиц*/
+        private void TryLoadingTables()
+        {
+            string[] argsTrains = { "Номер поезда", "Кол-во вагонов", "Тип поезда", "Название маршрута" };
+            string[] argsRailcars = { "Номер поезда", "Номер вагона", "Тип вагона" };
+            string[] argsRoutes = { "Название маршрута", "Количество остановок" };
+            string[] argsStops = { "Название маршрута", "Номер остановки", "Название остановки", "Название вокзала" };
+            string[] argsArrivals = { "Название остановки", "Название маршрута", "Номер поезда", "Время прибытия", "Дата прибытия" };
+            string[] argsDepartures = { "Название остановки", "Название маршрута", "Номер поезда", "Время отправления", "Дата отправления" };
+            try
+            {
+                if (!AL.FillTable(Connected, ShowTrains, "call DISPATCHER_ShowTrains", argsTrains))
+                    throw new ApplicationException();
+
+                if (!AL.FillTable(Connected, ShowRailcars, "call DISPATCHER_ShowRailcars", argsRailcars))
+                    throw new ApplicationException();
+
+                if (!AL.FillTable(Connected, ShowRoutes, "call DISPATCHER_ShowRoutes", argsRoutes))
+                    throw new ApplicationException();
+
+                if (!AL.FillTable(Connected, ShowStops, "call DISPATCHER_ShowStops", argsStops))
+                    throw new ApplicationException();
+
+                if (!AL.FillTable(Connected, ShowArrivals, "call DISPATCHER_ShowArrivals", argsArrivals))
+                    throw new ApplicationException();
+
+                if (!AL.FillTable(Connected, ShowDepartures, "call DISPATCHER_ShowDepartures", argsDepartures))
+                    throw new ApplicationException();
+            }
+            catch (ApplicationException)
+            {
+                ExecutableGrid.IsEnabled = false;
+                AL.MessageErrorShow("Соединение сервером было внезапно разорвано", "Ошибка");
+            }
+        }
+        private void TryLoading(object sender, System.Windows.RoutedEventArgs e)
+        {
+            TryLoadingTables();
+        }
+        //private void RefreshList_Click(object sender, System.Windows.RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        MySqlDataAdapter ad = new MySqlDataAdapter();
+        //        ad.SelectCommand = new MySqlCommand("call ADMIN_KursovoyTable", Connected);
+        //        DataTable table = new DataTable();
+        //        ad.Fill(table);
+        //        table.Columns[0].ColumnName = "Атрибут";
+        //        table.Columns[1].ColumnName = "Описание";
+        //        table.Columns[2].ColumnName = "Тип данных";
+        //        table.Columns[3].ColumnName = "Дополнительно";
+        //        //ShowTable.ItemsSource = table.DefaultView;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        AL.MessageErrorShow("ERROR", "1337");
+        //    }
+        //}
     }
 }

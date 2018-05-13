@@ -430,24 +430,68 @@ namespace RZDKursovoy
         }
 
         /*Dispatcher Procedures*/
-        public void ShowTrainsTableFill(MySqlConnection connection, DataGrid DG)
+        public bool KeyUpInside(MySqlConnection Connected, object sender, System.Windows.Input.KeyEventArgs e, DataGrid grid, DataRowView TMPRow, bool ConvertCheck, string DeleteCommand, 
+            string UpdateCommand, string DeleteControl, string UpdateControl, string Error)
+        {
+            try
+            {
+                var r = e.Key.ToString();
+                if (r == "Delete")
+                {
+                    var t = (DataRowView)grid.CurrentItem;
+                    string[] args = { t[0].ToString() };
+                    var res = MagicUniversalControlData(DeleteCommand, args, DeleteControl, Connected);
+                    poselki.BestErrors BE = new poselki.BestErrors();
+                    BE.CatchError(res);
+                    return true;
+                }
+                else if (r == "Return")
+                {
+                    var t1 = TMPRow;
+                    var t = (DataRowView)grid.CurrentItem;
+                    if (t1 != null)
+                    {
+                        if (ConvertCheck)
+                        {
+                            MagicUserControl(Connected, t1, UpdateCommand, UpdateControl);
+                        }
+                    }
+                    else
+                    {
+                        MessageErrorShow(Error, "Ошибка");
+                    }
+                    return true;
+                }
+                else if (r == "Escape")
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            { }
+            return false;
+        }
+        public bool FillTable(MySqlConnection connection, DataGrid DG, string query, string [] args)
         {
             try
             {
                 MySqlDataAdapter ad = new MySqlDataAdapter();
-                ad.SelectCommand = new MySqlCommand("call DISPATCHER_ShowTrains", connection);
+                ad.SelectCommand = new MySqlCommand(query, connection);
                 DataTable table = new DataTable();
                 ad.Fill(table);
-                table.Columns[0].ColumnName = "Номер поезда";
-                table.Columns[1].ColumnName = "Кол-во вагонов";
-                table.Columns[2].ColumnName = "Тип поезда";
-                table.Columns[3].ColumnName = "Название маршрута";
+                for (int i = 0; i < args.Length; i++)
+                {
+                    table.Columns[i].ColumnName = args[i];
+                }
                 DG.ItemsSource = table.DefaultView;
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                MessageErrorShow("При загрузке поездов произошла ошибка", "Ошибка");
+                var e = ex.Message;
+                MessageErrorShow("При загрузке данных произошла ошибка", "Ошибка");
+                return false;
             }
+            return true;
         }
     }
 }
