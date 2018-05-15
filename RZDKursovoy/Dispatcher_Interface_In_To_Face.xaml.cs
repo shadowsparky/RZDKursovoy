@@ -133,116 +133,48 @@ namespace RZDKursovoy
         /*Click Button Events*/
         private void OpenAddTrainMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (DAF == null)
-            {
-                DAF = new Dispatcher_AddForm();
-                DAF.SetConnection = Connected;
-                DAF.ShowControl(0);
-                DAF.SetInterface = this;
-                DAF.Show();
-            }
-            else
-            {
-                DAF.SetConnection = Connected;
-                DAF.SetInterface = this;
-                DAF.ShowControl(0);
-                if (!DAF.IsVisible)
-                    DAF.Show();
-            }
+            SetControl(0);
         }
         private void OpenAddRailcarMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (DAF == null)
-            {
-                DAF = new Dispatcher_AddForm();
-                DAF.SetConnection = Connected;
-                DAF.ShowControl(1);
-                DAF.SetInterface = this;
-                DAF.Show();
-            }
-            else
-            {
-                DAF.SetConnection = Connected;
-                DAF.SetInterface = this;
-                DAF.ShowControl(1);
-                if (!DAF.IsVisible)
-                    DAF.Show();
-            }
+            SetControl(1);
         }
         private void OpenAddRoutMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (DAF == null)
-            {
-                DAF = new Dispatcher_AddForm();
-                DAF.SetConnection = Connected;
-                DAF.ShowControl(2);
-                DAF.SetInterface = this;
-                DAF.Show();
-            }
-            else
-            {
-                DAF.SetConnection = Connected;
-                DAF.SetInterface = this;
-                DAF.ShowControl(2);
-                if (!DAF.IsVisible)
-                    DAF.Show();
-            }
+            SetControl(2);
         }
         private void OpenAddStopsMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (DAF == null)
-            {
-                DAF = new Dispatcher_AddForm();
-                DAF.SetConnection = Connected;
-                DAF.ShowControl(3);
-                DAF.SetInterface = this;
-                DAF.Show();
-            }
-            else
-            {
-                DAF.SetConnection = Connected;
-                DAF.SetInterface = this;
-                DAF.ShowControl(3);
-                if (!DAF.IsVisible)
-                    DAF.Show();
-            }
+            SetControl(3);
         }
         private void OpenAddArrivalMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (DAF == null)
-            {
-                DAF = new Dispatcher_AddForm();
-                DAF.SetConnection = Connected;
-                DAF.ShowControl(4);
-                DAF.SetInterface = this;
-                DAF.Show();
-            }
-            else
-            {
-                DAF.SetConnection = Connected;
-                DAF.SetInterface = this;
-                DAF.ShowControl(4);
-                if (!DAF.IsVisible)
-                    DAF.Show();
-            }
+            SetControl(4);
         }
         private void OpenAddDepartureMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            SetControl(5);
+        }
+        private void SetControl(int ControlID)
+        {
+            if (DAF != null)
+            {
+                if (!DAF.IsVisible)
+                    DAF = null;
+            }
             if (DAF == null)
             {
                 DAF = new Dispatcher_AddForm();
-                DAF.SetConnection = Connected;
-                DAF.ShowControl(5);
                 DAF.SetInterface = this;
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(ControlID);
                 DAF.Show();
             }
             else
             {
                 DAF.SetConnection = Connected;
                 DAF.SetInterface = this;
-                DAF.ShowControl(5);
-                if (!DAF.IsVisible)
-                    DAF.Show();
+                DAF.ShowControl(ControlID);
             }
         }
         /*Загрузка данных из таблиц*/

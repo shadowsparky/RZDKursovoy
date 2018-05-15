@@ -34,30 +34,29 @@ namespace RZDKursovoy
                 this.IsEnabled = false;
             }
         }
-        private void RailcarRout_BOX_Loaded(object sender, RoutedEventArgs e)
+        private void AddTrain_BUTTON_Click(object sender, RoutedEventArgs e)
         {
-            if (!AL.ComboboxFiling(_connected, "call _DISPATCHER_ThrowRoutsNames", RailcarRout_BOX))
+            string[] args = { TrainNumber_BOX.Text, RailcarCount_BOX.Text, TrainType_BOX.Text, TrainRout_BOX.Text };
+            if (AL.TextChecking(args))
             {
-                AL.MessageErrorShow("При загрузке маршрутов произошла ошибка", "Ошибка");
-                this.IsEnabled = false;
+                AL.MagicUniversalControlDataCatched("call DISPATCHER_AddTrain", args, "AddTrain", _connected);
+                DIITF.TryLoadingTables();
             }
         }
-        private void RailcarType_BOX_Loaded(object sender, RoutedEventArgs e)
+        private void TrainType_BOX_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!AL.ComboboxFiling(_connected, "call _DISPATCHER_ThrowTrainTypes", RailcarType_BOX))
+            if (!AL.ComboboxFiling(_connected, "call _DISPATCHER_ThrowTrainTypes", TrainType_BOX))
             {
                 AL.MessageErrorShow("При загрузке типов вагонов произошла ошибка", "Ошибка");
                 this.IsEnabled = false;
             }
         }
-
-        private void AddTrain_BUTTON_Click(object sender, RoutedEventArgs e)
+        private void TrainRout_BOX_Loaded(object sender, RoutedEventArgs e)
         {
-            string[] args = { TrainNumber_BOX.Text, RailcarCount_BOX.Text, RailcarType_BOX.Text, RailcarRout_BOX.Text };
-            if (AL.TextChecking(args))
+            if (!AL.ComboboxFiling(_connected, "call _DISPATCHER_ThrowRoutsNames", TrainRout_BOX))
             {
-                AL.MagicUniversalControlDataCatched("call DISPATCHER_AddTrain", args, "AddTrain", _connected);
-                DIITF.TryLoadingTables();
+                AL.MessageErrorShow("При загрузке маршрутов произошла ошибка", "Ошибка");
+                this.IsEnabled = false;
             }
         }
     }

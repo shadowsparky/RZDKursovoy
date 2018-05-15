@@ -3,10 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:RZDKursovoy"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <GroupBox Header="Добавление вагона">
+            <Grid>
+                <ComboBox Loaded="TrainNumber_BOX_Loaded" LostFocus="TrainNumber_BOX_LostFocus" GotFocus="TrainNumber_BOX_GotFocus" materialDesign:HintAssist.Hint="Номер поезда" x:Name="TrainNumber_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,140" Width="289">
+                </ComboBox>
+                <ComboBox materialDesign:HintAssist.Hint="Номер вагона" x:Name="RailcarNumber_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,50" Width="289">
+                </ComboBox>
+                <ComboBox Loaded="RailcarType_BOX_Loaded" materialDesign:HintAssist.Hint="Тип вагона" x:Name="RailcarType_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,40,0,0" Width="289">
+                </ComboBox>
+                <Button x:Name="AddRailcar_BUTTON" Click="AddRailcar_BUTTON_Click" Content="Добавить вагон" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,130,0,0" Width="289"></Button>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

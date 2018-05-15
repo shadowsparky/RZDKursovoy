@@ -24,11 +24,11 @@
                 <ComboBox Loaded="RailcarCount_BOX_Loaded" materialDesign:HintAssist.Hint="Количество вагонов" x:Name="RailcarCount_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,100" Width="289">
                 </ComboBox>
-                <ComboBox Loaded="RailcarType_BOX_Loaded" materialDesign:HintAssist.Hint="Тип поезда" x:Name="RailcarType_BOX"
+                <ComboBox Loaded="TrainType_BOX_Loaded" materialDesign:HintAssist.Hint="Тип поезда" x:Name="TrainType_BOX"
                     IsEditable="True"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,10" Width="289">
                 </ComboBox>
-                <ComboBox Loaded="RailcarRout_BOX_Loaded" materialDesign:HintAssist.Hint="Маршрут" x:Name="RailcarRout_BOX"
+                <ComboBox Loaded="TrainRout_BOX_Loaded" materialDesign:HintAssist.Hint="Маршрут" x:Name="TrainRout_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,80,0,0" Width="289">
                 </ComboBox>
                 <Button x:Name="AddTrain_BUTTON" Click="AddTrain_BUTTON_Click" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,170,0,0" Width="289" Content="Добавить"></Button>
