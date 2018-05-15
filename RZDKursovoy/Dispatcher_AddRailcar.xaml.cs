@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace RZDKursovoy
 {
     /// <summary>
-    /// Логика взаимодействия для Dispatcher_AddRailcarForm.xaml
+    /// Логика взаимодействия для Dispatcher_AddRailcar.xaml
     /// </summary>
-    public partial class Dispatcher_AddRailcarForm : Window
+    public partial class Dispatcher_AddRailcar : UserControl
     {
-        public Dispatcher_AddRailcarForm()
+        public Dispatcher_AddRailcar()
         {
             InitializeComponent();
         }

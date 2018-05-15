@@ -19,6 +19,7 @@ namespace RZDKursovoy
         private ApplicationLogic AL = new ApplicationLogic();
         private DataRowView TMPGridRow = null;
         private bool ConvertCheck = true;
+        Dispatcher_AddForm DAF = null;
 
         public Dispatcher_Interface_In_To_Face()
         {
@@ -28,50 +29,56 @@ namespace RZDKursovoy
         /*Key Up Events*/
         private void ShowTrains_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            int[] activity = { 0, 0 };
             string[] args = { TMPGridRow[0].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowTrains, TMPGridRow, ConvertCheck, "call DISPATCHER_DropTrain", "call DISPATCHER_UpdateTrain", "DeleteTrain", "UpdateTrain",
-                "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args))
+                "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args, activity))
                 TryLoadingTables();
         }
         private void ShowRailcars_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            int[] activity = { 0, 1 };
             var t = (DataRowView)ShowRailcars.CurrentItem;
             string[] args = { t[0].ToString(), t[1].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowRailcars, TMPGridRow, ConvertCheck, "call DISPATCHER_DropRailcar", "-1", "DeleteRailcar", "DontWork",
-                "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args))
+                "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args, activity))
             AL.MessageErrorShow("Произошла ошибка. Редактирование вагонов временно не работает", "Ошибка");
             TryLoadingTables();
         }
         private void ShowRoutes_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            int[] activity = { 0, 0 };
             var t = (DataRowView)ShowRoutes.CurrentItem;
             string[] args = { t[0].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowRoutes, TMPGridRow, ConvertCheck, "call DISPATCHER_DropRout", "call DISPATCHER_UpdateRout", "DeleteRout", "UpdateRout",
-                "При редактировании произошла ошибка. Редактировать идентификатор маршрута запрещено", args))
+                "При редактировании произошла ошибка. Редактировать идентификатор маршрута запрещено", args, activity))
                 TryLoadingTables();
         }
         private void ShowStops_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            int[] activity = { 0, 0 };
             var t = (DataRowView)ShowStops.CurrentItem;
             string[] args = { t[0].ToString(), t[1].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowStops, TMPGridRow, ConvertCheck, "call DISPATCHER_DropStop", "call DISPATCHER_UpdateStop", "DeleteStop", "UpdateStop",
-                "При редактировании произошла ошибка. Редактировать идентификатор маршрута запрещено", args))
+                "При редактировании произошла ошибка. Редактировать идентификатор маршрута запрещено", args, activity))
                 TryLoadingTables();
         }
         private void ShowArrivals_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            int[] activity = { 0, 0 };
             var t = (DataRowView)ShowArrivals.CurrentItem;
             string[] args = { t[1].ToString(), t[0].ToString(), t[2].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowArrivals, TMPGridRow, ConvertCheck, "call DISPATCHER_DropArrival", "call DISPATCHER_UpdateArrival", "DeleteArrival", "UpdateArrival",
-                "При редактировании произошла неизвестная ошибка", args))
+                "При редактировании произошла неизвестная ошибка", args, activity))
                 TryLoadingTables();
         }
         private void ShowDepartures_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            int[] activity = { 0, 0 };
             var t = (DataRowView)ShowDepartures.CurrentItem;
             string[] args = { t[1].ToString(), t[0].ToString(), t[2].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowDepartures, TMPGridRow, ConvertCheck, "call DISPATCHER_DropDeparture", "call DISPATCHER_UpdateDeparture", "DeleteDeparture", "UpdateDeparture",
-                "При редактировании произошла неизвестная ошибка", args))
+                "При редактировании произошла неизвестная ошибка", args, activity))
                 TryLoadingTables();
         }
         /*Cell Edit Ending Events*/
@@ -126,7 +133,20 @@ namespace RZDKursovoy
         /*Click Button Events*/
         private void OpenAddTrainMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (DAF == null)
+            {
+                DAF = new Dispatcher_AddForm();
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(0);
+                DAF.Show();
+            }
+            else
+            {
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(0);
+                if (!DAF.IsVisible)
+                    DAF.Show();
+            }
         }
         private void OpenAddRailcarMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -138,8 +158,7 @@ namespace RZDKursovoy
         }
         private void OpenAddStopsMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var DAT = new Dispatcher_AddTrainForm();
-            DAT.Show();
+
         }
         private void OpenAddArrivalMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {

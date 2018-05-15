@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace RZDKursovoy
 {
     /// <summary>
-    /// Логика взаимодействия для Dispatcher_AddArrivalForm.xaml
+    /// Логика взаимодействия для Dispatcher_AddArrival.xaml
     /// </summary>
-    public partial class Dispatcher_AddArrivalForm : Window
+    public partial class Dispatcher_AddArrival : UserControl
     {
-        public Dispatcher_AddArrivalForm()
+        public Dispatcher_AddArrival()
         {
             InitializeComponent();
         }

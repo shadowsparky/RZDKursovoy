@@ -94,6 +94,24 @@ namespace RZDKursovoy
                     case "UpdateDeparture":
                         MessageShow("Информация об отправлении поезда была успешно изменена", "ОК");
                         break;
+                    case "AddTrain":
+                        MessageShow("Данные о поезде успешно добавлены", "ОК");
+                        break;
+                    case "AddRailcar":
+                        MessageShow("Данные о вагоне успешно добавлены", "ОК");
+                        break;
+                    case "AddRout":
+                        MessageShow("Данные о маршруте успешно добавлены", "ОК");
+                        break;
+                    case "AddStop":
+                        MessageShow("Данные об остановке успешно добавлены", "ОК");
+                        break;
+                    case "AddArrival":
+                        MessageShow("Данные прибытия поезда успешно добавлены", "ОК");
+                        break;
+                    case "AddDeparture":
+                        MessageShow("Данные отправления поезда успешно добавлены", "ОК");
+                        break;
                 }
             }
             else if (userControl == "Delete")
@@ -112,6 +130,12 @@ namespace RZDKursovoy
             }
             string[] Result3 = { "OK", "1" };
             return Result3;
+        }
+        public void MagicUniversalControlDataCatched(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
+        {
+            var res = MagicUniversalControlData(QueryString, DataArgs, userControl, Connection);
+            poselki.BestErrors BE = new poselki.BestErrors();
+            BE.CatchError(res);
         }
         public void MagicUserControl(MySqlConnection connected, DataRowView t, string Proc, string Control)
         {
@@ -477,31 +501,45 @@ namespace RZDKursovoy
         }
         /*Dispatcher Procedures*/
         public bool KeyUpInside(MySqlConnection Connected, object sender, System.Windows.Input.KeyEventArgs e, DataGrid grid, DataRowView TMPRow, bool ConvertCheck, string DeleteCommand, 
-            string UpdateCommand, string DeleteControl, string UpdateControl, string Error, string [] args)
+            string UpdateCommand, string DeleteControl, string UpdateControl, string Error, string [] args, int [] activity )
         {
             try
             {
                 var r = e.Key.ToString();
                 if (r == "Delete")
                 {
-                    var res = MagicUniversalControlData(DeleteCommand, args, DeleteControl, Connected);
-                    poselki.BestErrors BE = new poselki.BestErrors();
-                    BE.CatchError(res);
+                    if (activity[0] == 0)
+                    {
+                        var res = MagicUniversalControlData(DeleteCommand, args, DeleteControl, Connected);
+                        poselki.BestErrors BE = new poselki.BestErrors();
+                        BE.CatchError(res);
+                    }
+                    else
+                    {
+                        MessageShow("Удаление временно недоступно. Следите за обновлениями приложения", "!");
+                    }
                     return true;
                 }
                 else if (r == "Return")
                 {
-                    var t1 = TMPRow;
-                    if (t1 != null)
+                    if (activity[1] == 0)
                     {
-                        if (ConvertCheck)
+                        var t1 = TMPRow;
+                        if (t1 != null)
                         {
-                            MagicUserControl(Connected, t1, UpdateCommand, UpdateControl);
+                            if (ConvertCheck)
+                            {
+                                MagicUserControl(Connected, t1, UpdateCommand, UpdateControl);
+                            }
+                        }
+                        else
+                        {
+                            MessageErrorShow(Error, "Ошибка");
                         }
                     }
                     else
                     {
-                        MessageErrorShow(Error, "Ошибка");
+                        MessageShow("Редактирование временно недоступно. Следите за обновлениями приложения", "!");
                     }
                     return true;
                 }
@@ -533,6 +571,31 @@ namespace RZDKursovoy
                 var e = ex.Message;
                 MessageErrorShow("При загрузке данных произошла ошибка", "Ошибка");
                 return false;
+            }
+            return true;
+        }
+        public bool ComboboxFiling(MySqlConnection connection, string query, ComboBox CB)
+        {
+            try
+            {
+                string[] args = { "null" };
+                var result = CatchStringListResult(connection, query, args);
+                for (int i = 0; i < result.Count; i++)
+                { CB.Items.Add(result[i]); }
+            }
+            catch (Exception)
+            { return false; }
+            return true;
+        }
+        public bool TextChecking(string [] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (string.IsNullOrEmpty(args[i]))
+                {
+                    MessageErrorShow("Вы не заполнили одно или несколько полей, необходимых для добавления", "Ошибка");
+                    return false;
+                }
             }
             return true;
         }

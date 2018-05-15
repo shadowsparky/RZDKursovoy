@@ -147,23 +147,26 @@
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
     <Compile Include="BestErrors.cs" />
-    <Compile Include="Dispatcher_AddArrivalForm.xaml.cs">
-      <DependentUpon>Dispatcher_AddArrivalForm.xaml</DependentUpon>
+    <Compile Include="Dispatcher_AddArrival.xaml.cs">
+      <DependentUpon>Dispatcher_AddArrival.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dispatcher_AddDepartureForm.xaml.cs">
-      <DependentUpon>Dispatcher_AddDepartureForm.xaml</DependentUpon>
+    <Compile Include="Dispatcher_AddDeparture.xaml.cs">
+      <DependentUpon>Dispatcher_AddDeparture.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dispatcher_AddRailcarForm.xaml.cs">
-      <DependentUpon>Dispatcher_AddRailcarForm.xaml</DependentUpon>
+    <Compile Include="Dispatcher_AddForm.xaml.cs">
+      <DependentUpon>Dispatcher_AddForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dispatcher_AddRoutForm.xaml.cs">
-      <DependentUpon>Dispatcher_AddRoutForm.xaml</DependentUpon>
+    <Compile Include="Dispatcher_AddRailcar.xaml.cs">
+      <DependentUpon>Dispatcher_AddRailcar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dispatcher_AddStopForm.xaml.cs">
-      <DependentUpon>Dispatcher_AddStopForm.xaml</DependentUpon>
+    <Compile Include="Dispatcher_AddRout.xaml.cs">
+      <DependentUpon>Dispatcher_AddRout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dispatcher_AddTrainForm.xaml.cs">
-      <DependentUpon>Dispatcher_AddTrainForm.xaml</DependentUpon>
+    <Compile Include="Dispatcher_AddStop.xaml.cs">
+      <DependentUpon>Dispatcher_AddStop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dispatcher_AddTrain.xaml.cs">
+      <DependentUpon>Dispatcher_AddTrain.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dispatcher_Interface_In_To_Face.xaml.cs">
       <DependentUpon>Dispatcher_Interface_In_To_Face.xaml</DependentUpon>
@@ -191,27 +194,31 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApplicationLogic.cs" />
-    <Page Include="Dispatcher_AddArrivalForm.xaml">
+    <Page Include="Dispatcher_AddArrival.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dispatcher_AddDepartureForm.xaml">
+    <Page Include="Dispatcher_AddDeparture.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dispatcher_AddRailcarForm.xaml">
+    <Page Include="Dispatcher_AddForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dispatcher_AddRoutForm.xaml">
+    <Page Include="Dispatcher_AddRailcar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dispatcher_AddStopForm.xaml">
+    <Page Include="Dispatcher_AddRout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dispatcher_AddTrainForm.xaml">
+    <Page Include="Dispatcher_AddStop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dispatcher_AddTrain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
