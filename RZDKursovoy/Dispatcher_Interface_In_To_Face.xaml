@@ -18,7 +18,7 @@
 
             <TabItem Header="Вагоны">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowRailcars_CellEditEnding" KeyUp="ShowRailcars_KeyUp" x:Name="ShowRailcars" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowRailcars_CellEditEnding" KeyUp="ShowRailcars_KeyUp" x:Name="ShowRailcars" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddRailcarMenu" Click="OpenAddRailcarMenu_Click" Height="29" Content="Добавить вагон" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>

@@ -10,7 +10,6 @@ namespace RZDKursovoy
     /// <summary>
     /// Логика взаимодействия для Dispatcher_Interface_In_To_Face.xaml
     /// </summary>
-    // [SecuritySafeCritical]
     public partial class Dispatcher_Interface_In_To_Face : UserControl
     {
         public MySqlConnection Connected { get; private set; }
@@ -38,9 +37,10 @@ namespace RZDKursovoy
         {
             var t = (DataRowView)ShowRailcars.CurrentItem;
             string[] args = { t[0].ToString(), t[1].ToString() };
-            if (AL.KeyUpInside(Connected, sender, e, ShowRailcars, TMPGridRow, ConvertCheck, "call DISPATCHER_DropRailcar", "call DISPATCHER_UpdateRailcar", "DeleteRailcar", "UpdateRailcar",
+            if (AL.KeyUpInside(Connected, sender, e, ShowRailcars, TMPGridRow, ConvertCheck, "call DISPATCHER_DropRailcar", "-1", "DeleteRailcar", "DontWork",
                 "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args))
-                TryLoadingTables();
+            AL.MessageErrorShow("Произошла ошибка. Редактирование вагонов временно не работает", "Ошибка");
+            TryLoadingTables();
         }
         private void ShowRoutes_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -138,7 +138,8 @@ namespace RZDKursovoy
         }
         private void OpenAddStopsMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            var DAT = new Dispatcher_AddTrainForm();
+            DAT.Show();
         }
         private void OpenAddArrivalMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
