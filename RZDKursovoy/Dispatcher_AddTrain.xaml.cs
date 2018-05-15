@@ -16,6 +16,11 @@ namespace RZDKursovoy
         {
             set { _connected = value; }
         }
+        private Dispatcher_Interface_In_To_Face DIITF;
+        public Dispatcher_Interface_In_To_Face SetInterface
+        {
+            set { DIITF = value; }
+        }
 
         public Dispatcher_AddTrain()
         {
@@ -48,10 +53,11 @@ namespace RZDKursovoy
 
         private void AddTrain_BUTTON_Click(object sender, RoutedEventArgs e)
         {
-            string[] args = { TrainNumber_BOX.Text, RailcarCount_BOX.Text, RailcarRout_BOX.Text, RailcarType_BOX.Text };
+            string[] args = { TrainNumber_BOX.Text, RailcarCount_BOX.Text, RailcarType_BOX.Text, RailcarRout_BOX.Text };
             if (AL.TextChecking(args))
             {
                 AL.MagicUniversalControlDataCatched("call DISPATCHER_AddTrain", args, "AddTrain", _connected);
+                DIITF.TryLoadingTables();
             }
         }
     }

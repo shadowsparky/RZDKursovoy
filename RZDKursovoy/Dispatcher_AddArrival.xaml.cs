@@ -20,6 +20,16 @@ namespace RZDKursovoy
     /// </summary>
     public partial class Dispatcher_AddArrival : UserControl
     {
+        private MySqlConnection _connected;
+        public MySqlConnection SetConnection
+        {
+            set { _connected = value; }
+        }
+        private Dispatcher_Interface_In_To_Face DIITF;
+        public Dispatcher_Interface_In_To_Face SetInterface
+        {
+            set { DIITF = value; }
+        }
         public Dispatcher_AddArrival()
         {
             InitializeComponent();

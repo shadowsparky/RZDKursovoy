@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,16 @@ namespace RZDKursovoy
     /// </summary>
     public partial class Dispatcher_AddStop : UserControl
     {
+        private MySqlConnection _connected;
+        public MySqlConnection SetConnection
+        {
+            set { _connected = value; }
+        }
+        private Dispatcher_Interface_In_To_Face DIITF;
+        public Dispatcher_Interface_In_To_Face SetInterface
+        {
+            set { DIITF = value; }
+        }
         public Dispatcher_AddStop()
         {
             InitializeComponent();

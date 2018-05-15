@@ -138,11 +138,13 @@ namespace RZDKursovoy
                 DAF = new Dispatcher_AddForm();
                 DAF.SetConnection = Connected;
                 DAF.ShowControl(0);
+                DAF.SetInterface = this;
                 DAF.Show();
             }
             else
             {
                 DAF.SetConnection = Connected;
+                DAF.SetInterface = this;
                 DAF.ShowControl(0);
                 if (!DAF.IsVisible)
                     DAF.Show();
@@ -150,26 +152,101 @@ namespace RZDKursovoy
         }
         private void OpenAddRailcarMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (DAF == null)
+            {
+                DAF = new Dispatcher_AddForm();
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(1);
+                DAF.SetInterface = this;
+                DAF.Show();
+            }
+            else
+            {
+                DAF.SetConnection = Connected;
+                DAF.SetInterface = this;
+                DAF.ShowControl(1);
+                if (!DAF.IsVisible)
+                    DAF.Show();
+            }
         }
         private void OpenAddRoutMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (DAF == null)
+            {
+                DAF = new Dispatcher_AddForm();
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(2);
+                DAF.SetInterface = this;
+                DAF.Show();
+            }
+            else
+            {
+                DAF.SetConnection = Connected;
+                DAF.SetInterface = this;
+                DAF.ShowControl(2);
+                if (!DAF.IsVisible)
+                    DAF.Show();
+            }
         }
         private void OpenAddStopsMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (DAF == null)
+            {
+                DAF = new Dispatcher_AddForm();
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(3);
+                DAF.SetInterface = this;
+                DAF.Show();
+            }
+            else
+            {
+                DAF.SetConnection = Connected;
+                DAF.SetInterface = this;
+                DAF.ShowControl(3);
+                if (!DAF.IsVisible)
+                    DAF.Show();
+            }
         }
         private void OpenAddArrivalMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (DAF == null)
+            {
+                DAF = new Dispatcher_AddForm();
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(4);
+                DAF.SetInterface = this;
+                DAF.Show();
+            }
+            else
+            {
+                DAF.SetConnection = Connected;
+                DAF.SetInterface = this;
+                DAF.ShowControl(4);
+                if (!DAF.IsVisible)
+                    DAF.Show();
+            }
         }
         private void OpenAddDepartureMenu_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (DAF == null)
+            {
+                DAF = new Dispatcher_AddForm();
+                DAF.SetConnection = Connected;
+                DAF.ShowControl(5);
+                DAF.SetInterface = this;
+                DAF.Show();
+            }
+            else
+            {
+                DAF.SetConnection = Connected;
+                DAF.SetInterface = this;
+                DAF.ShowControl(5);
+                if (!DAF.IsVisible)
+                    DAF.Show();
+            }
         }
         /*Загрузка данных из таблиц*/
-        private void TryLoadingTables()
+        public void TryLoadingTables()
         {
             string[] argsTrains = { "Номер поезда", "Кол-во вагонов", "Тип поезда", "Название маршрута" };
             string[] argsRailcars = { "Номер поезда", "Номер вагона", "Тип вагона" };
