@@ -47,15 +47,16 @@ namespace RZDKursovoy
         private void AddStop_BUTTON_Click(object sender, RoutedEventArgs e)
         {
             string[] args = { RoutName_BOX.Text, StopID.Text, StopName.Text, Train_Station_Name.Text };
-            if (AL.TextChecking(args))
+            string[] RequredArgs = { RoutName_BOX.Text, StopID.Text, StopName.Text };
+            if (AL.TextChecking(RequredArgs))
             {
-                AL.MagicUniversalControlDataCatched("call DISPATCHER_AddStop", args, "AddRout", _connected);
+                AL.MagicUniversalControlDataCatched("call DISPATCHER_AddStop", args, "AddStop", _connected);
                 DIITF.TryLoadingTables();
             }
         }
         private void Train_Station_Name_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            AL.InputWordsProtector(e);
+          //  AL.InputWordsProtector(e);
         }
         private void StopName_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {

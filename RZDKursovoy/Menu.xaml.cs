@@ -94,7 +94,7 @@ namespace RZDKursovoy
                             List<string> TrainsList = new List<string>();
                             for (int i = 0; i < Routs.Count; i++)
                             {
-                                string[] args = { Routs[i], Arrival_BOX.Text, Arrival_Date.Text };
+                                string[] args = { Routs[i], Arrival_BOX.Text, Arrival_Date.Text, Departure_BOX.Text };
                                 var TMPInputer = AL.CatchStringListResult(Connected, "call newFindTrainList", args);
                                 for (int j = 0; j < TMPInputer.Count; j++)
                                     if (TMPInputer[j] != "-1")
