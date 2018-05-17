@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RZDKursovoy"
         mc:Ignorable="d"
         x:Name="BestWindow"
-        Title="Добавление" Height="450" Width="800">
+        Title="Добавление" Height="350" Width="500" MinHeight="350" MinWidth="500">
     <Grid>
         
     </Grid>
