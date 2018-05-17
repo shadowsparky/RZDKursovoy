@@ -43,7 +43,6 @@ namespace RZDKursovoy
             string[] args = { t[0].ToString(), t[1].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowRailcars, TMPGridRow, ConvertCheck, "call DISPATCHER_DropRailcar", "-1", "DeleteRailcar", "DontWork",
                 "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args, activity))
-            AL.MessageErrorShow("Произошла ошибка. Редактирование вагонов временно не работает", "Ошибка");
             TryLoadingTables();
         }
         private void ShowRoutes_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)

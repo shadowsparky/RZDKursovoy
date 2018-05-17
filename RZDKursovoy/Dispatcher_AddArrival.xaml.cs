@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace RZDKursovoy
 {
-    /// <summary>
-    /// Логика взаимодействия для Dispatcher_AddArrival.xaml
-    /// </summary>
     public partial class Dispatcher_AddArrival : UserControl
     {
         private MySqlConnection _connected;
@@ -36,13 +33,42 @@ namespace RZDKursovoy
         {
             InitializeComponent();
         }
-        private void StopName_BOX_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void RoutName_BOX_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Добавление 
+            if (RoutName_BOX.Text != "")
+            {
+                StopName_BOX.Items.Clear();
+                Train_Number_BOX.Items.Clear();
+                string[] args = { RoutName_BOX.Text };
+                try
+                {
+                    var r = AL.CatchStringListResult(_connected, "call _DISPATCHER_ThrowAvailableStopsFindByRout", args);
+                    for (int i = 0; i < r.Count; i++)
+                    {
+                        StopName_BOX.Items.Add(r[i]);
+                    }
+                }
+                catch (Exception)
+                {
+                    AL.MessageErrorShow("При загрузке остановок произошла ошибка", "Ошибка");
+                    this.IsEnabled = false;
+                    return;
+                }
+                try
+                {
+                    var r2 = AL.CatchStringListResult(_connected, "call _DISPATCHER_ThrowAvailableTrainsFindByRout", args);
+                    for (int i = 0; i < r2.Count; i++)
+                    {
+                        Train_Number_BOX.Items.Add(r2[i]);
+                    }
+                }
+                catch (Exception)
+                {
+                    AL.MessageErrorShow("При загрузке поездов произошла ошибка", "Ошибка");
+                    this.IsEnabled = false;
+                    return;
+                }
+            }
         }
         private void RoutName_BOX_Loaded(object sender, RoutedEventArgs e)
         {
@@ -51,6 +77,15 @@ namespace RZDKursovoy
             {
                 AL.MessageErrorShow("При загрузке маршрутов произошла ошибка", "Ошибка");
                 this.IsEnabled = false;
+            }
+        }
+        private void AddArrival_BUTTON_Click(object sender, RoutedEventArgs e)
+        {
+            string[] args = { RoutName_BOX.Text, StopName_BOX.Text, Train_Number_BOX.Text, ArrivalTime.Text, ArrivalDate.Text };
+            if (AL.TextChecking(args))
+            {
+                AL.MagicUniversalControlDataCatched("call DISPATCHER_AddArrival", args, "AddArrival", _connected);
+                DIITF.TryLoadingTables();
             }
         }
     }

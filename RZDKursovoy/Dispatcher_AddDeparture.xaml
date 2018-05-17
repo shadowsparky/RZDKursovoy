@@ -3,10 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:RZDKursovoy"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <GroupBox Header="Добавление отправления поезда">
+            <Grid>
+                <ComboBox LostFocus="RoutName_BOX_LostFocus" Loaded="RoutName_BOX_Loaded" materialDesign:HintAssist.Hint="Название маршрута" x:Name="RoutName_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,200" Width="289">
+                </ComboBox>
+                <ComboBox materialDesign:HintAssist.Hint="Название остановки" x:Name="StopName_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,130" Width="289">
+                </ComboBox>
+                <ComboBox materialDesign:HintAssist.Hint="Номер поезда" x:Name="Train_Number_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,60" Width="289">
+                </ComboBox>
+                <materialDesign:TimePicker Language="ru-RU" HorizontalAlignment="Center" Margin="0,20,0,0" materialDesign:HintAssist.Hint="Время" x:Name="DepartureTime" Width="289" VerticalAlignment="Center"></materialDesign:TimePicker>
+                <DatePicker x:Name="DepartureDate" Language="ru-RU" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Дата" HorizontalAlignment="Center" Width="289" Margin="0,80,0,0" ></DatePicker>
+                <Button x:Name="AddDeparutre_BUTTON" Click="AddDeparutre_BUTTON_Click" VerticalAlignment="Center" Width="289" Content="Добавить" HorizontalAlignment="Center" Margin="0,150,0,0"></Button>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

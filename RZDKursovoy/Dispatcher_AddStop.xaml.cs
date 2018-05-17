@@ -31,7 +31,6 @@ namespace RZDKursovoy
                 this.IsEnabled = false;
             }
         }
-
         private void RoutName_BOX_LostFocus(object sender, RoutedEventArgs e)
         {
             if (RoutName_BOX.Text != "")
