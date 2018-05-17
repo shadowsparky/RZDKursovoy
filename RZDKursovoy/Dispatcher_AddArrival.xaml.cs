@@ -27,6 +27,7 @@ namespace RZDKursovoy
             set { _connected = value; }
         }
         private Dispatcher_Interface_In_To_Face DIITF;
+        private ApplicationLogic AL = new ApplicationLogic();
         public Dispatcher_Interface_In_To_Face SetInterface
         {
             set { DIITF = value; }
@@ -34,6 +35,23 @@ namespace RZDKursovoy
         public Dispatcher_AddArrival()
         {
             InitializeComponent();
+        }
+        private void StopName_BOX_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void RoutName_BOX_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Добавление 
+        }
+        private void RoutName_BOX_Loaded(object sender, RoutedEventArgs e)
+        {
+            RoutName_BOX.Items.Clear();
+            if (!AL.ComboboxFiling(_connected, "call _DISPATCHER_ThrowRoutsNames", RoutName_BOX))
+            {
+                AL.MessageErrorShow("При загрузке маршрутов произошла ошибка", "Ошибка");
+                this.IsEnabled = false;
+            }
         }
     }
 }

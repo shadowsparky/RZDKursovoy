@@ -180,8 +180,9 @@ namespace RZDKursovoy
                     Result.Add(ResultReader.GetString(0));
                 }
             }
-            catch(Exception)
+            catch(MySqlException e)
             {
+                var trace = e.Message.ToString();
                 Result.Clear();
                 Result.Add("-1");
                 return Result;

@@ -3,10 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:RZDKursovoy"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <GroupBox Header="Добавление маршрута">
+            <Grid>
+                <TextBox PreviewTextInput="RoutName_BOX_PreviewTextInput" x:Name="RoutName_BOX" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,0,0,120">
+                    <materialDesign:HintAssist.Hint>
+                        <StackPanel
+                                    Orientation="Horizontal"
+                                    Margin="-2 0 0 0">
+                            <TextBlock>
+                                    Название маршрута
+                            </TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <ComboBox Loaded="TrainRout_BOX_Loaded" materialDesign:HintAssist.Hint="Количество остановок" x:Name="TrainRout_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,30" Width="289">
+                </ComboBox>
+                <Button x:Name="AddRout_BUTTON" Click="AddRout_BUTTON_Click" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,90,0,0" Width="289" Content="Добавить"></Button>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

@@ -3,10 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:RZDKursovoy"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <GroupBox Header="Добавление прибытий">
+            <Grid>
+                <ComboBox LostFocus="RoutName_BOX_LostFocus" Loaded="RoutName_BOX_Loaded" materialDesign:HintAssist.Hint="Название маршрута" x:Name="RoutName_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,200" Width="289">
+                </ComboBox>
+                <ComboBox Loaded="StopName_BOX_Loaded" materialDesign:HintAssist.Hint="Название остановки" x:Name="StopName_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,130" Width="289">
+                </ComboBox>
+                <TextBox x:Name="StopName" MaxLength="5" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="289" HorizontalAlignment="Center" Margin="0,0,0,60">
+                    <materialDesign:HintAssist.Hint>
+                        <StackPanel
+                                    Orientation="Horizontal"
+                                    Margin="-2 0 0 0">
+                            <TextBlock>
+                                    Номер поезда
+                            </TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <materialDesign:TimePicker HorizontalAlignment="Center" Margin="0,20,0,0" materialDesign:HintAssist.Hint="Время" x:Name="ArrivalTime" Width="289" VerticalAlignment="Center"></materialDesign:TimePicker>
+                <DatePicker x:Name="ArrivalDate" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Дата" HorizontalAlignment="Center" Width="289" Margin="0,80,0,0" ></DatePicker>
+                <Button x:Name="AddArrival_BUTTON" VerticalAlignment="Center" Width="289" Content="Добавить" HorizontalAlignment="Center" Margin="0,150,0,0"></Button>
+            </Grid>
+        </GroupBox>  
     </Grid>
 </UserControl>

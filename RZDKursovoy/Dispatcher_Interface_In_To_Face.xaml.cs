@@ -30,7 +30,8 @@ namespace RZDKursovoy
         private void ShowTrains_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             int[] activity = { 0, 0 };
-            string[] args = { TMPGridRow[0].ToString() };
+            var t = (DataRowView) ShowTrains.CurrentItem;
+            string[] args = { t[0].ToString() };
             if (AL.KeyUpInside(Connected, sender, e, ShowTrains, TMPGridRow, ConvertCheck, "call DISPATCHER_DropTrain", "call DISPATCHER_UpdateTrain", "DeleteTrain", "UpdateTrain",
                 "При редактировании произошла ошибка. Редактировать номер поезда запрещено", args, activity))
                 TryLoadingTables();
