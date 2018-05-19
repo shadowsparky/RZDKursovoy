@@ -33,6 +33,7 @@ namespace RZDKursovoy
             {
                 AL.MagicUniversalControlDataCatched("call ADMIN_CreateUser", args, "CreateUser", Connected);
                 Admin_Interface.FillUserTable();
+                Admin_Interface.LoadUserList();
             }
         }
     }

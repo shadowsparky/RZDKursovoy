@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:RZDKursovoy"
         mc:Ignorable="d"
-        Title="Работа с пользователями" Height="450" Width="600" MinHeight="450" MinWidth="600">
+        Title="Работа с пользователями" Height="450" Width="600" WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="600">
     <Grid x:Name="AddUserMenu" Loaded="AddUserMenu_Loaded">
         <GroupBox Header="Добавление пользователя">
             <Grid>

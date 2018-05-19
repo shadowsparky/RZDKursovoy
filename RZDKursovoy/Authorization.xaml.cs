@@ -79,7 +79,7 @@ namespace RZDKursovoy
                     return;
                 }
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
                 AL.MessageErrorShow("Вы ввели неправильный логин или пароль", "Ошибка");
                 return;

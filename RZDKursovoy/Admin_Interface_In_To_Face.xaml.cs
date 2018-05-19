@@ -38,7 +38,7 @@ namespace RZDKursovoy
             AAU.Show();
         }
 
-        private void AccessTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        public void LoadUserList()
         {
             Username_BOX.Items.Clear();
             if (!AL.ComboboxFiling(Connected, "call ADMIN_ThrowUsers", Username_BOX))
@@ -54,6 +54,11 @@ namespace RZDKursovoy
             {
                 UserRole_BOX.Items.Add(TMPResult[i]);
             }
+        }
+
+        private void AccessTab_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            LoadUserList();
         }
 
         private void UserEdit_BUTTON_Click(object sender, System.Windows.RoutedEventArgs e)
