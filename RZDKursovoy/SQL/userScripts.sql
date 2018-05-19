@@ -1,40 +1,4 @@
 /*MySQL scripts for DB*/
-DROP PROCEDURE IF EXISTS rzd.ADMIN_RefreshPrivileges;
-
-DELIMITER $$
-CREATE DEFINER = 'root'@'localhost'
-PROCEDURE rzd.ADMIN_RefreshPrivileges()
-  DETERMINISTIC
-BEGIN
-  -- Users Access
-  GRANT EXECUTE ON PROCEDURE rzd.FindPassengerWithPersonalData TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.ThrowAllStations TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.Available_Railcar_Types TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.TrainInfoTwo TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.FindRout TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.ThrowTrainNumbersList TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.Available_For_Planting_Seats TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.newFindTrainList TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.throwPassengerInfo TO user;
-  GRANT EXECUTE ON FUNCTION rzd.GetDepartureID TO user;
-  GRANT EXECUTE ON FUNCTION rzd.GetArrivalID TO user;
-  GRANT EXECUTE ON FUNCTION rzd.FindPassenger TO user;
-  GRANT EXECUTE ON FUNCTION rzd.PassengerAddToDB TO user;
-  GRANT EXECUTE ON FUNCTION rzd.ThrowRoutID TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.throwCountAvailableTickets TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.CancelTicket TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.throwAvailableTicketsWithInfo TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.EmployPlaces TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.register_createuser TO user;
-  GRANT EXECUTE ON PROCEDURE rzd.throwRailcarInfo TO user;
-  GRANT EXECUTE ON FUNCTION rzd.ThrowArrivalStopID TO user;
-  GRANT EXECUTE ON FUNCTION rzd.ThrowDepartureStopID TO user;
-
-  -- Blocked Users Access
-  GRANT EXECUTE ON PROCEDURE rzd.EmptyProcForBlockedUsers TO Blocked;
-  FLUSH PRIVILEGES;
-END$$
-DELIMITER;
 
 DROP PROCEDURE IF EXISTS rzd.FindPassengerWithPersonalData;
 DELIMITER $$
@@ -116,22 +80,19 @@ BEGIN
   INNER JOIN departures ON departures.Stop_ID = stops.Stop_ID
   WHERE (stops.Rout_ID = RoutID) AND (departures.Departure_ID = DepartureID_IN);
 
-  SELECT Arrival_railwaystationname INTO RailwayStation
-  FROM arrivals
-  WHERE Arrival_ID = Arrival_ID_IN;
+  SELECT Train_Station_Name INTO RailwayStation FROM stops
+  WHERE Stop_ID = StopDeparture and Rout_ID = RoutID;
 
   IF (RailwayStation is NOT NULL) THEN
     SET FirstStation = CONCAT(FirstStation, ', ', RailwayStation);
   END IF;
 
-  SELECT Departure_railwaystationname INTO RailwayStation
-  FROM departures
-  WHERE Departure_ID = DepartureID_IN;
+  SELECT Train_Station_Name INTO RailwayStation FROM stops
+  WHERE Stop_ID = StopArrival and Rout_ID = RoutID;
 
   IF (RailwayStation is NOT NULL) THEN
     SET LastStation = CONCAT(LastStation, ', ', RailwayStation);
   END IF;
-
   SELECT TrainNumber, TIME_FORMAT(DepartureTime, '%H:%i'), TIME_FORMAT(ArrivalTime, '%H:%i'), DATE_FORMAT(ArrivalDate, '%d.%m.%Y'),
   FirstStation, LastStation;
 END$$
@@ -267,17 +228,17 @@ BEGIN
 END$$
 DELIMITER;
 
-DROP PROCEDURE IF EXISTS rzd.newFindTrainList;
-DELIMITER $$
 CREATE DEFINER = 'root'@'localhost'
 PROCEDURE rzd.newFindTrainList(
 	`Rout_ID_IN` int,
 	`Arrival_Stop_Name` varchar(30),
-	`Arrival_Date_IN` varchar(30)
+	`Arrival_Date_IN` varchar(30),
+  `Departure_Stop_Name` varchar(30)
 )
 BEGIN
 	DECLARE TrainNumber int;
 	DECLARE CurrentStopID int;
+  DECLARE CurrentDepartureStopID int;
   DECLARE CheckDate Date;
   DECLARE trueDate Date;
   SET CheckDate = now();
@@ -285,13 +246,18 @@ BEGIN
   IF (trueDate > CheckDate) THEN
     SELECT Stop_ID INTO CurrentStopID FROM stops
     WHERE (Rout_ID = Rout_ID_IN) AND (Stop_Name = Arrival_Stop_Name);
-    SELECT Train_Number FROM arrivals
-    WHERE (Arrival_Date = trueDate) AND (Stop_ID = CurrentStopID) AND (Rout_ID = Rout_ID_IN);
+    SELECT Stop_ID INTO CurrentDepartureStopID FROM stops
+    WHERE (Rout_ID = Rout_ID_IN) AND (Stop_Name = Departure_Stop_Name);
+    if (CurrentStopID < CurrentDepartureStopID) AND (CurrentStopID <> CurrentDepartureStopID) then
+      SELECT Train_Number FROM arrivals
+      WHERE (Arrival_Date = trueDate) AND (Stop_ID = CurrentStopID) AND (Rout_ID = Rout_ID_IN);
+    ELSE
+      SELECT -1;
+    END IF;
   ELSE
     SELECT -1;
   END IF;
-END$$
-DELIMITER;
+END
 
 DROP PROCEDURE IF EXISTS rzd.throwPassengerInfo;
 DELIMITER $$
@@ -485,8 +451,8 @@ BEGIN
     INNER JOIN stops ON arrivals.Stop_ID = stops.Stop_ID
     WHERE arrivals.Arrival_ID = _TMPArrivalID AND stops.Rout_ID = _Arrival_Rout_ID;
 
-    SELECT Arrival_railwaystationName INTO _Arrival_Railway_Station FROM arrivals
-    WHERE Arrival_ID = _TMPArrivalID;
+    SELECT Train_Station_Name INTO _Arrival_Railway_Station FROM stops
+    WHERE Stop_ID = StopDeparture and Rout_ID = _Arrival_Rout_ID;
 
     IF (_Arrival_Railway_Station IS NOT NULL) THEN
       SET _Arrival_Stop_Name = CONCAT(_Arrival_Stop_Name, ', ', _Arrival_Railway_Station);
@@ -502,8 +468,8 @@ BEGIN
     INNER JOIN stops ON departures.Stop_ID = stops.Stop_ID
     WHERE departures.Departure_ID = _TMPDepartureID AND stops.Rout_ID = _Arrival_Rout_ID;
 
-    SELECT Departure_railwaystationName INTO _Departure_Railway_Station FROM departures
-    WHERE Departure_ID = _TMPDepartureID;
+    SELECT Train_Station_Name INTO _Departure_Railway_Station FROM stops
+    WHERE Stop_ID = StopArrival and Rout_ID = _Arrival_Rout_ID;
 
     IF (_Departure_Railway_Station IS NOT NULL) THEN
       SET _Departure_Stop_Name = CONCAT(_Departure_Stop_Name, ', ', _Departure_Railway_Station);
@@ -600,7 +566,7 @@ begin
       END IF;
     END IF;
   ELSE
-		signal sqlstate '45000' SET message_text = 'Throw Error #1';
+		signal sqlstate '45000' SET message_text = 'Произошла техническая ошибка, обратитесь к администратору';
 	end if;
 END$$
 DELIMITER;
@@ -691,5 +657,769 @@ BEGIN
   ELSE
     RETURN -1;
   END IF;
+END$$
+DELIMITER;
+
+DROP TRIGGER IF EXISTS rzd.RemovePhantomSeats;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+TRIGGER RemovePhantomSeats
+	AFTER DELETE ON reservation
+	FOR EACH ROW
+BEGIN
+  DECLARE CurrentCount int;
+  SELECT COUNT(*) INTO CurrentCount FROM reservation
+  WHERE Place_Number = old.Place_Number;
+  if (CurrentCount = 0) then
+    DELETE FROM places
+    WHERE Place_ID = old.Place_Number;
+  END IF;
+END$$
+DELIMITER ;
+
+/*Dispatcher Scripts*/
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_AddTrain;
+
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_AddTrain(IN Train_Number_IN varchar(30), IN Railcar_Count_IN int, IN Train_Type_IN varchar(30), IN Rout_Name_IN varchar(50))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID INT;
+  DECLARE _TMPNum INT;
+  IF (Railcar_Count_IN < 20) THEN
+    SELECT Rout_ID INTO _TMPRoutID FROM routes
+    WHERE Rout_Name = Rout_Name_IN LIMIT 1;
+    SELECT Train_Type_Number INTO _TMPNum FROM train_types
+    WHERE Train_Type = Train_Type_IN;
+    IF (_TMPNum is NULL) THEN
+      INSERT INTO train_types (Train_Type) VALUES (Train_Type_IN);
+      SET _TMPNum = LAST_INSERT_ID();
+    END IF;
+    IF (_TMPRoutID is NOT NULL) then
+      INSERT INTO trains (Train_Number, Railcar_Count, Train_Type_Number, Rout_ID)
+      VALUES (Train_Number_IN, Railcar_Count_IN, _TMPNum, Rout_ID_IN);
+    ELSE
+      signal sqlstate '45000' SET message_text = 'Такого маршрута не существует. Перепроверьте введенные данные';
+    END IF;
+  ELSE
+    signal sqlstate '45000' SET message_text = 'Вы ввели слишком большое количество вагонов. Перепроверьте введенные данные';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_ShowTrains;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_ShowTrains()
+  DETERMINISTIC
+BEGIN
+  SELECT Train_Number, Railcar_Count, train_types.Train_Type, routes.Rout_Name FROM trains
+  INNER JOIN train_types ON trains.Train_Type_Number = train_types.Train_Type_Number
+  INNER JOIN routes ON trains.Rout_ID = routes.Rout_ID;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_DropTrain;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_DropTrain(IN Train_Number_IN varchar(30))
+  DETERMINISTIC
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLSTATE '23000'
+  BEGIN
+    signal sqlstate '45000' SET message_text = 'При удалении поезда произошла ошибка. Убедитесь, что у удаляемого поезда нет записей в таблицах "Отправления" и "Прибытия"';
+  END;
+  DELETE FROM trains WHERE Train_Number = Train_Number_IN;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_UpdateTrain;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_UpdateTrain(IN Train_Number_IN varchar(30), IN Railcar_Count_IN int, IN Train_Type_IN varchar(30), IN Rout_Name_IN varchar(50))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID INT;
+  DECLARE _TMPNum INT;
+  IF (Railcar_Count_IN < 20) THEN
+    SELECT Rout_ID INTO _TMPRoutID FROM routes
+    WHERE Rout_Name = Rout_Name_IN LIMIT 1;
+    SELECT Train_Type_Number INTO _TMPNum FROM train_types
+    WHERE Train_Type = Train_Type_IN;
+    IF (_TMPNum is NULL) THEN
+      INSERT INTO train_types (Train_Type) VALUES (Train_Type_IN);
+      SET _TMPNum = LAST_INSERT_ID();
+    END IF;
+    IF (_TMPRoutID is NOT NULL) THEN
+      UPDATE trains SET Railcar_Count = Railcar_Count_IN, Train_Type_Number = _TMPNum, Rout_ID = _TMPRoutID
+      WHERE Train_Number = Train_Number_IN;
+    ELSE
+      signal sqlstate '45000' SET message_text = 'Такого маршрута не существует. Перепроверьте введенные данные';
+    END IF;
+  ELSE
+    signal sqlstate '45000' SET message_text = 'Вы ввели слишком большое количество вагонов. Перепроверьте введенные данные';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_AddRailcar;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_AddRailcar(IN Train_Number_IN varchar(30), IN Railcar_Number_IN int, IN Railcar_Type_IN varchar(30))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPNum int;
+  DECLARE _MaxRailcars_Count int;
+  SELECT Railcar_Type_Number INTO _TMPNum FROM railcar_types
+  WHERE Railcar_Type = Railcar_Type_IN;
+  INSERT INTO railcars (Train_Number, Railcar_Number, Railcar_Type_Number) VALUES (Train_Number_IN, Railcar_Number_IN, _TMPNum);
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_ShowRailcars;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_ShowRailcars()
+  DETERMINISTIC
+BEGIN
+  SELECT Train_Number, Railcar_Number, railcar_types.Railcar_Type FROM railcars
+  INNER JOIN railcar_types ON railcars.Railcar_Type_Number = railcar_types.Railcar_Type_Number;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_DropRailcar;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_DropRailcar(IN Train_Number_IN VARCHAR(30), IN Railcar_Number_IN int)
+  DETERMINISTIC
+BEGIN
+  DELETE FROM railcars WHERE Train_Number = Train_Number_IN AND Railcar_Number = Railcar_Number_IN;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_UpdateRailcar;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_UpdateRailcar(IN Train_Number_IN VARCHAR(30), IN Railcar_Number_IN int, IN Railcar_Type_IN varchar(30))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPNum int;
+  DECLARE _MaxRailcars_Count int;
+  DECLARE _Error text;
+  SELECT Railcar_Type_Number INTO _TMPNum FROM railcar_types
+  WHERE Railcar_Type = Railcar_Type_IN;
+  IF (_TMPNum is NOT NULL) THEN
+    SELECT Railcar_Count INTO _MaxRailcars_Count FROM trains
+    WHERE Train_Number = Train_Number_IN;
+    SET _Error = CONCAT('У данного поезда всего ', _MaxRailcars_Count, ' вагонов.');
+    IF (_MaxRailcars_Count > Railcar_Number_IN) then
+      SIGNAL SQLSTATE '45000' SET message_text = _Error;
+    ELSE
+      UPDATE railcars SET Railcar_Number = Railcar_Number_IN, Railcar_Type_Number = _TMPNum;
+    END IF;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Введенного вами типа вагона не существует';
+  END IF;
+END$$
+DELIMITER;
+
+DROP FUNCTION IF EXISTS rzd.DISPATCHER_AddRout;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+FUNCTION rzd.DISPATCHER_AddRout(Stop_Count_IN int, Rout_Name_IN varchar(50))
+  RETURNS int(11)
+BEGIN
+  DECLARE TMPNum int;
+  INSERT INTO routes (Stop_Count, Rout_Name) VALUES (Stop_Count_IN, Rout_Name_IN);
+  SET TMPNum = LAST_INSERT_ID();
+  RETURN TMPNum;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_DropRout;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_DropRout(IN Rout_ID_IN INT)
+  DETERMINISTIC
+BEGIN
+  DELETE FROM routes WHERE Rout_ID = Rout_ID_IN;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_UpdateRout;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_UpdateRout(IN Rout_ID_IN INT, IN Stop_Count_IN int, IN Rout_Name_IN varchar(50))
+  DETERMINISTIC
+BEGIN
+  UPDATE routes SET Stop_Count = Stop_Count_IN, Rout_Name = Rout_Name_IN
+  WHERE Rout_ID = Rout_ID_IN;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_ShowRoutes;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_ShowRoutes()
+  DETERMINISTIC
+BEGIN
+  SELECT Rout_ID, Stop_Count, Rout_Name FROM routes;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_AddStop;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_AddStop(IN Rout_Name_IN varchar(50), IN Stop_ID_IN int, IN Stop_Name_IN varchar(30), IN Train_Station_Name_IN varchar(50))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPMaxStopCount int;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Stop_Count INTO _TMPMaxStopCount FROM routes
+  WHERE Rout_ID = _TMPRoutID;
+  IF (_TMPRoutID is NOT NULL) THEN
+    IF (_TMPMaxStopCount > Stop_ID_IN) THEN
+      INSERT INTO stops (Rout_ID, Stop_ID, Stop_Name, Train_Station_Name) VALUES (_TMPRoutID, Stop_ID_IN, Stop_Name_IN, Train_Station_Name_IN);
+    END IF;
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowStopNumber;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowStopNumber(IN Rout_Name_IN varchar(50))
+  DETERMINISTIC
+BEGIN
+  DECLARE MaxCount int;
+  DECLARE i int;
+  DROP TABLE IF EXISTS TMPStopListCount;
+  CREATE TEMPORARY table TMPStopListCount(
+    `Stop_ID` int AUTO_INCREMENT,
+    `Stop_Number` int,
+    PRIMARY KEY (`Stop_ID`)
+  );
+  SELECT Stop_Count INTO MaxCount FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SET i = 1;
+  WHILE (i <> Stop_Count + 1) DO
+    INSERT INTO TMPStopListCount (Stop_Number) VALUES (i);
+    SET i = i + 1;
+  END WHILE;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_UpdateStop;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_UpdateStop(IN Rout_Name_IN varchar(50), IN Stop_ID_IN int, IN Stop_Name_IN varchar(30), IN Train_Station_Name_IN varchar(50))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPMaxStopCount int;
+  DECLARE _error TEXT;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  IF (_TMPRoutID is not null) THEN
+    SELECT Stop_Count INTO _TMPMaxStopCount FROM routes
+    WHERE Rout_ID = _TMPRoutID;
+      IF (_TMPMaxStopCount > Stop_ID_IN) THEN
+        IF (Train_Station_Name_IN = '') THEN
+          UPDATE stops SET Stop_Name = Stop_Name_IN, Train_Station_Name = NULL
+          WHERE Rout_ID = _TMPRoutID and Stop_ID = Stop_ID_IN;
+        ELSE
+          UPDATE stops SET Stop_Name = Stop_Name_IN, Train_Station_Name = Train_Station_Name_IN
+          WHERE Rout_ID = _TMPRoutID and Stop_ID = Stop_ID_IN;
+        END IF;
+      ELSE
+        SET _error = CONCAT('При обновлении записи произошла ошибка. В выбранном маршруте всего ', _TMPMaxStopCount, ' остановок');
+        SIGNAL SQLSTATE '45000' SET message_text = _error;
+      END IF;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Введенного вами маршрута не существует';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_DropStop;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_DropStop(IN Rout_Name_IN varchar(50), IN Stop_ID_IN int)
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPMaxStopCount int;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  IF (_TMPRoutID is NOT NULL) THEN
+    DELETE FROM stops WHERE Rout_ID = _TMPRoutID AND Stop_ID = Stop_ID_IN;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При удалении записи произошла невозможная ошибка';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_ShowStops;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_ShowStops()
+  DETERMINISTIC
+BEGIN
+  SELECT routes.Rout_Name, Stop_ID, Stop_Name, Train_Station_Name FROM stops
+  INNER JOIN routes ON stops.Rout_ID = routes.Rout_ID;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_AddArrival;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_AddArrival(IN Rout_Name_IN varchar(30), IN Stop_Name_IN varchar(30), IN Train_Number_IN varchar(11), IN Arrival_Time_IN time, IN Arrival_Date_IN varchar(11))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPStopID int;
+  SET trueDate = STR_TO_DATE(Arrival_Date_IN, '%d.%m.%Y');
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Stop_ID INTO _TMPStopID FROM Stops
+  WHERE Rout_ID = _TMPRoutID AND Stop_Name = Stop_Name_IN;
+  IF (_TMPStopID is NOT NULL) THEN
+      INSERT INTO arrivals (Stop_ID, Rout_ID, Train_Number, Arrival_Time, Arrival_Date) VALUES (_TMPStopID, _TMPRoutID, Train_Number_IN, Arrival_Time_IN, TrueDate);
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowAvailableStopsFindByRout;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowAvailableStopsFindByRout(IN Rout_Name_IN varchar(30))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Stop_Name FROM stops
+  WHERE Rout_ID = _TMPRoutID;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowAvailableTrainsFindByRout;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowAvailableTrainsFindByRout(IN Rout_Name_IN varchar(30))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Train_Number FROM trains
+  WHERE Rout_ID = _TMPRoutID;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_UpdateArrival;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_UpdateArrival(IN Rout_Name_IN varchar(30), IN Stop_Name_IN varchar(30), IN Train_Number_IN varchar(11), IN Arrival_Time_IN time, IN Arrival_Date_IN varchar(11))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPStopID int;
+  DECLARE TrueDate date;
+  SET trueDate = STR_TO_DATE(Arrival_Date_IN, '%d.%m.%Y');
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  IF EXISTS(SELECT * FROM trains WHERE Train_Number = Train_Number_IN) THEN
+    IF (_TMPRoutID is NOT NULL) THEN
+      SELECT Stop_ID INTO _TMPStopID FROM Stops
+      WHERE Rout_ID = _TMPRoutID AND Stop_Name = Stop_Name_IN;
+      IF (_TMPStopID is NOT NULL) THEN
+        UPDATE arrivals SET Train_Number = Train_Number_IN, Arrival_Time = Arrival_Time_IN, Arrival_Date = trueDate
+        WHERE Stop_ID = _TMPStopID AND Rout_ID = _TMPRoutID;
+      ELSE
+        SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Введенной вами остановки не существует';
+      END IF;
+    ELSE
+      SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Введенного вами маршрута не существует';
+    END IF;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Поезда с введеным вами номером не существует';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_DropArrival;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_DropArrival(IN Rout_Name_IN varchar(30), IN Stop_Name_IN varchar(30), IN Train_Number_IN varchar(11))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPStopID int;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Stop_ID INTO _TMPStopID FROM Stops
+  WHERE Rout_ID = _TMPRoutID AND Stop_Name = Stop_Name_IN;
+  IF (_TMPStopID is NOT NULL) THEN
+    DELETE FROM arrivals WHERE Stop_ID = _TMPStopID AND Rout_ID = _TMPRoutID;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При удалении записи произошла неизвестная ошибка';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_ShowArrivals;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_ShowArrivals()
+  DETERMINISTIC
+BEGIN
+  SELECT stops.Stop_Name, routes.Rout_Name, Train_Number, TIME_FORMAT(Arrival_Time, '%H:%i'), DATE_FORMAT(Arrival_Date, '%d.%m.%Y') FROM arrivals
+  INNER JOIN stops ON arrivals.Stop_ID = stops.Stop_ID AND arrivals.Rout_ID = stops.Rout_ID
+  INNER JOIN routes ON arrivals.Rout_ID = routes.Rout_ID;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_AddDeparture;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_AddDeparture(IN Rout_Name_IN varchar(30), IN Stop_Name_IN varchar(30), IN Train_Number_IN varchar(11), IN Departure_Time_IN time, IN Departure_Date_IN varchar(11))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPStopID int;
+  DECLARE trueDate date;
+  SET trueDate = STR_TO_DATE(Arrival_Date_IN, '%d.%m.%Y');
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Stop_ID INTO _TMPStopID FROM Stops
+  WHERE Rout_ID = _TMPRoutID AND Stop_Name = Stop_Name_IN;
+  IF (_TMPStopID is NOT NULL) THEN
+      INSERT INTO departures (Stop_ID, Rout_ID, Train_Number, Departure_Time, Departure_Date) VALUES (_TMPStopID, _TMPRoutID, Train_Number_IN, Departure_Time_IN, trueDate);
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_UpdateDeparture;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_UpdateDeparture(IN Stop_Name_IN varchar(30), IN Rout_Name_IN varchar(30), IN Train_Number_IN varchar(11), IN Departure_Time_IN time, IN Departure_Date_IN varchar(11))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPStopID int;
+  DECLARE TrueDate date;
+  SET trueDate = STR_TO_DATE(Departure_Date_IN, '%d.%m.%Y');
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  IF EXISTS(SELECT * FROM trains WHERE Train_Number = Train_Number_IN) THEN
+    IF (_TMPRoutID is NOT NULL) THEN
+      SELECT Stop_ID INTO _TMPStopID FROM Stops
+      WHERE Rout_ID = _TMPRoutID AND Stop_Name = Stop_Name_IN;
+      IF (_TMPStopID is NOT NULL) THEN
+        UPDATE departures SET Train_Number = Train_Number_IN, Departure_Time = Departure_Time_IN, Departure_Date = trueDate
+        WHERE Stop_ID = _TMPStopID AND Rout_ID = _TMPRoutID;
+      ELSE
+        SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Введенной вами остановки не существует';
+      END IF;
+    ELSE
+      SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Введенного вами маршрута не существует';
+    END IF;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При обновлении записи произошла ошибка. Поезда с введеным вами номером не существует';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_DropDeparture;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_DropDeparture(IN Rout_Name_IN varchar(30), IN Stop_Name_IN varchar(30), IN Train_Number_IN varchar(11))
+  DETERMINISTIC
+BEGIN
+  DECLARE _TMPRoutID int;
+  DECLARE _TMPStopID int;
+  SELECT Rout_ID INTO _TMPRoutID FROM routes
+  WHERE Rout_Name = Rout_Name_IN;
+  SELECT Stop_ID INTO _TMPStopID FROM Stops
+  WHERE Rout_ID = _TMPRoutID AND Stop_Name = Stop_Name_IN;
+  IF (_TMPStopID is NOT NULL) THEN
+    DELETE FROM departures WHERE Stop_ID = _TMPStopID AND Rout_ID = _TMPRoutID;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET message_text = 'При удалении записи произошла неизвестная ошибка';
+  END IF;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.DISPATCHER_ShowDepartures;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.DISPATCHER_ShowDepartures()
+  DETERMINISTIC
+BEGIN
+  SELECT stops.Stop_Name, routes.Rout_Name, Train_Number, TIME_FORMAT(Departure_Time, '%H:%i'), DATE_FORMAT(Departure_Date, '%d.%m.%Y') FROM departures
+  INNER JOIN stops ON departures.Stop_ID = stops.Stop_ID AND departures.Rout_ID = stops.Rout_ID
+  INNER JOIN routes ON departures.Rout_ID = routes.Rout_ID;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowRailcarTypesList;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowRailcarTypesList()
+BEGIN
+  SELECT DISTINCT Railcar_Type FROM railcar_types;
+END$$
+DELIMITER
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowTrainList;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowTrainList()
+BEGIN
+  SELECT DISTINCT Train_Number FROM trains;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowAvailableRailcarList;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowAvailableRailcarList(IN Train_Number_IN VARCHAR(11))
+BEGIN
+  DECLARE i int;
+  DECLARE MaxRailcarsCount int;
+  SET i = 1;
+  DROP TABLE IF EXISTS TMPRailcarListCount;
+	CREATE TEMPORARY table TMPRailcarListCount(
+		`RailcarCount_ID` int AUTO_INCREMENT,
+		`Railcar` int,
+		PRIMARY KEY (`RailcarCount_ID`)
+	);
+  SELECT Railcar_Count INTO MaxRailcarsCount FROM trains
+  WHERE Train_Number = Train_Number_IN;
+  WHILE (i <> MaxRailcarsCount) DO
+    IF NOT EXISTS(SELECT * FROM railcars
+      WHERE Train_Number = Train_Number_IN AND Railcar_Number = i) THEN
+        INSERT INTO TMPRailcarListCount (Railcar) VALUES (i);
+      END IF;
+      SET i = i + 1;
+  END WHILE;
+  SELECT Railcar FROM TMPRailcarListCount;
+END$$
+DELIMITER;
+
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowMaxStopCount;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowMaxStopCount()
+  DETERMINISTIC
+BEGIN
+  DECLARE i int;
+  SET i = 1;
+  DROP TABLE IF EXISTS TMPStopCount;
+  CREATE TEMPORARY TABLE TMPStopCount(
+    `Stop_ID` int AUTO_INCREMENT,
+    `Stop_Number` int,
+    PRIMARY KEY (`Stop_ID`)
+  );
+  WHILE (i <> 20 + 1) DO
+    INSERT INTO TMPStopCount (Stop_Number) VALUES (i);
+    SET i = i + 1;
+  END WHILE;
+  SELECT Stop_ID FROM TMPStopCount;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowRailcarListCount;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowRailcarListCount()
+BEGIN
+  DECLARE i int;
+  SET i = 1;
+  DROP TABLE IF EXISTS TMPRailcarListCount;
+	CREATE TEMPORARY table TMPRailcarListCount(
+		`RailcarCount_ID` int AUTO_INCREMENT,
+		`Railcar` int,
+		PRIMARY KEY (`RailcarCount_ID`)
+	);
+  WHILE (i <> 20 + 1) DO
+    INSERT INTO TMPRailcarListCount (Railcar) VALUES (i);
+    SET i = i + 1;
+  END WHILE;
+  SELECT RailcarCount_ID FROM TMPRailcarListCount;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowRoutsNames;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowRoutsNames()
+BEGIN
+  SELECT Rout_Name FROM routes;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd._DISPATCHER_ThrowTrainTypes;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd._DISPATCHER_ThrowTrainTypes()
+BEGIN
+  SELECT DISTINCT Train_Type FROM train_types;
+END$$
+DELIMITER;
+
+
+/*Admin Scripts*/
+
+DROP PROCEDURE IF EXISTS rzd.ADMIN_ThrowUsers;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.ADMIN_ThrowUsers()
+BEGIN
+  SELECT user, default_role FROM mysql.user
+  WHERE (is_role = 'N') AND (default_role <> '') AND (user <> 'RegMaster')
+  AND ((default_role = 'Admin') or (default_role = 'user') or (default_role = 'RZD_Dispatcher') or (default_role = 'Blocked'));
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.ADMIN_CreateUser;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.ADMIN_CreateUser(IN UserLogin varchar(30), IN UserPassword varchar(30), IN UserRole varchar(30))
+BEGIN
+  SET @query1 = CONCAT('
+        CREATE USER "', UserLogin, '"@"localhost" IDENTIFIED BY "', UserPassword, '" '
+  );
+  PREPARE stmt FROM @query1;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+
+  SET @query2 = CONCAT('grant "', UserRole, '" to "', UserLogin, '"@"localhost"');
+  PREPARE stmt FROM @query2;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+  SET @query3 = CONCAT('set default role "', UserRole, '"for "', UserLogin, '"@"localhost"');
+  PREPARE stmt FROM @query3;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+  FLUSH PRIVILEGES;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.ADMIN_ThrowRoles;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.ADMIN_ThrowRoles()
+BEGIN
+  SELECT DISTINCT default_role FROM mysql.user
+  WHERE (default_role = 'Blocked') or (default_role = 'user') or (default_role = 'RZD_Dispatcher') or (default_role = 'Admin');
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.ADMIN_ChangeRole;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.ADMIN_ChangeRole(IN Username varchar(30),  IN Rolename varchar(30))
+BEGIN
+  SET @query1 = CONCAT('REVOKE ALL PRIVILEGES ON *.* FROM "', Username,'"@"localhost"');
+  PREPARE stmt FROM @query1; EXECUTE stmt;  DEALLOCATE PREPARE stmt;
+  set @query2 = CONCAT('grant "', Rolename, '" to "', Username,'"@"localhost"');
+  Execute immediate @query2;
+  PREPARE stmt FROM @query2; EXECUTE stmt;  DEALLOCATE PREPARE stmt;
+  SET @query3 = CONCAT('set default role "', Rolename, '" FOR "', Username,'"@"localhost"');
+  execute immediate @query3;
+    PREPARE stmt FROM @query3; EXECUTE stmt;  DEALLOCATE PREPARE stmt;
+  flush privileges;
+END$$
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS rzd.ADMIN_RefreshPrivileges;
+DELIMITER $$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE rzd.ADMIN_RefreshPrivileges()
+  DETERMINISTIC
+BEGIN
+  -- Users Access
+  GRANT EXECUTE ON PROCEDURE rzd.FindPassengerWithPersonalData TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.ThrowAllStations TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.Available_Railcar_Types TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.TrainInfoTwo TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.FindRout TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.ThrowTrainNumbersList TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.Available_For_Planting_Seats TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.newFindTrainList TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.throwPassengerInfo TO user;
+  GRANT EXECUTE ON FUNCTION rzd.GetDepartureID TO user;
+  GRANT EXECUTE ON FUNCTION rzd.GetArrivalID TO user;
+  GRANT EXECUTE ON FUNCTION rzd.FindPassenger TO user;
+  GRANT EXECUTE ON FUNCTION rzd.PassengerAddToDB TO user;
+  GRANT EXECUTE ON FUNCTION rzd.ThrowRoutID TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.throwCountAvailableTickets TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.CancelTicket TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.throwAvailableTicketsWithInfo TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.EmployPlaces TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.register_createuser TO user;
+  GRANT EXECUTE ON PROCEDURE rzd.throwRailcarInfo TO user;
+  -- Blocked Users Access
+  GRANT EXECUTE ON PROCEDURE rzd.EmptyProcForBlockedUsers TO Blocked;
+  -- Dispatcher Access
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_AddTrain TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_DropTrain TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_UpdateTrain TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_ShowTrains TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_ShowRailcars TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_ShowRoutes TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_ShowStops TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_ShowArrivals TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_ShowDepartures TO RZD_Dispatcher;
+
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_DropRailcar TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_UpdateRailcar TO RZD_Dispatcher;
+
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_UpdateRout TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_DropRout TO RZD_Dispatcher;
+
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_UpdateStop TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_DropStop TO RZD_Dispatcher;
+
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_UpdateArrival TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_DropArrival TO RZD_Dispatcher;
+
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_UpdateDeparture TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_DropDeparture TO RZD_Dispatcher;
+  -- TrainAdd
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowRailcarListCount TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowTrainTypes TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowRoutsNames TO RZD_Dispatcher;
+  -- RailcarAdd
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowRailcarTypesList TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowTrainList TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowAvailableRailcarList TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_AddRailcar TO RZD_Dispatcher;
+  -- RoutAdd
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowMaxStopCount TO RZD_Dispatcher;
+  GRANT EXECUTE ON FUNCTION rzd.DISPATCHER_AddRout TO RZD_Dispatcher;
+  -- StopAdd
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowStopNumber TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_AddStop TO RZD_Dispatcher;
+  -- Arrival or Departure Add
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowAvailableStopsFindByRout TO RZD_Dispatcher;
+  GRANT EXECUTE ON PROCEDURE rzd._DISPATCHER_ThrowAvailableTrainsFindByRout TO RZD_Dispatcher;
+  -- Arrival Add
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_AddArrival TO RZD_Dispatcher;
+  -- Departure Add
+  GRANT EXECUTE ON PROCEDURE rzd.DISPATCHER_AddDeparture TO RZD_Dispatcher;
+  -- Admin Proc's
+  GRANT EXECUTE ON PROCEDURE rzd.ADMIN_ChangeRole TO Admin;
+  GRANT EXECUTE ON PROCEDURE rzd.ADMIN_CreateUser TO Admin;
+  GRANT EXECUTE ON PROCEDURE rzd.ADMIN_ThrowRoles TO Admin;
+  GRANT EXECUTE ON PROCEDURE rzd.ADMIN_ThrowUsers TO Admin;
+  -- GRANT EXECUTE ON PROCEDURE rzd.ADMIN_RefreshPrivileges TO Admin;
+  FLUSH PRIVILEGES;
 END$$
 DELIMITER;

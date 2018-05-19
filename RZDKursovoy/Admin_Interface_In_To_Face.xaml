@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="RZDKursovoy.Admin_Interface_In_To_Face"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RZDKursovoy"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="Reflector">
+        <dragablz:TabablzControl x:Name="ControlMenu" Loaded="ControlMenu_Loaded">
+            <TabItem x:Name="Reservation_TAB"
+                     Header="Пользователи"
+                     Margin="0" d:IsHidden="True">
+                <Grid>
+                    <DataGrid CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" x:Name="UserShow" Margin="0,0,0,34" ></DataGrid>
+                    <Button x:Name="AddUserBUTTON" Click="AddUserBUTTON_Click" Content="Добавить пользователя" VerticalAlignment="Bottom" Height="34" Margin="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="AccessTab" Header="Управление правами" Loaded="AccessTab_Loaded">
+                <Grid>
+                    <ComboBox materialDesign:HintAssist.Hint="Логин пользователя" x:Name="Username_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,140" Width="289">
+                    </ComboBox>
+                    <ComboBox materialDesign:HintAssist.Hint="Роль пользователя" x:Name="UserRole_BOX"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,50" Width="289">
+                    </ComboBox>
+                    <Button x:Name="UserEdit_BUTTON" Click="UserEdit_BUTTON_Click" Content="Обновить доступ пользователя" VerticalAlignment="Center" HorizontalAlignment="Center" Width="289" Margin="0,60,0,0" ></Button>
+                </Grid>
+            </TabItem>
+        </dragablz:TabablzControl>
+    </Grid>
+</UserControl>

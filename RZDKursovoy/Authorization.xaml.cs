@@ -63,6 +63,16 @@ namespace RZDKursovoy
                     AL.MessageShow("Привет, диспетчер " + ThrowLogin, "Привет!");
                     return;
                 }
+                else if (CheckRole == "Admin")
+                {
+                    Admin_Interface_In_To_Face AIITF = new Admin_Interface_In_To_Face();
+                    AIITF.SetConnected = Connected;
+                    AIITF.SetLogin = ThrowLogin;
+                    mainGrid.Children.Clear();
+                    mainGrid.Children.Add(AIITF);
+                    AL.MessageShow("Здравствуйте, администратор " + ThrowLogin, "Здравствуйте");
+                    return;
+                }
                 else
                 {
                     AL.MessageErrorShow("Ваш аккаунт неправильно настроен. Обратитесь к администратору", "Ошибка");

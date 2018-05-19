@@ -112,6 +112,12 @@ namespace RZDKursovoy
                     case "AddDeparture":
                         MessageShow("Данные отправления поезда успешно добавлены", "ОК");
                         break;
+                    case "CreateUser":
+                        MessageShow("Пользователь успешно зарегистрирован", "ОК");
+                        break;
+                    case "UpdateUser":
+                        MessageShow("Информация о пользователе была успешно обновлена", "ОК");
+                        break;
                 }
             }
             else if (userControl == "Delete")
@@ -599,6 +605,55 @@ namespace RZDKursovoy
                 }
             }
             return true;
+        }
+        public List<string> En_To_Ru_Roles(List<string> EnArgs)
+        {
+            List<string> RuArgs = new List<string>();
+            for (int i = 0; i < EnArgs.Count; i++)
+            {
+                switch (EnArgs[i])
+                {
+                    case "Blocked":
+                        RuArgs.Add("Заблокированный");
+                        break;
+                    case "user":
+                        RuArgs.Add("Пользователь");
+                        break;
+                    case "Admin":
+                        RuArgs.Add("Администратор");
+                        break;
+                    case "RZD_Dispatcher":
+                        RuArgs.Add("Диспетчер");
+                        break;
+                    default:
+                        MessageErrorShow("При загрузке ролей произошла ошибка", "Ошибка");
+                        return RuArgs;
+                }
+            }
+            return RuArgs;
+        }
+        public string Ru_To_En_Roles(string RuValue)
+        {
+            string Result = "";
+            switch (RuValue)
+            {
+                case "Заблокированный":
+                    Result = "Blocked";
+                    break;
+                case "Пользователь":
+                    Result = "user";
+                    break;
+                case "Администратор":
+                    Result = "Admin";
+                    break;
+                case "Диспетчер":
+                    Result = "RZD_Dispatcher";
+                    break;
+                default:
+                    MessageErrorShow("При загрузке ролей произошла ошибка", "Ошибка");
+                    return "error";
+            }
+            return Result;
         }
     }
 }

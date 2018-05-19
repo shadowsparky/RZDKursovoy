@@ -143,6 +143,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Admin_AddUser.xaml.cs">
+      <DependentUpon>Admin_AddUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Interface_In_To_Face.xaml.cs">
+      <DependentUpon>Admin_Interface_In_To_Face.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
@@ -185,6 +191,14 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="TableFillKostil.cs" />
+    <Page Include="Admin_AddUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Interface_In_To_Face.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Authorization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
