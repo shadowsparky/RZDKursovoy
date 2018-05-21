@@ -10,7 +10,7 @@
     <Grid x:Name="AddUserMenu" Loaded="AddUserMenu_Loaded">
         <GroupBox Header="Добавление пользователя">
             <Grid>
-                <TextBox x:Name="Username_BOX" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="289" HorizontalAlignment="Center" Margin="0,0,0,140">
+                <TextBox x:Name="Username_BOX" MaxLength="30" PreviewTextInput="Username_BOX_PreviewTextInput" PreviewKeyUp="Username_BOX_PreviewKeyUp" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="289" HorizontalAlignment="Center" Margin="0,0,0,140">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"
@@ -24,7 +24,7 @@
                 <ComboBox materialDesign:HintAssist.Hint="Роль пользователя" x:Name="UserRole_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,70" Width="289">
                 </ComboBox>
-                <TextBox x:Name="UserPassword" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="289" HorizontalAlignment="Center" Margin="0,0,0,0">
+                <TextBox x:Name="UserPassword" MaxLength="30" PreviewTextInput="UserPassword_PreviewTextInput" PreviewKeyUp="UserPassword_PreviewKeyUp" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="289" HorizontalAlignment="Center" Margin="0,0,0,0">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"

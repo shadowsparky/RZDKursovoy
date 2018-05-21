@@ -36,5 +36,25 @@ namespace RZDKursovoy
                 Admin_Interface.LoadUserList();
             }
         }
+
+        private void Username_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(Username_BOX, e);
+        }
+
+        private void UserPassword_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(UserPassword, e);
+        }
+
+        private void Username_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.EN_InputLoginWordsProtector(Username_BOX, e);
+        }
+
+        private void UserPassword_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            AL.EN_InputLoginWordsProtector(UserPassword, e);
+        }
     }
 }

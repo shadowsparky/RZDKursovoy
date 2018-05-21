@@ -16,7 +16,7 @@
                 <ComboBox materialDesign:HintAssist.Hint="Номер остановки" x:Name="StopID"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,70" Width="289">
                 </ComboBox>
-                <TextBox PreviewTextInput="StopName_PreviewTextInput" x:Name="StopName" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <TextBox PreviewTextInput="StopName_PreviewTextInput" PreviewKeyUp="StopName_PreviewKeyUp" x:Name="StopName" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,10,0,0">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"
@@ -27,7 +27,7 @@
                         </StackPanel>
                     </materialDesign:HintAssist.Hint>
                 </TextBox>
-                <TextBox PreviewTextInput="Train_Station_Name_PreviewTextInput" x:Name="Train_Station_Name" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,80,0,0">
+                <TextBox PreviewTextInput="Train_Station_Name_PreviewTextInput" PreviewKeyUp="Train_Station_Name_PreviewKeyUp" x:Name="Train_Station_Name" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,80,0,0">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"

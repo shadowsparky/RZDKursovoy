@@ -62,5 +62,14 @@ namespace RZDKursovoy
         {
             AL.InputWordsProtector(e);
         }
+
+        private void Train_Station_Name_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+        }
+
+        private void StopName_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(StopName, e);
+        }
     }
 }

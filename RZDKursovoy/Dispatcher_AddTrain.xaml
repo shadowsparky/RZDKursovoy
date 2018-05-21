@@ -10,7 +10,7 @@
     <Grid>
         <GroupBox Header="Добавление поезда">
             <Grid x:Name="TrainGrid">
-                <TextBox x:Name="TrainNumber_BOX" MaxLength="5" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,0,0,190">
+                <TextBox x:Name="TrainNumber_BOX" MaxLength="5" PreviewKeyUp="TrainNumber_BOX_PreviewKeyUp" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,0,0,190">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"

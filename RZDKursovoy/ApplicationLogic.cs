@@ -5,6 +5,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace RZDKursovoy
@@ -14,11 +15,13 @@ namespace RZDKursovoy
         /*Переменные, предназначенные для защиты ввода*/
         private Regex OnlyLowCaseWordsChecker = new Regex("[а-я]");
         private Regex OnlyUpCaseWordsChecker = new Regex("[А-Я]");
+        private Regex OnlyLowCaseWordsCheckerWithMinus = new Regex("[а-я -]");
+        private Regex OnlyUpCaseWordsCheckerWithMinus = new Regex("[А-Я -]");
         private Regex EN_OnlyLowCaseWordsChecker = new Regex("[a-z]");
         private Regex EN_OnlyUpCaseWordsChecker = new Regex("[A-Z]");
         private Regex OnlyNumbersChecker = new Regex("[1-9 0]");
         /*Универсальные процедуры*/
-        public string [] MagicUniversalControlData(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
+        public string[] MagicUniversalControlData(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
         {
             if (userControl != "Delete")
             {
@@ -186,7 +189,7 @@ namespace RZDKursovoy
                     Result.Add(ResultReader.GetString(0));
                 }
             }
-            catch(MySqlException e)
+            catch (MySqlException e)
             {
                 var trace = e.Message.ToString();
                 Result.Clear();
@@ -199,7 +202,13 @@ namespace RZDKursovoy
             }
             return Result;
         }
-        public int CatchIntResult(MySqlConnection con, string Query, string [] Args)
+
+        internal void DontCtrlVAndSpace(PasswordBox passBox, KeyEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CatchIntResult(MySqlConnection con, string Query, string[] Args)
         {
             int Result = new int();
             MySqlDataReader ResultReader = null;
@@ -367,7 +376,7 @@ namespace RZDKursovoy
         public List<string> throwRailcarInfo(MySqlConnection connected, string Train_Number_IN, int Railcar_Number_IN)
         {
             List<string> result = new List<string>();
-            var QueryString = "call throwRailcarInfo('" + Train_Number_IN + "', '"+Railcar_Number_IN+"')";
+            var QueryString = "call throwRailcarInfo('" + Train_Number_IN + "', '" + Railcar_Number_IN + "')";
             var BestCommand = new MySqlCommand(QueryString, connected);
             var RailcarInfoRead = BestCommand.ExecuteReader();
             while (RailcarInfoRead.Read())
@@ -474,6 +483,27 @@ namespace RZDKursovoy
             {
                 e.Handled = true;
             }
+        }
+        public void Input_RoutNameProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Match CheckOne = OnlyLowCaseWordsCheckerWithMinus.Match(e.Text);
+            Match CheckTwo = OnlyUpCaseWordsCheckerWithMinus.Match(e.Text);
+            if ((!CheckOne.Success) && (!CheckTwo.Success))
+                e.Handled = true;
+        }
+        public bool DontCtrlVAndSpace(TextBox TB, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                TB.Text = "";
+                return true;
+            }
+            if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                TB.Text = "";
+                return false;
+            }
+            return false;
         }
         /*Вывод сообщения*/
         public void MessageErrorShow(string Message, string Title)

@@ -333,5 +333,30 @@ namespace RZDKursovoy
                 _maskedTextBox.Mask = "";
             }
         }
+
+        private void RegFamBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegFamBox, e);
+        }
+
+        private void RegNameBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegNameBox, e);
+        }
+
+        private void RegPathrBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegPathrBox, e);
+        }
+
+        private void RegPassSeries_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegPassSeries, e);
+        }
+
+        private void RegPassNumber_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegPassNumber, e);
+        }
     }
 }

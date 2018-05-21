@@ -12,7 +12,7 @@
         <Grid x:Name="RegGrid" d:IsHidden="True">
             <GroupBox x:Name="RegGB" Header="Регистрация">
                 <Grid>
-                    <TextBox x:Name="RegLoginBox" PreviewTextInput="RegLoginBox_PreviewTextInput"  MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="310" TextChanged="RegLoginBox_TextChanged">
+                    <TextBox x:Name="RegLoginBox" PreviewTextInput="RegLoginBox_PreviewTextInput" PreviewKeyUp="RegLoginBox_PreviewKeyUp" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="310" TextChanged="RegLoginBox_TextChanged" >
                         <materialDesign:HintAssist.Hint>
                             <StackPanel
                                     Orientation="Horizontal"
@@ -25,7 +25,7 @@
                             </StackPanel>
                         </materialDesign:HintAssist.Hint>
                     </TextBox>
-                    <TextBox x:Name="RegPassBox" PreviewTextInput="RegPassBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,40" VerticalAlignment="Center" TabIndex="1" Height="40" Width="310" TextChanged="RegPassBox_TextChanged">
+                    <TextBox x:Name="RegPassBox" PreviewTextInput="RegPassBox_PreviewTextInput" PreviewKeyUp="RegPassBox_PreviewKeyUp" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,40" VerticalAlignment="Center" TabIndex="1" Height="40" Width="310" TextChanged="RegPassBox_TextChanged">
                         <materialDesign:HintAssist.Hint>
                             <StackPanel
                                     Orientation="Horizontal"
@@ -65,7 +65,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="progNameText" Grid.Column="0" Grid.Row="1" Margin="0,0,0,0" TextWrapping="Wrap" Text="AVB Tickets. Авторизация" FontSize="20" TextAlignment="Center" FontFamily="Segoe UI Light" VerticalAlignment="Center"/>
-            <TextBox x:Name="loginBox" Grid.Column="0" Grid.Row="2" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="150,0" TextWrapping="Wrap" MaxLength="30" TabIndex="0" Height="40" Width="262" >
+            <TextBox x:Name="loginBox" Grid.Column="0" Grid.Row="2" PreviewKeyUp="loginBox_PreviewKeyUp" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="150,0" TextWrapping="Wrap" MaxLength="30" TabIndex="0" Height="40" Width="262" >
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                         Orientation="Horizontal"
@@ -78,7 +78,7 @@
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
             </TextBox>
-            <PasswordBox x:Name="passBox" Grid.Column="0" Grid.Row="3"  PreviewTextInput="passBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="150,0" TabIndex="1" Width="262">
+            <PasswordBox x:Name="passBox" Grid.Column="0" Grid.Row="3" PreviewKeyUp="passBox_PreviewKeyUp" PreviewTextInput="passBox_PreviewTextInput"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="150,0" TabIndex="1" Width="262">
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                         Orientation="Horizontal"

@@ -59,5 +59,10 @@ namespace RZDKursovoy
                 this.IsEnabled = false;
             }
         }
+
+        private void TrainNumber_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(TrainNumber_BOX, e);
+        }
     }
 }

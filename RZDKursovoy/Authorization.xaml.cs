@@ -175,5 +175,29 @@ namespace RZDKursovoy
         private void loginBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
         }
+
+        private void RegLoginBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegLoginBox, e);
+        }
+
+        private void RegLoginBox_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+        }
+
+        private void RegPassBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RegPassBox, e);
+        }
+
+        private void loginBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(loginBox, e);
+        }
+
+        private void passBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+          //  AL.DontCtrlVAndSpace((TextBox)passBox, e);
+        }
     }
 }

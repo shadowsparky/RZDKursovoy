@@ -56,6 +56,12 @@ namespace RZDKursovoy
         }
         private void RoutName_BOX_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
+            AL.Input_RoutNameProtector(RoutName_BOX, e);
+        }
+
+        private void RoutName_BOX_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RoutName_BOX, e);
         }
     }
 }
