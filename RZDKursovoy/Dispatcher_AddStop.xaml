@@ -17,6 +17,10 @@
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,70" Width="289">
                 </ComboBox>
                 <TextBox PreviewTextInput="StopName_PreviewTextInput" PreviewKeyUp="StopName_PreviewKeyUp" x:Name="StopName" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <TextBox.ContextMenu>
+                        <ContextMenu>
+                        </ContextMenu>
+                    </TextBox.ContextMenu>
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"
@@ -28,6 +32,10 @@
                     </materialDesign:HintAssist.Hint>
                 </TextBox>
                 <TextBox PreviewTextInput="Train_Station_Name_PreviewTextInput" PreviewKeyUp="Train_Station_Name_PreviewKeyUp" x:Name="Train_Station_Name" MaxLength="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,80,0,0">
+                    <TextBox.ContextMenu>
+                        <ContextMenu>
+                        </ContextMenu>
+                    </TextBox.ContextMenu>
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"

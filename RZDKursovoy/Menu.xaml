@@ -18,10 +18,18 @@
                     <ComboBox PreviewTextInput="Arrival_BOX_PreviewTextInput" PreviewKeyUp="Arrival_BOX_PreviewKeyUp" x:Name="Arrival_BOX" materialDesign:HintAssist.Hint="Точка отправления"
                       IsEditable="True"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,140" Width="210">
+                        <ComboBox.ContextMenu>
+                            <ContextMenu>
+                            </ContextMenu>
+                        </ComboBox.ContextMenu>
                     </ComboBox>
                     <ComboBox PreviewTextInput="Departure_BOX_PreviewTextInput" PreviewKeyUp="Departure_BOX_PreviewKeyUp" x:Name="Departure_BOX" materialDesign:HintAssist.Hint="Точка назначения"
                       IsEditable="True"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,60" Width="210">
+                        <ComboBox.ContextMenu>
+                            <ContextMenu>
+                            </ContextMenu>
+                        </ComboBox.ContextMenu>
                     </ComboBox>
                     <Button x:Name="FindTrain_BUTTON" Content="Найти" Margin="0,100,0,0" Height="Auto" Width="240" VerticalAlignment="Center" HorizontalAlignment="Center" Click="FindTrain_BUTTON_Click"/>
                     <DatePicker x:Name="Arrival_Date" HorizontalAlignment="Center" Width="210" materialDesign:HintAssist.Hint="Выберите дату"
@@ -40,8 +48,8 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" x:Name="CancelTripBUTTON" Click="CancelTripBUTTON_Click" Content="Отменить поездку и вернуть деньги за билет" Margin="1" VerticalContentAlignment="Center" Height="34"/>
-                            <Button Grid.Column="1" x:Name="PrintTicketBUTTON" Click="PrintTicketBUTTON_Click" Margin="1" IsDefault="True" Content="Сохранить билет" Padding="0" Height="34"/>
+                            <Button Grid.Column="0" x:Name="CancelTripBUTTON" Click="CancelTripBUTTON_Click" Content="Отменить поездку" VerticalContentAlignment="Center" Height="34"/>
+                            <Button Grid.Column="1" x:Name="PrintTicketBUTTON" Click="PrintTicketBUTTON_Click" IsDefault="True" Content="Сохранить билет" Height="34"/>
                         </Grid>
                     </Grid>
                 </Grid>

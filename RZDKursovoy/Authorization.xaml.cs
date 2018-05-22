@@ -96,7 +96,7 @@ namespace RZDKursovoy
         }
         private void RegPassBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //AL.InputProtector(e, RegPassBox);
+
         } 
         private void RegRegButtonBEEP_Click(object sender, RoutedEventArgs e)
         {
@@ -187,7 +187,7 @@ namespace RZDKursovoy
 
         private void RegPassBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            AL.DontCtrlVAndSpace(RegPassBox, e);
+           AL.DontCtrlVAndSpace(RegPassBox, e);
         }
 
         private void loginBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -197,7 +197,7 @@ namespace RZDKursovoy
 
         private void passBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-          //  AL.DontCtrlVAndSpace((TextBox)passBox, e);
+           // AL.DontCtrlVAndSpace(passBox, e);
         }
     }
 }

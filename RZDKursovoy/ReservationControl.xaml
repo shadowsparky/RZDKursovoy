@@ -10,10 +10,9 @@
             d:DesignHeight="450" MinHeight="450" MinWidth="800" d:DesignWidth="800">
 <Grid Background="White">
     <GroupBox x:Name="ChooseTrainBox" Header="Выберите поезд" Margin="0" d:IsHidden="True">
-        <Grid>
-            <!--<ListBox x:Name="ChooseTrainListBox" Width="772" Loaded="ChooseTrainListBox_Loaded" Margin="0,0,0,30"/>-->
-            <Button x:Name="ChooseTrainNextButton" VerticalAlignment="Bottom" Content="Далее" Height="29" Margin="0" Click="ChooseTrainNextButton_Click" RenderTransformOrigin="0.497,1.172"/>
-            <DataGrid AutoGenerateColumns="True" AutoGeneratingColumn="ChooseTrainGRID_AutoGeneratingColumn"  SelectionChanged="ChooseTrainGRID_SelectionChanged" IsReadOnly="True" x:Name="ChooseTrainGRID" Margin="0,0,0,30" Loaded="ChooseTrainGRID_Loaded"/>
+            <Grid>
+                <Button x:Name="ChooseTrainNextButton" VerticalAlignment="Bottom" Content="Далее" Height="29" Margin="0" Click="ChooseTrainNextButton_Click" RenderTransformOrigin="0.497,1.172"/>
+                <DataGrid AutoGenerateColumns="True" AutoGeneratingColumn="ChooseTrainGRID_AutoGeneratingColumn"  SelectionChanged="ChooseTrainGRID_SelectionChanged" IsReadOnly="True" x:Name="ChooseTrainGRID" Margin="0,0,0,30" Loaded="ChooseTrainGRID_Loaded"/>
         </Grid>
     </GroupBox>
     <GroupBox x:Name="ChooseTrainTypeBox" Header="Выбор места" Margin="0,0,0,0" d:IsHidden="True">
@@ -68,7 +67,11 @@
                 <ColumnDefinition Width="50"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="RegFamBox" Grid.Column="1" Grid.Row="1" PreviewKeyUp="RegFamBox_PreviewKeyUp" PreviewTextInput="RegFamBox_PreviewTextInput" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" VerticalAlignment="Center" Height="36" Width="282">
-                <materialDesign:HintAssist.Hint>
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+                    <materialDesign:HintAssist.Hint>
                     <StackPanel
                                 Orientation="Horizontal"
                                 Margin="-2 0 0 0">
@@ -79,6 +82,10 @@
                 </materialDesign:HintAssist.Hint>
             </TextBox>
             <TextBox MaxLength="30" Grid.Column="1" Grid.Row="2" x:Name="RegNameBox" PreviewKeyUp="RegNameBox_PreviewKeyUp" PreviewTextInput="RegNameBox_PreviewTextInput" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" Height="36" VerticalAlignment="Center" Width="282">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                                 Orientation="Horizontal"
@@ -90,6 +97,10 @@
                 </materialDesign:HintAssist.Hint>
             </TextBox>
             <TextBox x:Name="RegPathrBox"  Grid.Column="1" Grid.Row="3" PreviewTextInput="RegPathrBox_PreviewTextInput" PreviewKeyUp="RegPathrBox_PreviewKeyUp"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" VerticalAlignment="Center" MaxLength="30" Height="40" Width="282">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                                 Orientation="Horizontal"
@@ -103,6 +114,10 @@
             <materialDesign:PackIcon Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="Phone" Margin="0,0,300,0" />
             <xctk:MaskedTextBox  materialDesign:HintAssist.Hint="test" Grid.Column="1" Grid.Row="4" x:Name="_maskedTextBox" LostFocus="_maskedTextBox_LostFocus" VerticalAlignment="Center" Margin="180,0" Height="26" GotFocus="_maskedTextBox_GotFocus" Width="282"/>
             <TextBox x:Name="RegPassSeries" Grid.Column="1" Grid.Row="5" PreviewTextInput="RegPassSeries_PreviewTextInput" PreviewKeyUp="RegPassSeries_PreviewKeyUp" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" VerticalAlignment="Center" MaxLength="4" Height="36" Width="282">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                                 Orientation="Horizontal"
@@ -114,6 +129,10 @@
                 </materialDesign:HintAssist.Hint>
             </TextBox>
             <TextBox x:Name="RegPassNumber" Grid.Column="1" Grid.Row="6" PreviewTextInput="RegPassNumber_PreviewTextInput" PreviewKeyUp="RegPassNumber_PreviewKeyUp" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="180,0" MaxLength="6" VerticalAlignment="Center" Height="36" Width="282">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
                                 Orientation="Horizontal"

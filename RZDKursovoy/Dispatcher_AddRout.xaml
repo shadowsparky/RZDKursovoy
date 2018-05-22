@@ -11,6 +11,10 @@
         <GroupBox Header="Добавление маршрута">
             <Grid>
                 <TextBox PreviewTextInput="RoutName_BOX_PreviewTextInput" PreviewKeyUp="RoutName_BOX_PreviewKeyUp" x:Name="RoutName_BOX" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="36" Width="282" HorizontalAlignment="Center" Margin="0,0,0,120">
+                    <TextBox.ContextMenu>
+                        <ContextMenu>
+                        </ContextMenu>
+                    </TextBox.ContextMenu>
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
                                     Orientation="Horizontal"
