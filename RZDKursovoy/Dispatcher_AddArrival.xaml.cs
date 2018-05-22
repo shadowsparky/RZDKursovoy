@@ -88,5 +88,40 @@ namespace RZDKursovoy
                 DIITF.TryLoadingTables();
             }
         }
+
+        private void RoutName_BOX_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (RoutName_BOX.Text.Length < 30)
+            {
+                AL.InputWordsProtector(e);
+            }
+            else
+                e.Handled = true;
+        }
+        private void RoutName_BOX_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RoutName_BOX, e);
+        }
+        private void StopName_BOX_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (StopName_BOX.Text.Length < 30)
+            {
+                AL.InputWordsProtector(e);
+            }
+            else
+                e.Handled = true;
+        }
+        private void StopName_BOX_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(StopName_BOX, e);
+        }
+        private void Train_Number_BOX_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+    
+        }
+        private void Train_Number_BOX_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(Train_Number_BOX, e);
+        }
     }
 }

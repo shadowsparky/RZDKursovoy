@@ -10,13 +10,13 @@
     <Grid>
         <GroupBox Header="Добавление вагона">
             <Grid>
-                <ComboBox Loaded="TrainNumber_BOX_Loaded" LostFocus="TrainNumber_BOX_LostFocus" GotFocus="TrainNumber_BOX_GotFocus" materialDesign:HintAssist.Hint="Номер поезда" x:Name="TrainNumber_BOX"
+                <ComboBox Loaded="TrainNumber_BOX_Loaded" LostFocus="TrainNumber_BOX_LostFocus" GotFocus="TrainNumber_BOX_GotFocus" PreviewTextInput="TrainNumber_BOX_PreviewTextInput" PreviewKeyUp="TrainNumber_BOX_PreviewKeyUp" materialDesign:HintAssist.Hint="Номер поезда" x:Name="TrainNumber_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,140" Width="289">
                 </ComboBox>
-                <ComboBox materialDesign:HintAssist.Hint="Номер вагона" x:Name="RailcarNumber_BOX"
+                <ComboBox materialDesign:HintAssist.Hint="Номер вагона" PreviewTextInput="RailcarNumber_BOX_PreviewTextInput" PreviewKeyUp="RailcarNumber_BOX_PreviewKeyUp" x:Name="RailcarNumber_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,50" Width="289">
                 </ComboBox>
-                <ComboBox Loaded="RailcarType_BOX_Loaded" materialDesign:HintAssist.Hint="Тип вагона" x:Name="RailcarType_BOX"
+                <ComboBox Loaded="RailcarType_BOX_Loaded" PreviewTextInput="RailcarType_BOX_PreviewTextInput" PreviewKeyUp="RailcarType_BOX_PreviewKeyUp" materialDesign:HintAssist.Hint="Тип вагона" x:Name="RailcarType_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,40,0,0" Width="289">
                 </ComboBox>
                 <Button x:Name="AddRailcar_BUTTON" Click="AddRailcar_BUTTON_Click" Content="Добавить вагон" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,130,0,0" Width="289"></Button>

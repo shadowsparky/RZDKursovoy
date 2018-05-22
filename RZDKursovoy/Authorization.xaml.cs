@@ -92,11 +92,11 @@ namespace RZDKursovoy
         }
         private void RegLoginBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            AL.InputProtector(e, RegLoginBox);
+            //AL.InputProtector(e, RegLoginBox);
         }
         private void RegPassBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            AL.InputProtector(e, RegPassBox);
+            //AL.InputProtector(e, RegPassBox);
         } 
         private void RegRegButtonBEEP_Click(object sender, RoutedEventArgs e)
         {

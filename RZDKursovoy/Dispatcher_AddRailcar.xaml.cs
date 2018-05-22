@@ -68,5 +68,29 @@ namespace RZDKursovoy
         {
             RailcarNumber_BOX.Text = "";
         }
+        private void TrainNumber_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+
+        }
+        private void TrainNumber_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(TrainNumber_BOX, e);
+        }
+        private void RailcarNumber_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+
+        }
+        private void RailcarNumber_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RailcarNumber_BOX, e);
+        }
+        private void RailcarType_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+
+        }
+        private void RailcarType_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(RailcarType_BOX, e);
+        }
     }
 }

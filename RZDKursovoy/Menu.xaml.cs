@@ -281,6 +281,13 @@ namespace RZDKursovoy
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
-
+        private void Departure_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(Departure_BOX, e);
+        }
+        private void Arrival_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(Arrival_BOX, e);
+        }
     }
 }

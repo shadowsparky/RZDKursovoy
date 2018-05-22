@@ -402,39 +402,6 @@ namespace RZDKursovoy
             return TrainID;
         }
         /*Процедуры для проверки ввода*/
-        public void InputProtector(System.Windows.Controls.TextChangedEventArgs e, System.Windows.Controls.TextBox TB)
-        {
-            TB.Text = TB.Text.Replace(" ", string.Empty);
-            TB.Text = TB.Text.Replace("'", string.Empty);
-            TB.Text = TB.Text.Replace('"', ' ');
-            TB.Text = TB.Text.Replace("*", string.Empty);
-            TB.Text = TB.Text.Replace("/", string.Empty);
-            TB.Text = TB.Text.Replace(";", string.Empty);
-            TB.Text = TB.Text.Replace("@", string.Empty);
-            TB.Text = TB.Text.Replace("!", string.Empty);
-            TB.Text = TB.Text.Replace("#", string.Empty);
-            TB.Text = TB.Text.Replace("$", string.Empty);
-            TB.Text = TB.Text.Replace("№", string.Empty);
-            TB.Text = TB.Text.Replace("%", string.Empty);
-            TB.Text = TB.Text.Replace("^", string.Empty);
-            TB.Text = TB.Text.Replace(":", string.Empty);
-            TB.Text = TB.Text.Replace("?", string.Empty);
-            TB.Text = TB.Text.Replace("*", string.Empty);
-            TB.Text = TB.Text.Replace("(", string.Empty);
-            TB.Text = TB.Text.Replace(")", string.Empty);
-            TB.Text = TB.Text.Replace(",", string.Empty);
-            TB.Text = TB.Text.Replace(".", string.Empty);
-            TB.Text = TB.Text.Replace("<", string.Empty);
-            TB.Text = TB.Text.Replace(">", string.Empty);
-            TB.Text = TB.Text.Replace("[", string.Empty);
-            TB.Text = TB.Text.Replace("]", string.Empty);
-            TB.Text = TB.Text.Replace("{", string.Empty);
-            TB.Text = TB.Text.Replace("}", string.Empty);
-            TB.Text = TB.Text.Replace("-", string.Empty);
-            TB.Text = TB.Text.Replace("|", string.Empty);
-            TB.Text = TB.Text.Replace("\\", string.Empty);
-            TB.SelectionStart = TB.Text.Length;
-        }
         public void InputPersonalDataProtector(System.Windows.Controls.TextBox TB, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TB.Text.Length != 0)
@@ -495,15 +462,41 @@ namespace RZDKursovoy
         {
             if (e.Key == Key.Space)
             {
+                MessageErrorShow("Пробел запрещен", "Ошибка");
                 TB.Text = "";
                 return true;
             }
             if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
+                MessageErrorShow("Вставка символов запрещена", "Ошибка");
+                TB.Text = "";
+                return false;
+            }
+            if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                MessageErrorShow("Возврат символов запрещён", "Ошибка");
                 TB.Text = "";
                 return false;
             }
             return false;
+        }
+        internal void DontCtrlVAndSpace(ComboBox CB, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                MessageErrorShow("Пробел запрещен", "Ошибка");
+                CB.Text = "";
+            }
+            if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                MessageErrorShow("Вставка символов запрещена", "Ошибка");
+                CB.Text = "";
+            }
+            if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                MessageErrorShow("Возврат символов запрещён", "Ошибка");
+                CB.Text = "";
+            }
         }
         /*Вывод сообщения*/
         public void MessageErrorShow(string Message, string Title)

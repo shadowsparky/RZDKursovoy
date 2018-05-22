@@ -15,11 +15,11 @@
                      Header="Резервирование"
                      Margin="0" d:IsHidden="True">
                 <Grid x:Name="ChooseRout" d:IsHidden="True">
-                    <ComboBox PreviewTextInput="Arrival_BOX_PreviewTextInput"  x:Name="Arrival_BOX" materialDesign:HintAssist.Hint="Точка отправления"
+                    <ComboBox PreviewTextInput="Arrival_BOX_PreviewTextInput" PreviewKeyUp="Arrival_BOX_PreviewKeyUp" x:Name="Arrival_BOX" materialDesign:HintAssist.Hint="Точка отправления"
                       IsEditable="True"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,140" Width="210">
                     </ComboBox>
-                    <ComboBox PreviewTextInput="Departure_BOX_PreviewTextInput"  x:Name="Departure_BOX" materialDesign:HintAssist.Hint="Точка назначения"
+                    <ComboBox PreviewTextInput="Departure_BOX_PreviewTextInput" PreviewKeyUp="Departure_BOX_PreviewKeyUp" x:Name="Departure_BOX" materialDesign:HintAssist.Hint="Точка назначения"
                       IsEditable="True"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,60" Width="210">
                     </ComboBox>

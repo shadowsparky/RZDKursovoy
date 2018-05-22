@@ -24,7 +24,7 @@
                 <ComboBox Loaded="RailcarCount_BOX_Loaded" materialDesign:HintAssist.Hint="Количество вагонов" x:Name="RailcarCount_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,100" Width="289">
                 </ComboBox>
-                <ComboBox Loaded="TrainType_BOX_Loaded" materialDesign:HintAssist.Hint="Тип поезда" x:Name="TrainType_BOX"
+                <ComboBox Loaded="TrainType_BOX_Loaded" PreviewTextInput="TrainType_BOX_PreviewTextInput" PreviewKeyUp="TrainType_BOX_PreviewKeyUp" materialDesign:HintAssist.Hint="Тип поезда" x:Name="TrainType_BOX"
                     IsEditable="True"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,10" Width="289">
                 </ComboBox>

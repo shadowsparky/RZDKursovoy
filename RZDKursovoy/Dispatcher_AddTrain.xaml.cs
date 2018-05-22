@@ -64,5 +64,20 @@ namespace RZDKursovoy
         {
             AL.DontCtrlVAndSpace(TrainNumber_BOX, e);
         }
+
+        private void TrainType_BOX_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TrainType_BOX.Text.Length < 30)
+            {
+                AL.InputWordsProtector(e);
+            }
+            else
+                e.Handled = true;
+        }
+
+        private void TrainType_BOX_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            AL.DontCtrlVAndSpace(TrainType_BOX, e);
+        }
     }
 }
