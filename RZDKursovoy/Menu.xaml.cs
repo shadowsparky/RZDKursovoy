@@ -163,45 +163,40 @@ namespace RZDKursovoy
         }
         private string throwTicketCode(string[] args)
         {
-            string result = "<table style='height: auto; width: auto;' border='1'>" +
-            "<tbody>" +
-                "<tr style = 'height: auto;'> " +
-                    "<td style = 'width: auto; height: auto; text-align: center;'> (c)2018.AVB Inc.</td>" +
-                        "<td style = 'width: auto; height: auto;'>" +
+            string result = 
+            "<table style='height: auto; width: auto;' border='1'>" +
+                "<tbody>" +
+                    "<tr style = 'height: auto;'> " +
+                        "<td style = 'width: auto; height: auto; text-align: center;'> (c)2018.AVB Inc.</td>" +
+                            "<td style = 'width: auto; height: auto;'>" +
                             "<p style = 'text-align: center;' >Номер электронного билета:</p>" +
                             "<p style = 'text-align: center;'>&nbsp;<strong>" + args[0] + "</strong></p>" +
                         "</td>" +
                     "</tr>" +
-                  "<tr style = 'height: auto;'>" +
-                   "<td style = 'width: auto; height: auto; text-align: right;'> Маршрут следования: " + args[1] +
-                "-&gt; &nbsp;</td>" +
-                "<td style = 'width: auto; height: auto;'>" + args[2] + "</td>" +
-                "</tr>" +
-                "<tr style = 'height: auto;'>" +
-                "<td style = 'width: auto; height: auto; text-align: center;' > Отправление: " + args[3] + " " + args[4] + "</td>" +
-                "<td style = 'width: auto; height: auto; text-align: center;' > Прибытие: " + args[5] + " " + args[6] + "</td>" +
-                "</tr>" +
-                "<tr style = 'height: auto;'>" +
-                "<td style = 'width: auto; height: auto; text-align: center;'>" +
-                "<p> Пассажир - " + args[7] + " " +
-                            args[8] + " " +
-                            args[9] + " " +
-                            "&nbsp;</p>" +
-                "<p> Паспортные данные - " + args[10] + " " + args[11] + "</p>" +
-                "</td>" +
-                "<td style = 'width: auto; height: auto; text-align: center;'>" +
-                "<p> Номер поезда: " + args[12] +
-                            "&nbsp;</p>" +
-                "<p> Номер вагона: " + args[13] +
-                            "&nbsp;</p>" +
-                "<p> Тип вагона: " + args[14] + "</p>" +
-                "<p> Номер места: " + args[15] +
-                            "&nbsp;</p>" +
-                "<p> Цена за билет: " + args[16] + "</p>" +
-                "</td>" +
-                "</tr>" +
+                    "<tr style = 'height: auto;'>" +
+                        "<td style = 'width: auto; height: auto; text-align: right;'> Маршрут следования: " + args[1] + "-&gt; &nbsp;</td>" +
+                        "<td style = 'width: auto; height: auto;'>" + args[2] + "</td>" +
+                    "</tr>" +
+                    "<tr style = 'height: auto;'>" +
+                        "<td style = 'width: auto; height: auto; text-align: center;' > Отправление: " + args[3] + " " + args[4] + "</td>" +
+                        "<td style = 'width: auto; height: auto; text-align: center;' > Прибытие: " + args[5] + " " + args[6] + "</td>" +
+                    "</tr>" +
+                    "<tr style = 'height: auto;'>" +
+                        "<td style = 'width: auto; height: auto; text-align: center;'>" +
+                                "<p> Пассажир - " + args[7] + " " + args[8] + " " + args[9] + " " + "&nbsp;</p>" +
+                                "<p> Паспортные данные - " + args[10] + " " + args[11] + "</p>" +
+                        "</td>" +
+                        "<td style = 'width: auto; height: auto; text-align: center;'>" +
+                            "<p> Номер поезда: " + args[12] + "&nbsp;</p>" +
+                            "<p> Номер вагона: " + args[13] + "&nbsp;</p>" +
+                            "<p> Тип вагона: " + args[14] + "</p>" +
+                            "<p> Номер места: " + args[15] +
+                                    "&nbsp;</p>" +
+                            "<p> Цена за билет: " + args[16] + "</p>" +
+                        "</td>" +
+                    "</tr>" +
                 "</tbody>" +
-                "</table>";
+            "</table>";
             return result;
         }
         private void PrintTicketBUTTON_Click(object sender, RoutedEventArgs e)
