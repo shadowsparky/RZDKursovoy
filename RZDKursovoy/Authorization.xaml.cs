@@ -196,8 +196,7 @@ namespace RZDKursovoy
         }
 
         private void passBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-           // AL.DontCtrlVAndSpace(passBox, e);
+        { 
         }
     }
 }

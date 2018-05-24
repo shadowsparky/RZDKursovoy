@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Билеты" MinHeight="550" MinWidth="800" Height="550" Width="800" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="mainGrid">
-        <Grid x:Name="RegGrid" d:IsHidden="True">
+        <Grid x:Name="RegGrid">
             <GroupBox x:Name="RegGB" Header="Регистрация">
                 <Grid>
                     <TextBox x:Name="RegLoginBox"  PreviewTextInput="RegLoginBox_PreviewTextInput" PreviewKeyUp="RegLoginBox_PreviewKeyUp" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="310" TextChanged="RegLoginBox_TextChanged" >
@@ -51,7 +51,7 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <Grid x:Name="AuthGrid">
+        <Grid x:Name="AuthGrid" d:IsHidden="True">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="0"/>
@@ -60,22 +60,21 @@
                 </LinearGradientBrush>
             </Grid.Background>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="progNameText" Grid.Column="0" Grid.Row="1" Margin="0,0,0,0" TextWrapping="Wrap" Text="AVB Tickets. Авторизация" FontSize="20" TextAlignment="Center" FontFamily="Segoe UI Light" VerticalAlignment="Center"/>
             <TextBox x:Name="loginBox" Grid.Column="0" Grid.Row="2" PreviewKeyUp="loginBox_PreviewKeyUp" PreviewTextInput="loginBox_PreviewTextInput" KeyDown="loginBox_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="150,0" TextWrapping="Wrap" MaxLength="30" TabIndex="0" Height="40" Width="262" >
                 <TextBox.ContextMenu>
-                    <ContextMenu>
-                    </ContextMenu>
+                    <ContextMenu/>
                 </TextBox.ContextMenu>
                 <materialDesign:HintAssist.Hint>
                     <StackPanel
@@ -83,9 +82,7 @@
                         Margin="-2 0 0 0">
                         <materialDesign:PackIcon
                         Kind="Account" />
-                        <TextBlock>
-                            Логин
-                        </TextBlock>
+                        <TextBlock><Run Text="Логин"/></TextBlock>
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
             </TextBox>
@@ -96,9 +93,7 @@
                         Margin="-2 0 0 0">
                         <materialDesign:PackIcon
                         Kind="Key" />
-                        <TextBlock>
-                            Пароль
-                        </TextBlock>
+                        <TextBlock><Run Text="Пароль"/></TextBlock>
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
             </PasswordBox>

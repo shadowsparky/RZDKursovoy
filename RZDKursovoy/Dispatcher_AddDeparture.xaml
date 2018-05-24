@@ -19,8 +19,8 @@
                 <ComboBox materialDesign:HintAssist.Hint="Номер поезда" PreviewTextInput="Train_Number_BOX_PreviewTextInput" PreviewKeyUp="Train_Number_BOX_PreviewKeyUp" x:Name="Train_Number_BOX"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Center" Margin="0,0,0,60" Width="289">
                 </ComboBox>
-                <materialDesign:TimePicker Language="ru-RU" HorizontalAlignment="Center" Margin="0,20,0,0" materialDesign:HintAssist.Hint="Время" x:Name="DepartureTime" Width="289" VerticalAlignment="Center"></materialDesign:TimePicker>
-                <DatePicker x:Name="DepartureDate" Language="ru-RU" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Дата" HorizontalAlignment="Center" Width="289" Margin="0,80,0,0" ></DatePicker>
+                <materialDesign:TimePicker  Language="ru-RU" HorizontalAlignment="Center" Margin="0,20,0,0" materialDesign:HintAssist.Hint="Время" x:Name="DepartureTime" Width="289" VerticalAlignment="Center" Is24Hours="True"></materialDesign:TimePicker>
+                <DatePicker x:Name="DepartureDate" Language="ru-RU" VerticalAlignment="Center" DisplayDateEnd="2099-12-31" DisplayDateStart="2000-01-01" materialDesign:HintAssist.Hint="Дата" HorizontalAlignment="Center" Width="289" Margin="0,80,0,0" ></DatePicker>
                 <Button x:Name="AddDeparutre_BUTTON" Click="AddDeparutre_BUTTON_Click" VerticalAlignment="Center" Width="289" Content="Добавить" HorizontalAlignment="Center" Margin="0,150,0,0"></Button>
             </Grid>
         </GroupBox>
