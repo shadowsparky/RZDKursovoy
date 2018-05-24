@@ -342,7 +342,7 @@ namespace RZDKursovoy
             r.Close();
             return TrainInfoList;
         }
-        public List<string> FindPassengerWithPersonalData(MySqlConnection connection, int Passport_Series_IN, int Passport_Number_IN)
+        public List<string> FindPassengerWithPersonalData(MySqlConnection connection, string Passport_Series_IN, string Passport_Number_IN)
         {
             List<string> Result = new List<string>();
             var QueryString = "call FindPassengerWithPersonalData(@Passport_Series_IN, @Passport_Number_IN, @KeySi)";

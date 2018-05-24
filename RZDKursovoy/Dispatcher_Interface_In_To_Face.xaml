@@ -11,42 +11,42 @@
         <dragablz:TabablzControl x:Name="ControlMenu">
             <TabItem Header="Поезда">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" x:Name="ShowTrains" KeyUp="ShowTrains_KeyUp" CellEditEnding="ShowTrains_CellEditEnding" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid MinColumnWidth="130" CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" x:Name="ShowTrains" KeyUp="ShowTrains_KeyUp" CellEditEnding="ShowTrains_CellEditEnding" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddTrainMenu" Click="OpenAddTrainMenu_Click" Height="29" Content="Добавить поезд" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Вагоны">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowRailcars_CellEditEnding" KeyUp="ShowRailcars_KeyUp" x:Name="ShowRailcars" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid MinColumnWidth="130" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowRailcars_CellEditEnding" KeyUp="ShowRailcars_KeyUp" x:Name="ShowRailcars" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddRailcarMenu" Click="OpenAddRailcarMenu_Click" Height="29" Content="Добавить вагон" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Маршруты">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowRoutes_CellEditEnding" KeyUp="ShowRoutes_KeyUp" x:Name="ShowRoutes" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid MinColumnWidth="130" CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowRoutes_CellEditEnding" KeyUp="ShowRoutes_KeyUp" x:Name="ShowRoutes" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddRoutMenu" Click="OpenAddRoutMenu_Click" Height="29" Content="Добавить маршрут" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Остановки">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowStops_CellEditEnding" KeyUp="ShowStops_KeyUp" x:Name="ShowStops" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid MinColumnWidth="130" CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowStops_CellEditEnding" KeyUp="ShowStops_KeyUp" x:Name="ShowStops" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddStopsMenu" Click="OpenAddStopsMenu_Click" Height="29" Content="Добавить остановку поезда" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Прибытия">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowArrivals_CellEditEnding" KeyUp="ShowArrivals_KeyUp" x:Name="ShowArrivals" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid MinColumnWidth="130" CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowArrivals_CellEditEnding" KeyUp="ShowArrivals_KeyUp" x:Name="ShowArrivals" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddArrivalMenu" Click="OpenAddArrivalMenu_Click" Height="29" Content="Добавить прибытие поезда" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Отправления">
                 <Grid>
-                    <DataGrid CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowDepartures_CellEditEnding" KeyUp="ShowDepartures_KeyUp" x:Name="ShowDepartures" Margin="0,0,0,30"></DataGrid>
+                    <DataGrid MinColumnWidth="130" CanUserAddRows="False" CanUserDeleteRows="False"  CanUserReorderColumns="False" CellEditEnding="ShowDepartures_CellEditEnding" KeyUp="ShowDepartures_KeyUp" x:Name="ShowDepartures" Margin="0,0,0,30"></DataGrid>
                     <Button x:Name="OpenAddDepartureMenu" Click="OpenAddDepartureMenu_Click" Height="29" Content="Добавить отправление поезда" Margin="2" VerticalAlignment="Bottom" />
                 </Grid>
             </TabItem>

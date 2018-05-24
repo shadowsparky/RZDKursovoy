@@ -42,7 +42,7 @@
                         <Label Content="У вас пока что нет приобретенных билетов" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontFamily="Segoe UI Semilight"></Label>
                     </Grid>
                     <Grid x:Name="LK_NotEmpty">
-                        <DataGrid SelectionChanged="ShowBuyedTickets_SelectionChanged" IsReadOnly="True" x:Name="ShowBuyedTickets" Margin="0,0,0,30"></DataGrid>
+                        <DataGrid MinColumnWidth="130" SelectionChanged="ShowBuyedTickets_SelectionChanged" IsReadOnly="True" x:Name="ShowBuyedTickets" Margin="0,0,0,30"></DataGrid>
                         <Grid VerticalAlignment="Bottom" Height="34">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>

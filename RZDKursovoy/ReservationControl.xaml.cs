@@ -199,7 +199,7 @@ namespace RZDKursovoy
                     }
                     else
                     {
-                        var ExistsData = AL.FindPassengerWithPersonalData(_connection, Convert.ToInt32(RegPassSeries.Text), Convert.ToInt32(RegPassNumber.Text));
+                        var ExistsData = AL.FindPassengerWithPersonalData(_connection, RegPassSeries.Text, RegPassNumber.Text);
                         if ((RegFamBox.Text == ExistsData[0]) && (RegNameBox.Text == ExistsData[1]) && (RegPathrBox.Text == ExistsData[2]))
                         {
                             if ((RegPassSeries.Text.Length == 4) && (RegPassNumber.Text.Length == 6))

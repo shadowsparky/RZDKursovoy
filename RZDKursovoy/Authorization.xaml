@@ -11,7 +11,7 @@
         <Grid x:Name="RegGrid">
             <GroupBox x:Name="RegGB" Header="Регистрация">
                 <Grid>
-                    <TextBox x:Name="RegLoginBox"  PreviewTextInput="RegLoginBox_PreviewTextInput" PreviewKeyUp="RegLoginBox_PreviewKeyUp" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="310" TextChanged="RegLoginBox_TextChanged" >
+                    <TextBox x:Name="RegLoginBox" PreviewTextInput="RegLoginBox_PreviewTextInput" PreviewKeyUp="RegLoginBox_PreviewKeyUp" MaxLength="30" Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" Margin="0,0,0,140" TextWrapping="Wrap" VerticalAlignment="Center" TabIndex="0" Height="40" Width="310" TextChanged="RegLoginBox_TextChanged" >
                         <TextBox.ContextMenu>
                             <ContextMenu>
                             </ContextMenu>
