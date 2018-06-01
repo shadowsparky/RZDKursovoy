@@ -14,7 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\Евгений\Google Диск\MGKIT\3 курс 2 семестр\ЛАРИОНОВА\КУРСОВОЙ\v2.0\Приложение\</PublishUrl>
+    <PublishUrl>C:\Users\Евгений\Google Диск\MGKIT\3 курс 2 семестр\ЛАРИОНОВА\КУРСОВОЙ\v2.0\Приложение\приложение\установщик\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
