@@ -2,15 +2,13 @@
 using PdfSharp.Pdf;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace RZDKursovoy
 {
-    /// <summary>
-    /// Логика взаимодействия для Menu.xaml
-    /// </summary>
     public partial class Menu : UserControl
     {
         public MySqlConnection Connected { get; private set; }
@@ -163,8 +161,7 @@ namespace RZDKursovoy
         }
         private string throwTicketCode(string[] args)
         {
-            string result = 
-            "<table style='height: auto; width: auto;' border='1'>" +
+            return "<table style='height: auto; width: auto;' border='1'>" +
                 "<tbody>" +
                     "<tr style = 'height: auto;'> " +
                         "<td style = 'width: auto; height: auto; text-align: center;'> (c)2018.AVB Inc.</td>" +
@@ -197,7 +194,6 @@ namespace RZDKursovoy
                     "</tr>" +
                 "</tbody>" +
             "</table>";
-            return result;
         }
         private void PrintTicketBUTTON_Click(object sender, RoutedEventArgs e)
         {
@@ -209,17 +205,14 @@ namespace RZDKursovoy
                 string[] data = { CurrentTicketID.ToString(), _Current_Arrival_Stop_Name, _Current_Departure_Stop_Name, _Current_Arrival_Date, _Current_Arrival_Time, _Current_Departure_Date, _Current_Departure_Time,
                 PassPrivateInfo[0], PassPrivateInfo[1], PassPrivateInfo[2], PassPrivateInfo[3], PassPrivateInfo[4], _CurrentTrainNumber.ToString(), _Current_Railcar_Number.ToString(), RailcarInfo[0], _Current_Place_Number.ToString(), RailcarInfo[1] };
                 Microsoft.Win32.SaveFileDialog SFD = new Microsoft.Win32.SaveFileDialog();
-                SFD.Filter = "PDF файл (*.pdf)|*.pdf";
+                SFD.Filter = "pdf файл (*.pdf)|*.pdf";
                 if (SFD.ShowDialog() == true)
                 {
-                    PdfDocument pdf = new PdfDocument();
-                    PdfGenerateConfig PGC = new PdfGenerateConfig();
-                    PGC.PageSize = PdfSharp.PageSize.A4;
-                    PGC.PageOrientation = PdfSharp.PageOrientation.Landscape;
-                    pdf = PdfGenerator.GeneratePdf(throwTicketCode(data), PGC);
                     try
                     {
+                        PdfDocument pdf = GeneratePDF(data);
                         pdf.Save(SFD.FileName);
+                        Process.Start(SFD.FileName);
                     }
                     catch (System.Exception)
                     { AL.MessageErrorShow("При сохранении билета произошла ошибка", "Ошибка"); }
@@ -228,6 +221,17 @@ namespace RZDKursovoy
             else
                 AL.MessageShow("Вы должны выбрать билет, необходимый для сохранения", "Предупреждение");
         }
+
+        private PdfDocument GeneratePDF(string[] data)
+        {
+            PdfDocument pdf = new PdfDocument();
+            PdfGenerateConfig PGC = new PdfGenerateConfig();
+            PGC.PageSize = PdfSharp.PageSize.A4;
+            PGC.PageOrientation = PdfSharp.PageOrientation.Landscape;
+            pdf = PdfGenerator.GeneratePdf(throwTicketCode(data), PGC);
+            return pdf;
+        }
+
         private void CancelTripBUTTON_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentTicketID != 0)

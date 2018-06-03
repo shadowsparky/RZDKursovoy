@@ -23,7 +23,7 @@ namespace RZDKursovoy
                 ThrowLogin = loginBox.Text;
                 Connected = new MySqlConnection("Database ="+ Properties.PersonalData.Default.Database + "; " +
                     "DataSource = " + Properties.PersonalData.Default.DataSource + ";  " +
-                    "User Id = " + ThrowLogin + "; charset=cp866; Password =" + passBox.Password);
+                    "User Id = " + ThrowLogin + "; charset=cp866; SslMode=none; Password =" + passBox.Password);
                 Connected.Open();
                 string CheckRole = "#####";
                 MySqlCommand checkrolecommand = new MySqlCommand("Select current_role", Connected);
@@ -103,7 +103,7 @@ namespace RZDKursovoy
             bool OK = false;
             MySqlConnection FastConnect = new MySqlConnection("Database = " + Properties.PersonalData.Default.Database + "; " +
                     "DataSource = " + Properties.PersonalData.Default.DataSource + ";  " +
-                    "User Id = " + Properties.PersonalData.Default.RegLogin + "; charset=cp866; Password = "+ Properties.PersonalData.Default.RegPassword);
+                    "User Id = " + Properties.PersonalData.Default.RegLogin + "; charset=cp866; SslMode=none; Password = " + Properties.PersonalData.Default.RegPassword);
             try
             {
                 FastConnect.Open();

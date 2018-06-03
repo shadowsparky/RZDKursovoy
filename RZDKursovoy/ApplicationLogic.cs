@@ -26,15 +26,7 @@ namespace RZDKursovoy
             if (userControl != "Delete")
             {
                 QueryString += "(";
-                string[] ParameterArg = new string[DataArgs.Length];
-                for (int i = 0; i < DataArgs.Length; i++)
-                {
-                    if (i != DataArgs.Length - 1)
-                        QueryString += "@ARG" + i + ", ";
-                    else
-                        QueryString += "@ARG" + i;
-                    ParameterArg[i] = "@ARG" + i;
-                }
+                string[] ParameterArg = GetParameters(ref QueryString, DataArgs);
                 QueryString += ")";
                 var BestCommand = new MySqlCommand(QueryString, Connection);
                 for (int i = 0; i < DataArgs.Length; i++)
@@ -50,78 +42,7 @@ namespace RZDKursovoy
                     string[] Result = { ex.Message, ex.Number.ToString() };
                     return Result;
                 }
-                switch (userControl)
-                {
-                    case "RegAdd":
-                        MessageShow("Ваш аккаунт успешно зарегистрирован", "ОК");
-                        break;
-                    case "Reservation":
-                        MessageShow("Спасибо за покупку! Билет доступен в личном кабинете", "ОК");
-                        break;
-                    case "DeleteTicket":
-                        MessageShow("Резервирование отменено, деньги не вернутся на ваш счет (потому-что вы их не платили), а отмененный билет больше недействителен", "ОК");
-                        break;
-                    case "UpdateTrain":
-                        MessageShow("Информация о поезде была отредактирована", "ОК");
-                        break;
-                    case "UpdateRailcar":
-                        MessageShow("Информация о вагоне была отредактирована", "ОК");
-                        break;
-                    case "UpdateStop":
-                        MessageShow("Информация об остановке была отредактирована", "ОК");
-                        break;
-                    case "UpdateRout":
-                        MessageShow("Информация о маршруте была отредактирована", "ОК");
-                        break;
-                    case "DeleteTrain":
-                        MessageShow("Информация о поезде была успешно удалена", "ОК");
-                        break;
-                    case "DeleteRailcar":
-                        MessageShow("Информация о вагоне была успешно удалена", "ОК");
-                        break;
-                    case "DeleteStop":
-                        MessageShow("Информация об остановке была успешно удалена", "ОК");
-                        break;
-                    case "DeleteRout":
-                        MessageShow("Информация о маршруте была успешно удалена", "ОК");
-                        break;
-                    case "DeleteArrival":
-                        MessageShow("Информация о прибытии поезда была успешно удалена", "ОК");
-                        break;
-                    case "UpdateArrival":
-                        MessageShow("Информация о прибытии поезда была успешно изменена", "ОК");
-                        break;
-                    case "DeleteDeparture":
-                        MessageShow("Информация об отправлении поезда была успешно удалена", "ОК");
-                        break;
-                    case "UpdateDeparture":
-                        MessageShow("Информация об отправлении поезда была успешно изменена", "ОК");
-                        break;
-                    case "AddTrain":
-                        MessageShow("Данные о поезде успешно добавлены", "ОК");
-                        break;
-                    case "AddRailcar":
-                        MessageShow("Данные о вагоне успешно добавлены", "ОК");
-                        break;
-                    case "AddRout":
-                        MessageShow("Данные о маршруте успешно добавлены", "ОК");
-                        break;
-                    case "AddStop":
-                        MessageShow("Данные об остановке успешно добавлены", "ОК");
-                        break;
-                    case "AddArrival":
-                        MessageShow("Данные прибытия поезда успешно добавлены", "ОК");
-                        break;
-                    case "AddDeparture":
-                        MessageShow("Данные отправления поезда успешно добавлены", "ОК");
-                        break;
-                    case "CreateUser":
-                        MessageShow("Пользователь успешно зарегистрирован", "ОК");
-                        break;
-                    case "UpdateUser":
-                        MessageShow("Информация о пользователе была успешно обновлена", "ОК");
-                        break;
-                }
+                CatchResult(userControl);
             }
             else if (userControl == "Delete")
             {
@@ -139,6 +60,95 @@ namespace RZDKursovoy
             }
             string[] Result3 = { "OK", "1" };
             return Result3;
+        }
+
+        private void CatchResult(string userControl)
+        {
+            switch (userControl)
+            {
+                case "RegAdd":
+                    MessageShow("Ваш аккаунт успешно зарегистрирован", "ОК");
+                    break;
+                case "Reservation":
+                    MessageShow("Спасибо за покупку! Билет доступен в личном кабинете", "ОК");
+                    break;
+                case "DeleteTicket":
+                    MessageShow("Резервирование отменено, деньги не вернутся на ваш счет (потому-что вы их не платили), а отмененный билет больше недействителен", "ОК");
+                    break;
+                case "UpdateTrain":
+                    MessageShow("Информация о поезде была отредактирована", "ОК");
+                    break;
+                case "UpdateRailcar":
+                    MessageShow("Информация о вагоне была отредактирована", "ОК");
+                    break;
+                case "UpdateStop":
+                    MessageShow("Информация об остановке была отредактирована", "ОК");
+                    break;
+                case "UpdateRout":
+                    MessageShow("Информация о маршруте была отредактирована", "ОК");
+                    break;
+                case "DeleteTrain":
+                    MessageShow("Информация о поезде была успешно удалена", "ОК");
+                    break;
+                case "DeleteRailcar":
+                    MessageShow("Информация о вагоне была успешно удалена", "ОК");
+                    break;
+                case "DeleteStop":
+                    MessageShow("Информация об остановке была успешно удалена", "ОК");
+                    break;
+                case "DeleteRout":
+                    MessageShow("Информация о маршруте была успешно удалена", "ОК");
+                    break;
+                case "DeleteArrival":
+                    MessageShow("Информация о прибытии поезда была успешно удалена", "ОК");
+                    break;
+                case "UpdateArrival":
+                    MessageShow("Информация о прибытии поезда была успешно изменена", "ОК");
+                    break;
+                case "DeleteDeparture":
+                    MessageShow("Информация об отправлении поезда была успешно удалена", "ОК");
+                    break;
+                case "UpdateDeparture":
+                    MessageShow("Информация об отправлении поезда была успешно изменена", "ОК");
+                    break;
+                case "AddTrain":
+                    MessageShow("Данные о поезде успешно добавлены", "ОК");
+                    break;
+                case "AddRailcar":
+                    MessageShow("Данные о вагоне успешно добавлены", "ОК");
+                    break;
+                case "AddRout":
+                    MessageShow("Данные о маршруте успешно добавлены", "ОК");
+                    break;
+                case "AddStop":
+                    MessageShow("Данные об остановке успешно добавлены", "ОК");
+                    break;
+                case "AddArrival":
+                    MessageShow("Данные прибытия поезда успешно добавлены", "ОК");
+                    break;
+                case "AddDeparture":
+                    MessageShow("Данные отправления поезда успешно добавлены", "ОК");
+                    break;
+                case "CreateUser":
+                    MessageShow("Пользователь успешно зарегистрирован", "ОК");
+                    break;
+                case "UpdateUser":
+                    MessageShow("Информация о пользователе была успешно обновлена", "ОК");
+                    break;
+            }
+        }
+        private static string[] GetParameters(ref string QueryString, string[] DataArgs)
+        {
+            string[] ParameterArg = new string[DataArgs.Length];
+            for (int i = 0; i < DataArgs.Length; i++)
+            {
+                if (i != DataArgs.Length - 1)
+                    QueryString += "@ARG" + i + ", ";
+                else
+                    QueryString += "@ARG" + i;
+                ParameterArg[i] = "@ARG" + i;
+            }
+            return ParameterArg;
         }
         public void MagicUniversalControlDataCatched(string QueryString, string[] DataArgs, string userControl, MySqlConnection Connection)
         {
@@ -162,16 +172,7 @@ namespace RZDKursovoy
             Query += "(";
             string[] ParameterArg = new string[Args.Length];
             if (Args[0] != "null")
-            {
-                for (int i = 0; i < Args.Length; i++)
-                {
-                    if (i != Args.Length - 1)
-                        Query += "@ARG" + i + ", ";
-                    else
-                        Query += "@ARG" + i;
-                    ParameterArg[i] = "@ARG" + i;
-                }
-            }
+                ParameterArg = GetParameters(ref Query, Args);
             Query += ")";
             var BestCommand = new MySqlCommand(Query, con);
             if (Args[0] != "null")
@@ -202,12 +203,6 @@ namespace RZDKursovoy
             }
             return Result;
         }
-
-        internal void DontCtrlVAndSpace(PasswordBox passBox, KeyEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         public int CatchIntResult(MySqlConnection con, string Query, string[] Args)
         {
             int Result = new int();
@@ -215,16 +210,7 @@ namespace RZDKursovoy
             Query += "(";
             string[] ParameterArg = new string[Args.Length];
             if (Args[0] != "null")
-            {
-                for (int i = 0; i < Args.Length; i++)
-                {
-                    if (i != Args.Length - 1)
-                        Query += "@ARG" + i + ", ";
-                    else
-                        Query += "@ARG" + i;
-                    ParameterArg[i] = "@ARG" + i;
-                }
-            }
+                ParameterArg = GetParameters(ref Query, Args);
             Query += ")";
             var BestCommand = new MySqlCommand(Query, con);
             if (Args[0] != "null")
@@ -657,26 +643,20 @@ namespace RZDKursovoy
         }
         public string Ru_To_En_Roles(string RuValue)
         {
-            string Result = "";
             switch (RuValue)
             {
                 case "Заблокированный":
-                    Result = "Blocked";
-                    break;
+                    return "Blocked";
                 case "Пользователь":
-                    Result = "user";
-                    break;
+                    return "user";
                 case "Администратор":
-                    Result = "Admin";
-                    break;
+                    return "Admin";
                 case "Диспетчер":
-                    Result = "RZD_Dispatcher";
-                    break;
+                    return "RZD_Dispatcher";
                 default:
                     MessageErrorShow("При загрузке ролей произошла ошибка", "Ошибка");
                     return "error";
             }
-            return Result;
         }
     }
 }
